@@ -41,8 +41,10 @@ import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
  * The modified adapter will have to create 6 items [0,1,2,3,4,5]
  * with mapping realPosition=(position-1)%count
  * [0->3, 1->0, 2->1, 3->2, 4->3, 5->0]
+ * <p>
+ * 主要处理无限轮播.
  */
-public class LoopViewPager extends AutoScrollViewPager {
+public class LoopingViewPager extends AutoScrollViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
@@ -91,8 +93,10 @@ public class LoopViewPager extends AutoScrollViewPager {
 
     @Override
     public PagerAdapter getAdapter() {
+        //返回当前的包裹adapter,使得AutoScrollViewPager可以获取到假的下标,在setCurrentItem时再设置到真正的角标上.
         return mAdapter;
-//        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
+
+        //return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
     }
 
     public LoopPagerAdapterWrapper getWrapperAdapter() {
@@ -122,12 +126,12 @@ public class LoopViewPager extends AutoScrollViewPager {
         mOuterPageChangeListener = listener;
     }
 
-    public LoopViewPager(Context context) {
+    public LoopingViewPager(Context context) {
         super(context);
         init();
     }
 
-    public LoopViewPager(Context context, AttributeSet attrs) {
+    public LoopingViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -185,7 +189,7 @@ public class LoopViewPager extends AutoScrollViewPager {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (mAdapter != null) {
-                int position = LoopViewPager.super.getCurrentItem();
+                int position = LoopingViewPager.super.getCurrentItem();
                 int realPosition = mAdapter.toRealPosition(position);
                 if (state == ViewPager.SCROLL_STATE_IDLE
                         && (position == 0 || position == mAdapter.getCount() - 1)) {
