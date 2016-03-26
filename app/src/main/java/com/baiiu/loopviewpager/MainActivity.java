@@ -2,13 +2,13 @@ package com.baiiu.loopviewpager;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.baiiu.loopviewpager.adapter.ViewAdapter;
+import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.view.LoopViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,18 +16,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         LoopViewPager loopViewPager = (LoopViewPager) findViewById(R.id.viewPager);
 
-        List<Integer> list = new ArrayList<>();
-        list.add(R.drawable.a);
-        list.add(R.drawable.b);
-        list.add(R.drawable.c);
-        list.add(R.drawable.d);
-
-        loopViewPager.setAdapter(new ViewAdapter(this, list));
-
-
+        if (loopViewPager != null) {
+            loopViewPager.setAdapter(new ViewAdapter(this, Data.provideList()));
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager;
+package com.baiiu.loopviewpager.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -25,10 +25,6 @@ public class ViewAdapter extends BasePagerAdapter<Integer> {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(list.get(position));
         return imageView;
-//        View view = LayoutInflater.from(mContext).inflate(R.layout.vp_item, null);
-//        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-//        imageView.setImageResource(list.get(position));
-//        return view;
     }
 
 }

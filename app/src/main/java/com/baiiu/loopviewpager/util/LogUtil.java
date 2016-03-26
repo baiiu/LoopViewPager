@@ -1,6 +1,8 @@
-package com.baiiu.loopviewpager;
+package com.baiiu.loopviewpager.util;
 
 import android.util.Log;
+
+import com.baiiu.loopviewpager.BuildConfig;
 
 
 /**
