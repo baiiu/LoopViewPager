@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
-import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
+import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.viewPager)
-    AutoScrollViewPager loopViewPager;
+    LoopViewPager loopViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

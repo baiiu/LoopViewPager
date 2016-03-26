@@ -8,10 +8,11 @@
     tools:context="com.baiiu.myapplication.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <com.baiiu.loopviewpager.view.looping.LoopingViewPager
+    <com.baiiu.loopviewpager.view.LoopViewPager
         android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="center" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:scale="0.8333333" />
 
 </FrameLayout>
