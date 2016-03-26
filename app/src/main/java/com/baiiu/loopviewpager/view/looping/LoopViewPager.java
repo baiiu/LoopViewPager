@@ -14,33 +14,35 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopviewpager.view;
+package com.baiiu.loopviewpager.view.looping;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
+import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
+
 /**
  * A ViewPager subclass enabling infinte scrolling of the viewPager elements
- * <p/>
+ * <p>
  * When used for paginating views (in opposite to fragments), no code changes
  * should be needed only change xml's from <android.support.v4.view.ViewPager>
  * to <com.imbryk.viewPager.LoopViewPager>
- * <p/>
+ * <p>
  * If "blinking" can be seen when paginating to first or last view, simply call
  * seBoundaryCaching( true ), or change DEFAULT_BOUNDARY_CASHING to true
- * <p/>
+ * <p>
  * When using a FragmentPagerAdapter or FragmentStatePagerAdapter,
  * additional changes in the adapter must be done.
  * The adapter must be prepared to create 2 extra items e.g.:
- * <p/>
+ * <p>
  * The original adapter creates 4 items: [0,1,2,3]
  * The modified adapter will have to create 6 items [0,1,2,3,4,5]
  * with mapping realPosition=(position-1)%count
  * [0->3, 1->0, 2->1, 3->2, 4->3, 5->0]
  */
-public class LoopViewPager extends ViewPager {
+public class LoopViewPager extends AutoScrollViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
@@ -89,7 +91,12 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public PagerAdapter getAdapter() {
-        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
+        return mAdapter;
+//        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
+    }
+
+    public LoopPagerAdapterWrapper getWrapperAdapter() {
+        return mAdapter;
     }
 
     @Override
@@ -97,6 +104,7 @@ public class LoopViewPager extends ViewPager {
         return mAdapter != null ? mAdapter.toRealPosition(super.getCurrentItem()) : 0;
     }
 
+    @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
         int realItem = mAdapter.toInnerPosition(item);
         super.setCurrentItem(realItem, smoothScroll);

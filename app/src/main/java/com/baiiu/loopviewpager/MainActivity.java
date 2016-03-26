@@ -8,9 +8,15 @@ import android.view.MenuItem;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
-import com.baiiu.loopviewpager.view.LoopViewPager;
+import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Bind(R.id.viewPager)
+    AutoScrollViewPager loopViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        LoopViewPager loopViewPager = (LoopViewPager) findViewById(R.id.viewPager);
-
-        if (loopViewPager != null) {
-            loopViewPager.setAdapter(new ViewAdapter(this, Data.provideList()));
-        }
+        loopViewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
+        loopViewPager.startAutoScroll();
     }
 
     @Override
