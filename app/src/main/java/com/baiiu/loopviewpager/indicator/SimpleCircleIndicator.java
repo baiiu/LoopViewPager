@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.view.looping.LoopingViewPager;
 
 /**
@@ -115,20 +114,19 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int measuredWidth = getMeasuredWidth();
+        int measuredWidth = getWidth();
 
         int mCount = mAdapter.getCount();
         int mDotTotalWidth = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
         int mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + 0.5) + mDotRadius;
 
-        int measuredHeight = getMeasuredHeight();
+        int measuredHeight = getHeight();
         int mDotYCoordinate = (int) ((measuredHeight - mDotRadius * 2) / 2F + 0.5) + mDotRadius;
 
 
         int x = mFirstDotXCoordinate;
 
         for (int i = 0; i < mCount; ++i) {
-            LogUtil.d(x);
             if (i == mSelectedPosition) {
                 canvas.drawCircle(x, mDotYCoordinate, mDotRadius, mSelectedPaint);
             } else {
@@ -164,7 +162,7 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
         mSelectedPosition = initialPosition;
         viewPager.setCurrentItem(initialPosition);
 
-        postInvalidate();
+        invalidate();
     }
 
     @Override
@@ -174,12 +172,12 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
             mViewPager.setCurrentItem(item);
         }
 
-        postInvalidate();
+        invalidate();
     }
 
     @Override
     public void notifyDataSetChanged() {
-        postInvalidate();
+        invalidate();
     }
 
     @Override
@@ -190,7 +188,7 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
     @Override
     public void onPageSelected(int position) {
         this.mSelectedPosition = position;
-        postInvalidate();
+        invalidate();
     }
 
     @Override
