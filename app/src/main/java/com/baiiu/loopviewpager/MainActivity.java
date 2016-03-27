@@ -9,7 +9,7 @@ import android.view.ViewTreeObserver;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
-import com.baiiu.loopviewpager.util.LogUtil;
+import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -18,7 +18,10 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.viewPager)
-    LoopViewPager loopViewPager;
+    LoopViewPager viewPager;
+
+    @Bind(R.id.indicator)
+    SimpleCircleIndicator indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +31,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        loopViewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
-        loopViewPager.startAutoScroll();
+        viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
+        viewPager.startAutoScroll();
 
 
-        loopViewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                loopViewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                LogUtil.d("MeasuredWidth: " + loopViewPager.getMeasuredWidth() + ", MeasuredHeight: " + loopViewPager.getMeasuredHeight() + ", getWidth:" + loopViewPager.getWidth() + ", getHeight: " + loopViewPager.getHeight());
+                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                LogUtil.d("MeasuredWidth: " + viewPager.getMeasuredWidth() + ", MeasuredHeight: " + viewPager.getMeasuredHeight() + ", getWidth:" + viewPager.getWidth() + ", getHeight: " + viewPager.getHeight());
 
             }
         });
 
+        indicator.setViewPager(viewPager);
     }
 
     @Override

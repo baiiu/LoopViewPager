@@ -3,4 +3,13 @@
     <declare-styleable name="LoopViewPager">
         <attr name="scale" format="float|reference" />
     </declare-styleable>
+
+
+    <declare-styleable name="SimpleCircleIndicator">
+        <attr name="dot_interval" format="dimension|reference" />
+        <attr name="dot_radius" format="dimension|reference" />
+        <attr name="selected_color" format="color|reference" />
+        <attr name="unselected_color" format="color|reference" />
+    </declare-styleable>
+
 </resources>

@@ -99,8 +99,8 @@ public class LoopingViewPager extends AutoScrollViewPager {
         //return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
     }
 
-    public LoopPagerAdapterWrapper getWrapperAdapter() {
-        return mAdapter;
+    public PagerAdapter getRealAdapter() {
+        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class LoopingViewPager extends AutoScrollViewPager {
     }
 
     private void init() {
-        super.setOnPageChangeListener(onPageChangeListener);
+        super.addOnPageChangeListener(onPageChangeListener);
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,9 +10,23 @@
 
     <com.baiiu.loopviewpager.view.LoopViewPager
         android:id="@+id/viewPager"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         app:scale="0.8" />
 
-</FrameLayout>
+    <com.baiiu.loopviewpager.indicator.SimpleCircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/viewPager"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom"
+        app:dot_interval="10dp"
+        app:dot_radius="3dp"
+        app:selected_color="@android:color/holo_red_light"
+        app:unselected_color="@android:color/white" />
+
+</RelativeLayout>
