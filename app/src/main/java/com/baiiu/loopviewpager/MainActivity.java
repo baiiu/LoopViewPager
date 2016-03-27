@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
+import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -28,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
         loopViewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
         loopViewPager.startAutoScroll();
+
+
+        loopViewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                loopViewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                LogUtil.d("MeasuredWidth: " + loopViewPager.getMeasuredWidth() + ", MeasuredHeight: " + loopViewPager.getMeasuredHeight() + ", getWidth:" + loopViewPager.getWidth() + ", getHeight: " + loopViewPager.getHeight());
+
+            }
+        });
+
     }
 
     @Override

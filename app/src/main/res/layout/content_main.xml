@@ -13,6 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:scale="0.8333333" />
+        app:scale="0.8" />
 
 </FrameLayout>

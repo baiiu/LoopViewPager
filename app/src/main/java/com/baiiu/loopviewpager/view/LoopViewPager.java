@@ -3,10 +3,8 @@ package com.baiiu.loopviewpager.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.ViewTreeObserver;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.view.looping.LoopingViewPager;
 
 /**
@@ -36,24 +34,12 @@ public class LoopViewPager extends LoopingViewPager {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoopViewPager);
         mScale = typedArray.getFloat(R.styleable.LoopViewPager_scale, DEFAULT_SCALE);
         typedArray.recycle();
-
-
-        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                getViewTreeObserver().removeOnPreDrawListener(this);
-
-                LogUtil.d("MeasuredWidth: " + getMeasuredWidth() + ", MeasuredHeight: " + getMeasuredHeight());
-                return false;
-            }
-        });
-
     }
 
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int width_mode = MeasureSpec.getMode(widthMeasureSpec);
         int width_size = MeasureSpec.getSize(widthMeasureSpec);
@@ -65,23 +51,12 @@ public class LoopViewPager extends LoopingViewPager {
         int width_result = width_size;
         int height_result = height_size;
 
-        if (width_mode == MeasureSpec.EXACTLY) {
-            width_result = width_size;
+        width_result = width_size;//宽度wrap_content时,size由父控件决定.总是等于parent_size,即屏幕宽度.
 
-            if (height_mode == MeasureSpec.EXACTLY) {
-                height_result = height_size;
-            } else {
-                height_result = (int) (width_result * mScale + 0.5);
-            }
+        if (height_mode == MeasureSpec.EXACTLY) {
+            height_result = height_size;
         } else {
-            //宽度也包裹内容
-            width_result = width_size;
-
-            if (height_mode == MeasureSpec.EXACTLY) {
-                height_result = height_size;
-            } else {
-                height_result = (int) (width_result * mScale + 0.5);
-            }
+            height_result = (int) (width_result * mScale + 0.5);
         }
 
         int measureSpecWidth = MeasureSpec.makeMeasureSpec(width_result, MeasureSpec.EXACTLY);
