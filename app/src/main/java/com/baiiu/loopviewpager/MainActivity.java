@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         indicator.setViewPager(viewPager);
+
+        //测试commit
     }
 
     @Override
