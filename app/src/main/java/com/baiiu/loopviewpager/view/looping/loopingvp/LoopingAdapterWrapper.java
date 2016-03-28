@@ -24,13 +24,15 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baiiu.loopviewpager.view.looping._interface.ILoopWrapperAdapter;
+
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to
  * LoopViewPager
  * <p>
  * This class shouldn't be used directly
  */
-public class LoopingAdapterWrapper extends PagerAdapter {
+public class LoopingAdapterWrapper extends PagerAdapter implements ILoopWrapperAdapter{
 
     private PagerAdapter mAdapter;
 

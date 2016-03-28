@@ -2,7 +2,6 @@ package com.baiiu.loopviewpager.view.looping.maxvaluevp;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
@@ -24,7 +23,6 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
 
     public MaxValueViewPager(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
-        addOnPageChangeListener(mOnPageChangeListener);
     }
 
     @Override
@@ -56,31 +54,36 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
 
     @Override
     public void setOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+
         mIndicatorPageChangeListener = listener;
+        OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (mIndicatorPageChangeListener != null) {
+                    mIndicatorPageChangeListener.onPageScrolled(position % getRealCount(), positionOffset, positionOffsetPixels);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mIndicatorPageChangeListener != null) {
+                    mIndicatorPageChangeListener.onPageSelected(position % getRealCount());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (mIndicatorPageChangeListener != null) {
+                    mIndicatorPageChangeListener.onPageScrollStateChanged(state);
+                }
+            }
+        };
+        addOnPageChangeListener(mOnPageChangeListener);
+
     }
 
-
-    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (mIndicatorPageChangeListener != null) {
-                mIndicatorPageChangeListener.onPageScrolled(position % getRealCount(), positionOffset, positionOffsetPixels);
-            }
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if (mIndicatorPageChangeListener != null) {
-                mIndicatorPageChangeListener.onPageSelected(position % getRealCount());
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            if (mIndicatorPageChangeListener != null) {
-                mIndicatorPageChangeListener.onPageScrollStateChanged(state);
-            }
-        }
-    };
 
 }

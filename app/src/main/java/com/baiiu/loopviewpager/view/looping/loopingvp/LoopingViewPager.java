@@ -54,11 +54,12 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
     public LoopingViewPager(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public LoopingViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        addOnPageChangeListener(onPageChangeListener);
     }
 
     @Override
@@ -102,9 +103,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     public void setOnIndicatorPageChangeListener(OnPageChangeListener listener) {
         if (listener != null) {
             mIndicatorPageChangeListener = listener;
-            addOnPageChangeListener(onPageChangeListener);
         }
-
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
