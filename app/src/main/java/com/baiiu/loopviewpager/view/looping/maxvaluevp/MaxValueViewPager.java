@@ -39,7 +39,7 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
 
     @Override
     public void setCurrentItem(int item) {
-        if (item == 0) {
+        if (item == 0 || item == Integer.MAX_VALUE) {
             item = (Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % getRealCount());
         }
         super.setCurrentItem(item);
