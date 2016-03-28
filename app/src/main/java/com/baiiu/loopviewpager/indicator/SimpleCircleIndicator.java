@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
+import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
-import com.baiiu.loopviewpager.view.looping.loopingvp.LoopingViewPager;
 
 /**
  * auther: baiiu
@@ -116,6 +116,7 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
         int measuredWidth = getWidth();
 
         int mCount = getRealCount();
+        LogUtil.d(mCount + ", " + mSelectedPosition);
         int mDotTotalWidth = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
         int mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + 0.5) + mDotRadius;
 
@@ -143,9 +144,9 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
     @Override
     public void setViewPager(ViewPager viewPager, int initialPosition) {
 
-        if (viewPager instanceof LoopingViewPager) {
-            LoopingViewPager loopingViewPager = (LoopingViewPager) viewPager;
-            loopingViewPager.setOnPageChangeListener(this);
+        if (viewPager instanceof ILoopViewPage) {
+            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
+            loopViewPage.setOnIndicatorPageChangeListener(this);
         } else {
             viewPager.addOnPageChangeListener(this);
         }
@@ -196,14 +197,14 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
     private int getRealCount() {
         try {
-
             if (mViewPager instanceof ILoopViewPage) {
-                return ((LoopingViewPager) mViewPager).getRealCount();
+                return ((ILoopViewPage) mViewPager).getRealCount();
             } else {
                 return mViewPager.getAdapter().getCount();
             }
 
         } catch (Exception e) {
+            LogUtil.e(e.toString());
             return 0;
         }
     }

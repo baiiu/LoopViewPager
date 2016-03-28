@@ -26,45 +26,39 @@ import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
 
 /**
  * A ViewPager subclass enabling infinte scrolling of the viewPager elements
- * <p>
+ * <p/>
  * When used for paginating views (in opposite to fragments), no code changes
  * should be needed only change xml's from <android.support.v4.view.ViewPager>
  * to <com.imbryk.viewPager.LoopViewPager>
- * <p>
+ * <p/>
  * If "blinking" can be seen when paginating to first or last view, simply call
  * seBoundaryCaching( true ), or change DEFAULT_BOUNDARY_CASHING to true
- * <p>
+ * <p/>
  * When using a FragmentPagerAdapter or FragmentStatePagerAdapter,
  * additional changes in the adapter must be done.
  * The adapter must be prepared to create 2 extra items e.g.:
- * <p>
+ * <p/>
  * The original adapter creates 4 items: [0,1,2,3]
  * The modified adapter will have to create 6 items [0,1,2,3,4,5]
  * with mapping realPosition=(position-1)%count
  * [0->3, 1->0, 2->1, 3->2, 4->3, 5->0]
- * <p>
+ * <p/>
  * 主要处理无限轮播.
  */
 public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPage {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
-    OnPageChangeListener mOuterPageChangeListener;
+    OnPageChangeListener mIndicatorPageChangeListener;
     private LoopingAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
     public LoopingViewPager(Context context) {
         super(context);
-        init();
     }
 
     public LoopingViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        super.addOnPageChangeListener(onPageChangeListener);
     }
 
     @Override
@@ -105,8 +99,12 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     }
 
     @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
-        mOuterPageChangeListener = listener;
+    public void setOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+        if (listener != null) {
+            mIndicatorPageChangeListener = listener;
+            addOnPageChangeListener(onPageChangeListener);
+        }
+
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -119,8 +117,8 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             int realPosition = mAdapter.toRealPosition(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
-                if (mOuterPageChangeListener != null) {
-                    mOuterPageChangeListener.onPageSelected(realPosition);
+                if (mIndicatorPageChangeListener != null) {
+                    mIndicatorPageChangeListener.onPageSelected(realPosition);
                 }
             }
         }
@@ -140,15 +138,15 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             }
 
             mPreviousOffset = positionOffset;
-            if (mOuterPageChangeListener != null) {
+            if (mIndicatorPageChangeListener != null) {
                 if (realPosition != mAdapter.getRealCount() - 1) {
-                    mOuterPageChangeListener.onPageScrolled(realPosition,
+                    mIndicatorPageChangeListener.onPageScrolled(realPosition,
                             positionOffset, positionOffsetPixels);
                 } else {
                     if (positionOffset > .5) {
-                        mOuterPageChangeListener.onPageScrolled(0, 0, 0);
+                        mIndicatorPageChangeListener.onPageScrolled(0, 0, 0);
                     } else {
-                        mOuterPageChangeListener.onPageScrolled(realPosition,
+                        mIndicatorPageChangeListener.onPageScrolled(realPosition,
                                 0, 0);
                     }
                 }
@@ -165,8 +163,8 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
                     setCurrentItem(realPosition, false);
                 }
             }
-            if (mOuterPageChangeListener != null) {
-                mOuterPageChangeListener.onPageScrollStateChanged(state);
+            if (mIndicatorPageChangeListener != null) {
+                mIndicatorPageChangeListener.onPageScrollStateChanged(state);
             }
         }
     };

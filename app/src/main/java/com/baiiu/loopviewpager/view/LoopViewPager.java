@@ -5,17 +5,17 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.view.looping.loopingvp.LoopingViewPager;
+import com.baiiu.loopviewpager.view.looping.maxvaluevp.MaxValueViewPager;
 
 /**
  * auther: baiiu
  * time: 16/3/26 26 21:48
  * description: 对LoopingViewPager进行包装
- * <p/>
+ * <p>
  * 1. 添加自定义属性,可以控制宽高
  * 2. to be continued
  */
-public class LoopViewPager extends LoopingViewPager {
+public class LoopViewPager extends MaxValueViewPager {
 
     /**
      * 默认的宽高比,用于宽高都是wrap_content时

@@ -1,6 +1,7 @@
 package com.baiiu.loopviewpager.view.looping._interface;
 
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 
 /**
  * author: baiiu
@@ -20,5 +21,7 @@ public interface ILoopViewPage {
     void setCurrentItem(int item, boolean smoothScroll);
 
     PagerAdapter getAdapter();
+
+    public void setOnIndicatorPageChangeListener(ViewPager.OnPageChangeListener listener);
 
 }
