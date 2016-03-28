@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopviewpager.view.looping;
+package com.baiiu.loopviewpager.view.looping.loopingvp;
 
 import android.os.Parcelable;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,7 +30,7 @@ import android.view.ViewGroup;
  * <p>
  * This class shouldn't be used directly
  */
-public class LoopPagerAdapterWrapper extends PagerAdapter {
+public class LoopingAdapterWrapper extends PagerAdapter {
 
     private PagerAdapter mAdapter;
 
@@ -42,7 +42,7 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
         mBoundaryCaching = flag;
     }
 
-    LoopPagerAdapterWrapper(PagerAdapter adapter) {
+    LoopingAdapterWrapper(PagerAdapter adapter) {
         this.mAdapter = adapter;
     }
 
@@ -84,11 +84,7 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
     }
 
     public int getRealCount() {
-        return mAdapter.getCount();
-    }
-
-    public PagerAdapter getRealAdapter() {
-        return mAdapter;
+        return mAdapter != null ? mAdapter.getCount() : 0;
     }
 
     @Override

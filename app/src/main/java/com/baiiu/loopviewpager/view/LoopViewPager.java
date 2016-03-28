@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.view.looping.LoopingViewPager;
+import com.baiiu.loopviewpager.view.looping.loopingvp.LoopingViewPager;
 
 /**
  * auther: baiiu

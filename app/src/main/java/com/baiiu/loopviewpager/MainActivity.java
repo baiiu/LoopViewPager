@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewTreeObserver;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
@@ -34,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
         viewPager.startAutoScroll();
 
-
-        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 //                LogUtil.d("MeasuredWidth: " + viewPager.getMeasuredWidth() + ", MeasuredHeight: " + viewPager.getMeasuredHeight() + ", getWidth:" + viewPager.getWidth() + ", getHeight: " + viewPager.getHeight());
-
-            }
-        });
+//            }
+//        });
 
         indicator.setViewPager(viewPager);
     }

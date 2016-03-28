@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopviewpager.view.looping;
+package com.baiiu.loopviewpager.view.looping.loopingvp;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -22,6 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
+import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
 
 /**
  * A ViewPager subclass enabling infinte scrolling of the viewPager elements
@@ -44,48 +45,36 @@ import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
  * <p>
  * 主要处理无限轮播.
  */
-public class LoopingViewPager extends AutoScrollViewPager {
+public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPage {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
     OnPageChangeListener mOuterPageChangeListener;
-    private LoopPagerAdapterWrapper mAdapter;
+    private LoopingAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
-
-    /**
-     * helper function which may be used when implementing FragmentPagerAdapter
-     *
-     * @param position
-     * @param count
-     * @return (position-1)%count
-     */
-    public static int toRealPosition(int position, int count) {
-        position = position - 1;
-        if (position < 0) {
-            position += count;
-        } else {
-            position = position % count;
-        }
-        return position;
+    public LoopingViewPager(Context context) {
+        super(context);
+        init();
     }
 
-    /**
-     * If set to true, the boundary views (i.e. first and last) will never be destroyed
-     * This may help to prevent "blinking" of some views
-     *
-     * @param flag
-     */
-    public void setBoundaryCaching(boolean flag) {
-        mBoundaryCaching = flag;
-        if (mAdapter != null) {
-            mAdapter.setBoundaryCaching(flag);
-        }
+    public LoopingViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    private void init() {
+        super.addOnPageChangeListener(onPageChangeListener);
+    }
+
+    @Override
+    public int getRealCount() {
+        return mAdapter != null ? mAdapter.getRealCount() : 0;
     }
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
-        mAdapter = new LoopPagerAdapterWrapper(adapter);
+        mAdapter = new LoopingAdapterWrapper(adapter);
         mAdapter.setBoundaryCaching(mBoundaryCaching);
         super.setAdapter(mAdapter);
         setCurrentItem(0, false);
@@ -93,14 +82,8 @@ public class LoopingViewPager extends AutoScrollViewPager {
 
     @Override
     public PagerAdapter getAdapter() {
-        //返回当前的包裹adapter,使得AutoScrollViewPager可以获取到假的下标,在setCurrentItem时再设置到真正的角标上.
-        return mAdapter;
-
+        return mAdapter;//适配AutoScrollViewPager
         //return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
-    }
-
-    public PagerAdapter getRealAdapter() {
-        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
     }
 
     @Override
@@ -124,20 +107,6 @@ public class LoopingViewPager extends AutoScrollViewPager {
     @Override
     public void setOnPageChangeListener(OnPageChangeListener listener) {
         mOuterPageChangeListener = listener;
-    }
-
-    public LoopingViewPager(Context context) {
-        super(context);
-        init();
-    }
-
-    public LoopingViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        super.addOnPageChangeListener(onPageChangeListener);
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -201,5 +170,36 @@ public class LoopingViewPager extends AutoScrollViewPager {
             }
         }
     };
+
+
+    /**
+     * helper function which may be used when implementing FragmentPagerAdapter
+     *
+     * @param position
+     * @param count
+     * @return (position-1)%count
+     */
+    public static int toRealPosition(int position, int count) {
+        position = position - 1;
+        if (position < 0) {
+            position += count;
+        } else {
+            position = position % count;
+        }
+        return position;
+    }
+
+    /**
+     * If set to true, the boundary views (i.e. first and last) will never be destroyed
+     * This may help to prevent "blinking" of some views
+     *
+     * @param flag
+     */
+    public void setBoundaryCaching(boolean flag) {
+        mBoundaryCaching = flag;
+        if (mAdapter != null) {
+            mAdapter.setBoundaryCaching(flag);
+        }
+    }
 
 }

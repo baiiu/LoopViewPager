@@ -5,13 +5,13 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.view.looping.LoopingViewPager;
+import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
+import com.baiiu.loopviewpager.view.looping.loopingvp.LoopingViewPager;
 
 /**
  * auther: baiiu
@@ -38,7 +38,6 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
     private int mSelectedPosition;
     private ViewPager mViewPager;
-    private PagerAdapter mAdapter;
 
     public SimpleCircleIndicator(Context context) {
         this(context, null);
@@ -98,7 +97,7 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
                 height_result = mDotRadius * 2;
             }
         } else {
-            int mCount = mAdapter.getCount();
+            int mCount = getRealCount();
             width_result = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
 
             if (height_mode == MeasureSpec.EXACTLY) {
@@ -116,7 +115,7 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
     protected void onDraw(Canvas canvas) {
         int measuredWidth = getWidth();
 
-        int mCount = mAdapter.getCount();
+        int mCount = getRealCount();
         int mDotTotalWidth = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
         int mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + 0.5) + mDotRadius;
 
@@ -146,14 +145,12 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
         if (viewPager instanceof LoopingViewPager) {
             LoopingViewPager loopingViewPager = (LoopingViewPager) viewPager;
-            mAdapter = loopingViewPager.getRealAdapter();
             loopingViewPager.setOnPageChangeListener(this);
         } else {
-            mAdapter = viewPager.getAdapter();
             viewPager.addOnPageChangeListener(this);
         }
 
-        if (mAdapter == null) {
+        if (viewPager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager must initial first");
         }
 
@@ -194,5 +191,20 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+
+    private int getRealCount() {
+        try {
+
+            if (mViewPager instanceof ILoopViewPage) {
+                return ((LoopingViewPager) mViewPager).getRealCount();
+            } else {
+                return mViewPager.getAdapter().getCount();
+            }
+
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }
