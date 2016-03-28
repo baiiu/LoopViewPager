@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         indicator.setViewPager(viewPager);
 
         //测试commit
+        //测试commit two, after change local.config
     }
 
     @Override
