@@ -68,6 +68,11 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     }
 
     @Override
+    public int getRealCurrentItem() {
+        return getCurrentItem();
+    }
+
+    @Override
     public void setAdapter(PagerAdapter adapter) {
         mAdapter = new LoopingAdapterWrapper(adapter);
         mAdapter.setBoundaryCaching(mBoundaryCaching);

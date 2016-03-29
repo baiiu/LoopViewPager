@@ -3,8 +3,6 @@ package com.baiiu.loopviewpager.transformer;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.baiiu.loopviewpager.util.LogUtil;
-
 
 /**
  * author: baiiu
@@ -19,7 +17,7 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 
         int pageWidth = view.getWidth();
 
-        LogUtil.d(view.getTag() + ", " + position);
+//        LogUtil.d(view.getTag() + ", " + position);
 
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.

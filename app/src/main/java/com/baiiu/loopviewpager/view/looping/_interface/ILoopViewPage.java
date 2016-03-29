@@ -11,6 +11,8 @@ public interface ILoopViewPage {
 
     int getRealCount();
 
+    int getRealCurrentItem();
+
     public void setOnIndicatorPageChangeListener(ViewPager.OnPageChangeListener listener);
 
 }

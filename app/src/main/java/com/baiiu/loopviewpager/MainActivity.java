@@ -10,6 +10,7 @@ import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
 import com.baiiu.loopviewpager.transformer.DepthPageTransformer;
+import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //        viewPager.setInterval(2000);
         viewPager.startAutoScroll();
 
+
 //        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //            @Override
 //            public void onGlobalLayout() {
@@ -57,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        LogUtil.d(viewPager.getRealCurrentItem());
 
         return super.onOptionsItemSelected(item);
     }

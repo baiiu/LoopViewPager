@@ -116,7 +116,6 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
         int measuredWidth = getWidth();
 
         int mCount = getRealCount();
-        LogUtil.d(mCount + ", " + mSelectedPosition);
         int mDotTotalWidth = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
         int mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + 0.5) + mDotRadius;
 
