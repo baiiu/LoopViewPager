@@ -20,6 +20,11 @@
     viewPager.startAutoScroll();
 ```
 
+## ScreenShots
+![LoopViewPager](images/loopvp.gif "loopvp Example")
+
+
+
 ## Thanks To
 [Trinea的android-auto-scroll-view-pager](https://github.com/Trinea/android-auto-scroll-view-pager)
 [LoopingViewPager](https://github.com/imbryk/LoopingViewPager)
