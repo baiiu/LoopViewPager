@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
+import com.baiiu.loopviewpager.transformer.DepthPageTransformer;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
+        viewPager.setPageTransformer(true, new DepthPageTransformer());
+        viewPager.setAutoScrollDurationFactor(5.0);
+//        viewPager.setInterval(2000);
         viewPager.startAutoScroll();
 
 //        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
