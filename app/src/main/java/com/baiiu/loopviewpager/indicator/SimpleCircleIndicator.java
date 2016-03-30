@@ -54,6 +54,10 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
     }
 
     private void init(Context context, AttributeSet attrs) {
+        if (isInEditMode()) {
+            return;
+        }
+
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SimpleCircleIndicator);
             mDotInterval = (int) typedArray.getDimension(R.styleable.SimpleCircleIndicator_dot_interval, 40);
@@ -142,16 +146,15 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
     @Override
     public void setViewPager(ViewPager viewPager, int initialPosition) {
+        if (viewPager == null || viewPager.getAdapter() == null) {
+            throw new IllegalStateException("you must initial the viewpager with adapter");
+        }
 
         if (viewPager instanceof ILoopViewPage) {
             ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
             loopViewPage.setOnIndicatorPageChangeListener(this);
         } else {
             viewPager.addOnPageChangeListener(this);
-        }
-
-        if (viewPager.getAdapter() == null) {
-            throw new IllegalStateException("ViewPager must initial first");
         }
 
         this.mViewPager = viewPager;
@@ -195,6 +198,10 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
 
     private int getRealCount() {
+        if (mViewPager == null) {
+            return 0;
+        }
+
         try {
             if (mViewPager instanceof ILoopViewPage) {
                 return ((ILoopViewPage) mViewPager).getRealCount();
