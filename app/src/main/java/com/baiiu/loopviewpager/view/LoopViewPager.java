@@ -11,7 +11,7 @@ import com.baiiu.loopviewpager.view.looping.maxvaluevp.MaxValueViewPager;
  * auther: baiiu
  * time: 16/3/26 26 21:48
  * description: 对LoopingViewPager进行包装
- * <p/>
+ * <p>
  * 1. 添加自定义属性,可以控制宽高
  * 2. to be continued
  */

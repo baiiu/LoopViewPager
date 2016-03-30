@@ -22,34 +22,37 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A ViewPager subclass enabling infinte scrolling of the viewPager elements
- * <p/>
+ * <p>
  * When used for paginating views (in opposite to fragments), no code changes
  * should be needed only change xml's from <android.support.v4.view.ViewPager>
  * to <com.imbryk.viewPager.LoopViewPager>
- * <p/>
+ * <p>
  * If "blinking" can be seen when paginating to first or last view, simply call
  * seBoundaryCaching( true ), or change DEFAULT_BOUNDARY_CASHING to true
- * <p/>
+ * <p>
  * When using a FragmentPagerAdapter or FragmentStatePagerAdapter,
  * additional changes in the adapter must be done.
  * The adapter must be prepared to create 2 extra items e.g.:
- * <p/>
+ * <p>
  * The original adapter creates 4 items: [0,1,2,3]
  * The modified adapter will have to create 6 items [0,1,2,3,4,5]
  * with mapping realPosition=(position-1)%count
  * [0->3, 1->0, 2->1, 3->2, 4->3, 5->0]
- * <p/>
+ * <p>
  * 主要处理无限轮播.
  */
 public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPage {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
-    OnPageChangeListener mIndicatorPageChangeListener;
+    private List<OnPageChangeListener> mIndicatorPageChangeListeners;
     private LoopingAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
@@ -73,6 +76,16 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     }
 
     @Override
+    public int getFakeCurrentItem() {
+        return super.getCurrentItem();
+    }
+
+    @Override
+    public void setFakeCurrentItem(int item) {
+        setCurrentItem(item);
+    }
+
+    @Override
     public void setAdapter(PagerAdapter adapter) {
         mAdapter = new LoopingAdapterWrapper(adapter);
         mAdapter.setBoundaryCaching(mBoundaryCaching);
@@ -83,7 +96,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     @Override
     public PagerAdapter getAdapter() {
         return mAdapter;//适配AutoScrollViewPager
-        //return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
+//        return mAdapter != null ? mAdapter.getRealAdapter() : mAdapter;
     }
 
     @Override
@@ -105,10 +118,16 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     }
 
     @Override
-    public void setOnIndicatorPageChangeListener(OnPageChangeListener listener) {
-        if (listener != null) {
-            mIndicatorPageChangeListener = listener;
+    public void addOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+        if (listener == null) {
+            return;
         }
+
+        if (mIndicatorPageChangeListeners == null) {
+            mIndicatorPageChangeListeners = new ArrayList<>();
+        }
+
+        mIndicatorPageChangeListeners.add(listener);
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -121,8 +140,12 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             int realPosition = mAdapter.toRealPosition(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
-                if (mIndicatorPageChangeListener != null) {
-                    mIndicatorPageChangeListener.onPageSelected(realPosition);
+                if (mIndicatorPageChangeListeners != null) {
+                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                        if (listener != null) {
+                            listener.onPageSelected(realPosition);
+                        }
+                    }
                 }
             }
         }
@@ -142,16 +165,19 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             }
 
             mPreviousOffset = positionOffset;
-            if (mIndicatorPageChangeListener != null) {
-                if (realPosition != mAdapter.getRealCount() - 1) {
-                    mIndicatorPageChangeListener.onPageScrolled(realPosition,
-                            positionOffset, positionOffsetPixels);
-                } else {
-                    if (positionOffset > .5) {
-                        mIndicatorPageChangeListener.onPageScrolled(0, 0, 0);
-                    } else {
-                        mIndicatorPageChangeListener.onPageScrolled(realPosition,
-                                0, 0);
+
+            if (mIndicatorPageChangeListeners != null) {
+                for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    if (listener != null) {
+                        if (realPosition != mAdapter.getRealCount() - 1) {
+                            listener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+                        } else {
+                            if (positionOffset > .5) {
+                                listener.onPageScrolled(0, 0, 0);
+                            } else {
+                                listener.onPageScrolled(realPosition, 0, 0);
+                            }
+                        }
                     }
                 }
             }
@@ -167,8 +193,13 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
                     setCurrentItem(realPosition, false);
                 }
             }
-            if (mIndicatorPageChangeListener != null) {
-                mIndicatorPageChangeListener.onPageScrollStateChanged(state);
+            if (mIndicatorPageChangeListeners != null) {
+                for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    if (listener != null) {
+                        listener.onPageScrollStateChanged(state);
+                    }
+                }
+
             }
         }
     };

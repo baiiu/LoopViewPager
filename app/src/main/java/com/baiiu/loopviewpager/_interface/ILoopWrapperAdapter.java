@@ -1,4 +1,6 @@
-package com.baiiu.loopviewpager.view.looping._interface;
+package com.baiiu.loopviewpager._interface;
+
+import android.support.v4.view.PagerAdapter;
 
 /**
  * author: baiiu
@@ -7,4 +9,5 @@ package com.baiiu.loopviewpager.view.looping._interface;
  */
 public interface ILoopWrapperAdapter {
     int getRealCount();
+    PagerAdapter getRealAdapter();
 }

@@ -5,7 +5,10 @@ import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author: baiiu
@@ -15,7 +18,8 @@ import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
 public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewPage {
 
     private MaxAdapterWrapper maxAdapterWrapper;
-    OnPageChangeListener mIndicatorPageChangeListener;
+    private List<OnPageChangeListener> mIndicatorPageChangeListeners;
+    private OnPageChangeListener mOnPageChangeListener;
 
     public MaxValueViewPager(Context paramContext) {
         this(paramContext, null);
@@ -33,9 +37,19 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
 
     @Override
     public int getRealCurrentItem() {
-        return super.getCurrentItem() % getRealCount();
+        return getCurrentItem() % getRealCount();
     }
 
+    @Override
+    public int getFakeCurrentItem() {
+        return getCurrentItem();
+    }
+
+    @Override
+    public void setFakeCurrentItem(int item) {
+        item = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % getRealCount() + item;
+        setCurrentItem(item);
+    }
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
@@ -45,36 +59,58 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
     }
 
     @Override
-    public void setOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+    public void addOnIndicatorPageChangeListener(OnPageChangeListener listener) {
         if (listener == null) {
             return;
         }
 
-        mIndicatorPageChangeListener = listener;
-        OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+        if (mIndicatorPageChangeListeners == null) {
+            mIndicatorPageChangeListeners = new ArrayList<>();
+        }
+
+        mIndicatorPageChangeListeners.add(listener);
+
+        removeOnPageChangeListener(mOnPageChangeListener);
+        mOnPageChangeListener = createOnPageChangeListener();
+        addOnPageChangeListener(mOnPageChangeListener);
+    }
+
+
+    private OnPageChangeListener createOnPageChangeListener() {
+        return new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (mIndicatorPageChangeListener != null) {
-                    mIndicatorPageChangeListener.onPageScrolled(position % getRealCount(), positionOffset, positionOffsetPixels);
+                if (mIndicatorPageChangeListeners != null) {
+                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                        if (listener != null) {
+                            listener.onPageScrolled(position % getRealCount(), positionOffset, positionOffsetPixels);
+                        }
+                    }
                 }
             }
 
             @Override
             public void onPageSelected(int position) {
-                if (mIndicatorPageChangeListener != null) {
-                    mIndicatorPageChangeListener.onPageSelected(position % getRealCount());
+                if (mIndicatorPageChangeListeners != null) {
+                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                        if (listener != null) {
+                            listener.onPageSelected(position % getRealCount());
+                        }
+                    }
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (mIndicatorPageChangeListener != null) {
-                    mIndicatorPageChangeListener.onPageScrollStateChanged(state);
+                if (mIndicatorPageChangeListeners != null) {
+                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                        if (listener != null) {
+                            listener.onPageScrollStateChanged(state);
+                        }
+                    }
                 }
             }
         };
-        addOnPageChangeListener(mOnPageChangeListener);
-
     }
 
 

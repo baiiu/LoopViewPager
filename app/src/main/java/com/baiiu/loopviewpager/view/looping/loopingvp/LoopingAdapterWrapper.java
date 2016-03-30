@@ -24,7 +24,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baiiu.loopviewpager.view.looping._interface.ILoopWrapperAdapter;
+import com.baiiu.loopviewpager._interface.ILoopWrapperAdapter;
 
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to
@@ -32,7 +32,7 @@ import com.baiiu.loopviewpager.view.looping._interface.ILoopWrapperAdapter;
  * <p>
  * This class shouldn't be used directly
  */
-public class LoopingAdapterWrapper extends PagerAdapter implements ILoopWrapperAdapter{
+public class LoopingAdapterWrapper extends PagerAdapter implements ILoopWrapperAdapter {
 
     private PagerAdapter mAdapter;
 
@@ -85,8 +85,14 @@ public class LoopingAdapterWrapper extends PagerAdapter implements ILoopWrapperA
         return mAdapter.getCount() + 2;
     }
 
+    @Override
     public int getRealCount() {
         return mAdapter != null ? mAdapter.getCount() : 0;
+    }
+
+    @Override
+    public PagerAdapter getRealAdapter() {
+        return mAdapter;
     }
 
     @Override

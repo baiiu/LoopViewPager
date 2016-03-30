@@ -8,9 +8,10 @@ import android.view.MenuItem;
 
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
+import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
+import com.baiiu.loopviewpager.indicator.BetterCircleIndicator;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
-import com.baiiu.loopviewpager.transformer.DepthPageTransformer;
-import com.baiiu.loopviewpager.util.LogUtil;
+import com.baiiu.loopviewpager.transformer.ZoomOutPageTransformer;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -22,7 +23,13 @@ public class MainActivity extends AppCompatActivity {
     LoopViewPager viewPager;
 
     @Bind(R.id.indicator)
-    SimpleCircleIndicator indicator;
+    SimpleCircleIndicator simpleCircleIndicator;
+
+    @Bind(R.id.animatorCircleIndicator)
+    AnimatorCircleIndicator animatorCircleIndicator;
+
+    @Bind(R.id.betterIndicator)
+    BetterCircleIndicator betterIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
+
         viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
-        viewPager.setPageTransformer(true, new DepthPageTransformer());
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         viewPager.setAutoScrollDurationFactor(5.0);
-//        viewPager.setInterval(2000);
+        viewPager.setInterval(1000);
         viewPager.startAutoScroll();
 
 
@@ -47,7 +55,12 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        indicator.setViewPager(viewPager);
+
+        viewPager.setFakeCurrentItem(2);
+
+        simpleCircleIndicator.setViewPager(viewPager);
+        animatorCircleIndicator.setViewPager(viewPager);
+        betterIndicator.setViewPager(viewPager);
     }
 
     @Override
@@ -59,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        LogUtil.d(viewPager.getRealCurrentItem());
+//        LogUtil.d(viewPager.getRealCurrentItem());
 
         return super.onOptionsItemSelected(item);
     }

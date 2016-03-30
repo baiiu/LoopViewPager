@@ -4,7 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baiiu.loopviewpager.view.looping._interface.ILoopWrapperAdapter;
+import com.baiiu.loopviewpager._interface.ILoopWrapperAdapter;
 
 /**
  * author: baiiu
@@ -31,6 +31,11 @@ public class MaxAdapterWrapper extends PagerAdapter implements ILoopWrapperAdapt
     @Override
     public int getRealCount() {
         return mRealAdapter == null ? 0 : mRealAdapter.getCount();
+    }
+
+    @Override
+    public PagerAdapter getRealAdapter() {
+        return mRealAdapter;
     }
 
     @Override

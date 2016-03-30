@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.indicator;
+package com.baiiu.loopviewpager._interface;
 
 import android.support.v4.view.ViewPager;
 
@@ -7,11 +7,9 @@ import android.support.v4.view.ViewPager;
  * time: 16/3/27 27 08:36
  * description: indicator接口,可实现该接口写自己的indicator
  */
-public interface IPageIndicator {
+public interface IPageIndicator extends ViewPager.OnPageChangeListener {
 
-    void setViewPager(ViewPager view);
-
-    void setViewPager(ViewPager view, int initialPosition);
+    void setViewPager(ViewPager viewPager);
 
     void setCurrentItem(int item);
 

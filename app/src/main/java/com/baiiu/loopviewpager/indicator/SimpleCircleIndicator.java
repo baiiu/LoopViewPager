@@ -10,15 +10,16 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
+import com.baiiu.loopviewpager._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopviewpager.view.looping._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPage;
 
 /**
  * auther: baiiu
  * time: 16/3/27 27 17:42
  * description:
  */
-public class SimpleCircleIndicator extends View implements ViewPager.OnPageChangeListener, IPageIndicator {
+public class SimpleCircleIndicator extends View implements IPageIndicator {
 
     /**
      * 点之间的距离
@@ -141,38 +142,30 @@ public class SimpleCircleIndicator extends View implements ViewPager.OnPageChang
 
     @Override
     public void setViewPager(ViewPager viewPager) {
-        setViewPager(viewPager, 0);
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager, int initialPosition) {
         if (viewPager == null || viewPager.getAdapter() == null) {
             throw new IllegalStateException("you must initial the viewpager with adapter");
         }
 
+        int initialPosition = 0;
+
         if (viewPager instanceof ILoopViewPage) {
             ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
-            loopViewPage.setOnIndicatorPageChangeListener(this);
+            loopViewPage.addOnIndicatorPageChangeListener(this);
+            initialPosition = loopViewPage.getRealCurrentItem();
         } else {
+            viewPager.getCurrentItem();
+            viewPager.removeOnPageChangeListener(this);
             viewPager.addOnPageChangeListener(this);
         }
 
         this.mViewPager = viewPager;
 
-        mSelectedPosition = initialPosition;
-        viewPager.setCurrentItem(initialPosition);
-
-        invalidate();
+        setCurrentItem(initialPosition);
     }
 
     @Override
     public void setCurrentItem(int item) {
-        mSelectedPosition = item;
-        if (mViewPager != null) {
-            mViewPager.setCurrentItem(item);
-        }
-
-        invalidate();
+        onPageSelected(item);
     }
 
     @Override
