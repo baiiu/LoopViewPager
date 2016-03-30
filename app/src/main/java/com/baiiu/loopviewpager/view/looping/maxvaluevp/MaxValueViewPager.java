@@ -37,25 +37,25 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
 
     @Override
     public int getRealCurrentItem() {
-        return getCurrentItem() % getRealCount();
+        return super.getCurrentItem() % getRealCount();
     }
 
     @Override
     public int getFakeCurrentItem() {
-        return getCurrentItem();
+        return super.getCurrentItem();
     }
 
     @Override
     public void setFakeCurrentItem(int item) {
         item = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % getRealCount() + item;
-        setCurrentItem(item);
+        super.setCurrentItem(item);
     }
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
         maxAdapterWrapper = new MaxAdapterWrapper(adapter);
         super.setAdapter(maxAdapterWrapper);
-        setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % getRealCount(), false);
+        super.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % getRealCount(), false);
     }
 
     @Override

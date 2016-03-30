@@ -16,6 +16,7 @@ import android.view.View;
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager._interface.ILoopViewPage;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
+import com.baiiu.loopviewpager.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +142,8 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
 
     @Override
     public void onPageSelected(int position) {
+        LogUtil.d("onPageSelected: " + position);
+
         if (mIndicatorMode == Mode.SOLO) {
             trigger(position, 0);
         }
@@ -165,14 +168,8 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
     }
 
     private void createTabItems() {
-        int count;
 
-        if (viewPager instanceof ILoopViewPage) {
-            count = ((ILoopViewPage) viewPager).getRealCount();
-        } else {
-            count = viewPager.getAdapter().getCount();
-        }
-
+        int count = getRealCount();
 
         for (int i = 0; i < count; i++) {
             OvalShape circle = new OvalShape();
@@ -183,6 +180,20 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
             paint.setAntiAlias(true);
             shapeHolder.setPaint(paint);
             tabItems.add(shapeHolder);
+        }
+    }
+
+    private int getRealCount() {
+        try {
+            if (viewPager instanceof ILoopViewPage) {
+                return ((ILoopViewPage) viewPager).getRealCount();
+            } else {
+                return viewPager.getAdapter().getCount();
+            }
+
+        } catch (Exception e) {
+            return 0;
+
         }
     }
 
@@ -251,6 +262,17 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
         if (movingItem == null) {
             return;
         }
+
+        if (viewPager instanceof ILoopViewPage) {
+            if (position == getRealCount() - 1) {
+
+            } else {
+
+            }
+        } else {
+
+        }
+
         ShapeHolder item = tabItems.get(position);
         movingItem.resizeShape(item.getWidth(), item.getHeight());
         float x = item.getX() + (mIndicatorMargin + mIndicatorRadius * 2) * positionOffset;
@@ -283,4 +305,7 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
         canvas.restoreToCount(sc);
     }
 
+    public void setIndicatorMode(Mode mIndicatorMode) {
+        this.mIndicatorMode = mIndicatorMode;
+    }
 }

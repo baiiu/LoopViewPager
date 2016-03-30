@@ -56,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
-        viewPager.setFakeCurrentItem(2);
+//        viewPager.setFakeCurrentItem(2);
 
         simpleCircleIndicator.setViewPager(viewPager);
         animatorCircleIndicator.setViewPager(viewPager);
+
+        betterIndicator.setIndicatorMode(BetterCircleIndicator.Mode.OUTSIDE);
         betterIndicator.setViewPager(viewPager);
     }
 
