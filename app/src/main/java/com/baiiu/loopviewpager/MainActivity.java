@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     BetterCircleIndicator betterIndicator;
 
     private ViewAdapter viewAdapter;
+    private FragmentAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
-        viewPager.setAdapter(viewAdapter);
-        viewPager.setBoundaryCaching(true);
+
+        useView();
+//        useFragement();
+
 //        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 //        viewPager.setAutoScrollDurationFactor(5.0);
         viewPager.setInterval(1000);
@@ -60,6 +63,23 @@ public class MainActivity extends AppCompatActivity {
         betterIndicator.setViewPager(viewPager);
         betterIndicator.setIndicatorMode(BetterCircleIndicator.Mode.OUTSIDE);
     }
+
+    /**
+     * 使用View作为Item.
+     */
+    private void useView() {
+        viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
+        viewPager.setAdapter(viewAdapter);
+    }
+
+    /**
+     * 使用Fragment作为Item,不开启boundaryCaching,否则会在notifyDataSetChanged时因为复用造成空白问题
+     */
+    private void useFragement() {
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), Data.provideListLocalFour());
+        viewPager.setAdapter(fragmentAdapter);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,6 +107,20 @@ public class MainActivity extends AppCompatActivity {
             animatorCircleIndicator.notifyDataSetChanged();
             betterIndicator.notifyDataSetChanged();
 
+        }
+
+        if (fragmentAdapter != null) {
+            if (fragmentAdapter.getCount() == 4) {
+                fragmentAdapter.setList(Data.provideListLocalFive());
+            } else {
+                fragmentAdapter.setList(Data.provideListLocalFour());
+            }
+
+            viewPager.setAdapter(fragmentAdapter);
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
+            betterIndicator.notifyDataSetChanged();
         }
 
 
