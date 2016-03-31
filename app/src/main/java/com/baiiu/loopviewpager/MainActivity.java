@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        viewAdapter = new ViewAdapter(this, Data.provideListLocalFive());
+        viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
         viewPager.setAdapter(viewAdapter);
         viewPager.setBoundaryCaching(true);
 //        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());

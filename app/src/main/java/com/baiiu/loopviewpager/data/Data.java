@@ -24,11 +24,11 @@ public class Data {
 
     public static List<Integer> provideListLocalFive() {
         List<Integer> list = new ArrayList<>();
-        list.add(R.drawable.gank610dc034jw1f27tuwswd3j20hs0qoq6q);
-        list.add(R.drawable.gank7a8aed7bgw1etlw75so1hj20qo0hsgpk);
-        list.add(R.drawable.gank7a8aed7bjw1f25gtggxqjj20f00b9tb5);
-        list.add(R.drawable.gank7a8aed7bjw1f27uhoko12j20ez0miq4p);
-        list.add(R.drawable.gank7a8aed7bjw1f05pbp0p0yj20go0mu77b);
+        list.add(R.drawable.a);
+        list.add(R.drawable.b);
+        list.add(R.drawable.c);
+        list.add(R.drawable.d);
+        list.add(R.drawable.e);
         return list;
     }
 

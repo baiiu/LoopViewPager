@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">LoopViewPager</string>
-    <string name="action_settings">curItem</string>
+    <string name="action_settings">Notify</string>
 </resources>
