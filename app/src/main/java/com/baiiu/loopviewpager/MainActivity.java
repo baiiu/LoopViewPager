@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         linePageIndicator.setViewPager(viewPager);
         simpleCircleIndicator.setViewPager(viewPager);
         animatorCircleIndicator.setViewPager(viewPager);
-        betterIndicator.setIndicatorMode(BetterCircleIndicator.Mode.OUTSIDE);
         betterIndicator.setViewPager(viewPager);
+        betterIndicator.setIndicatorMode(BetterCircleIndicator.Mode.OUTSIDE);
     }
 
     @Override

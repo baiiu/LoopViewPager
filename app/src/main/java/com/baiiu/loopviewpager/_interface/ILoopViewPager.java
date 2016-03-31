@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
  * 1.LoopingViewPager方式
  * 2.Integer.MaxValue方式
  */
-public interface ILoopViewPage {
+public interface ILoopViewPager {
 
     int getRealCount();
 

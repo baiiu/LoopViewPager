@@ -30,7 +30,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPager;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
 
@@ -204,8 +204,8 @@ public class LinePageIndicator extends View implements IPageIndicator {
 
         int initialPosition = 0;
 
-        if (viewPager instanceof ILoopViewPage) {
-            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
+        if (viewPager instanceof ILoopViewPager) {
+            ILoopViewPager loopViewPage = (ILoopViewPager) viewPager;
             loopViewPage.addOnIndicatorPageChangeListener(this);
             initialPosition = loopViewPage.getRealCurrentItem();
         } else {
@@ -249,8 +249,8 @@ public class LinePageIndicator extends View implements IPageIndicator {
         }
 
         try {
-            if (mViewPager instanceof ILoopViewPage) {
-                return ((ILoopViewPage) mViewPager).getRealCount();
+            if (mViewPager instanceof ILoopViewPager) {
+                return ((ILoopViewPager) mViewPager).getRealCount();
             } else {
                 return mViewPager.getAdapter().getCount();
             }

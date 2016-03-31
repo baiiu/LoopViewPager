@@ -14,7 +14,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPager;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
 
@@ -157,8 +157,8 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
 
         int initialPosition = 0;
 
-        if (viewPager instanceof ILoopViewPage) {
-            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
+        if (viewPager instanceof ILoopViewPager) {
+            ILoopViewPager loopViewPage = (ILoopViewPager) viewPager;
             loopViewPage.addOnIndicatorPageChangeListener(this);
             initialPosition = loopViewPage.getRealCurrentItem();
         } else {
@@ -280,8 +280,8 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
         }
 
         try {
-            if (mViewPager instanceof ILoopViewPage) {
-                return ((ILoopViewPage) mViewPager).getRealCount();
+            if (mViewPager instanceof ILoopViewPager) {
+                return ((ILoopViewPager) mViewPager).getRealCount();
             } else {
                 return mViewPager.getAdapter().getCount();
             }

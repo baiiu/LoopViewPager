@@ -5,7 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * date: on 16/3/28 11:14
  * description:
  */
-public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewPage {
+public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewPager {
 
     private MaxAdapterWrapper maxAdapterWrapper;
     private List<OnPageChangeListener> mIndicatorPageChangeListeners;

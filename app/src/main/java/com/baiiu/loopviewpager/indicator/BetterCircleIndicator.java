@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPager;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
 
 import java.util.ArrayList;
@@ -104,8 +104,8 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
 
         int initialPosition = 0;
 
-        if (viewPager instanceof ILoopViewPage) {
-            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
+        if (viewPager instanceof ILoopViewPager) {
+            ILoopViewPager loopViewPage = (ILoopViewPager) viewPager;
             loopViewPage.addOnIndicatorPageChangeListener(this);
             initialPosition = loopViewPage.getRealCurrentItem();
         } else {
@@ -185,8 +185,8 @@ public class BetterCircleIndicator extends View implements IPageIndicator {
 
     private int getRealCount() {
         try {
-            if (viewPager instanceof ILoopViewPage) {
-                return ((ILoopViewPage) viewPager).getRealCount();
+            if (viewPager instanceof ILoopViewPager) {
+                return ((ILoopViewPager) viewPager).getRealCount();
             } else {
                 return viewPager.getAdapter().getCount();
             }

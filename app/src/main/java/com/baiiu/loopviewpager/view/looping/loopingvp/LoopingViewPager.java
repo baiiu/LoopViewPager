@@ -22,7 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
+import com.baiiu.loopviewpager._interface.ILoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ import java.util.List;
  * <p>
  * 主要处理无限轮播.
  */
-public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPage {
+public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
