@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.database.DataSetObserver;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
@@ -17,6 +16,7 @@ import android.widget.LinearLayout;
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager._interface.ILoopViewPage;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
+import com.baiiu.loopviewpager.util.LogUtil;
 
 import static android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -27,7 +27,7 @@ import static android.support.v4.view.ViewPager.OnPageChangeListener;
 public class AnimatorCircleIndicator extends LinearLayout implements IPageIndicator {
 
     private final static int DEFAULT_INDICATOR_WIDTH = 5;
-    private ViewPager mViewpager;
+    private ViewPager mViewPager;
     private int mIndicatorMargin = -1;
     private int mIndicatorWidth = -1;
     private int mIndicatorHeight = -1;
@@ -166,13 +166,9 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
             viewPager.addOnPageChangeListener(this);
         }
 
-        mViewpager = viewPager;
+        this.mViewPager = viewPager;
 
-
-        createIndicators();
-
-        mViewpager.getAdapter().registerDataSetObserver(mInternalDataSetObserver);
-
+        createIndicators(initialPosition);
         setCurrentItem(initialPosition);
     }
 
@@ -182,20 +178,13 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
     }
 
     @Override
-    public void notifyDataSetChanged() {
-
-    }
-
-
-    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override
     public void onPageSelected(int position) {
 
-        if (mViewpager.getAdapter() == null || mViewpager.getAdapter().getCount() <= 0) {
+        if (mViewPager.getAdapter() == null || mViewPager.getAdapter().getCount() <= 0) {
             return;
         }
 
@@ -228,58 +217,25 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
     public void onPageScrollStateChanged(int state) {
     }
 
-
-    private DataSetObserver mInternalDataSetObserver = new DataSetObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-
-            int newCount = mViewpager.getAdapter().getCount();
-            int currentCount = getChildCount();
-
-            if (newCount == currentCount) {  // No change
-                return;
-            } else if (mLastPosition < newCount) {
-                mLastPosition = mViewpager.getCurrentItem();
-            } else {
-                mLastPosition = -1;
-            }
-
-            createIndicators();
-        }
-    };
-
     /**
      * @deprecated User ViewPager addOnPageChangeListener
      */
     @Deprecated
     public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
-        if (mViewpager == null) {
+        if (mViewPager == null) {
             throw new NullPointerException("can not find Viewpager , setViewPager first");
         }
-        mViewpager.removeOnPageChangeListener(onPageChangeListener);
-        mViewpager.addOnPageChangeListener(onPageChangeListener);
+        mViewPager.removeOnPageChangeListener(onPageChangeListener);
+        mViewPager.addOnPageChangeListener(onPageChangeListener);
     }
 
-    private void createIndicators() {
+    private void createIndicators(int initialPosition) {
         removeAllViews();
-        int count;
-        int realCount = -1;
-        if (mViewpager instanceof ILoopViewPage) {
-            count = ((ILoopViewPage) mViewpager).getRealCount();
-            realCount = ((ILoopViewPage) mViewpager).getRealCount();
-        } else {
-            count = mViewpager.getAdapter().getCount();
-        }
 
-        if (count <= 0) {
-            return;
-        }
-
-        int currentItem = realCount == -1 ? mViewpager.getCurrentItem() : realCount;
+        int count = getRealCount();
 
         for (int i = 0; i < count; i++) {
-            if (currentItem == i) {
+            if (initialPosition == i) {
                 addIndicator(mIndicatorBackgroundResId, mImmediateAnimatorOut);
             } else {
                 addIndicator(mIndicatorUnselectedBackgroundResId, mImmediateAnimatorIn);
@@ -316,5 +272,39 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
     public int dip2px(float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    private int getRealCount() {
+        if (mViewPager == null) {
+            return 0;
+        }
+
+        try {
+            if (mViewPager instanceof ILoopViewPage) {
+                return ((ILoopViewPage) mViewPager).getRealCount();
+            } else {
+                return mViewPager.getAdapter().getCount();
+            }
+
+        } catch (Exception e) {
+            LogUtil.e(e.toString());
+            return 0;
+        }
+    }
+
+    public void notifyDataSetChanged() {
+
+        int newCount = getRealCount();
+        int currentCount = getChildCount();
+
+        if (newCount == currentCount) {  // No change
+            return;
+        } else if (mLastPosition < newCount) {
+            mLastPosition = mViewPager.getCurrentItem();
+        } else {
+            mLastPosition = -1;
+        }
+
+        createIndicators(mLastPosition);
     }
 }

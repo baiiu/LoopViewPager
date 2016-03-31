@@ -18,16 +18,11 @@
         android:layout_gravity="center"
         app:scale="0.8" />
 
-    <com.baiiu.loopviewpager.indicator.BetterCircleIndicator
-        android:id="@+id/betterIndicator"
+
+    <com.baiiu.loopviewpager.indicator.LinePageIndicator
+        android:id="@+id/linePageIndicator"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:another_ci_background="@android:color/white"
-        app:another_ci_gravity="center"
-        app:another_ci_margin="10dp"
-        app:another_ci_mode="inside"
-        app:another_ci_radius="10dp"
-        app:another_ci_selected_background="0xffe6454a" />
+        android:layout_height="48dp" />
 
     <com.baiiu.loopviewpager.indicator.SimpleCircleIndicator
         android:id="@+id/indicator"
@@ -43,6 +38,17 @@
         android:id="@+id/animatorCircleIndicator"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
+
+    <com.baiiu.loopviewpager.indicator.BetterCircleIndicator
+        android:id="@+id/betterIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:another_ci_background="@android:color/white"
+        app:another_ci_gravity="center"
+        app:another_ci_margin="10dp"
+        app:another_ci_mode="inside"
+        app:another_ci_radius="10dp"
+        app:another_ci_selected_background="0xffe6454a" />
 
 
 </LinearLayout>

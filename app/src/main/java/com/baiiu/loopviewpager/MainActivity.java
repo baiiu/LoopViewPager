@@ -10,8 +10,8 @@ import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
 import com.baiiu.loopviewpager.indicator.BetterCircleIndicator;
+import com.baiiu.loopviewpager.indicator.LinePageIndicator;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
-import com.baiiu.loopviewpager.transformer.ZoomOutPageTransformer;
 import com.baiiu.loopviewpager.view.LoopViewPager;
 
 import butterknife.Bind;
@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.viewPager)
     LoopViewPager viewPager;
 
+    @Bind(R.id.linePageIndicator)
+    LinePageIndicator linePageIndicator;
+
     @Bind(R.id.indicator)
     SimpleCircleIndicator simpleCircleIndicator;
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.betterIndicator)
     BetterCircleIndicator betterIndicator;
 
+    private ViewAdapter viewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,28 +44,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-
-        viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        viewPager.setAutoScrollDurationFactor(5.0);
+        viewAdapter = new ViewAdapter(this, Data.provideListLocalFive());
+        viewPager.setAdapter(viewAdapter);
+        viewPager.setBoundaryCaching(true);
+//        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+//        viewPager.setAutoScrollDurationFactor(5.0);
         viewPager.setInterval(1000);
         viewPager.startAutoScroll();
 
-
-//        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                viewPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                LogUtil.d("MeasuredWidth: " + viewPager.getMeasuredWidth() + ", MeasuredHeight: " + viewPager.getMeasuredHeight() + ", getWidth:" + viewPager.getWidth() + ", getHeight: " + viewPager.getHeight());
-//            }
-//        });
-
-
 //        viewPager.setFakeCurrentItem(2);
 
+        linePageIndicator.setViewPager(viewPager);
         simpleCircleIndicator.setViewPager(viewPager);
         animatorCircleIndicator.setViewPager(viewPager);
-
         betterIndicator.setIndicatorMode(BetterCircleIndicator.Mode.OUTSIDE);
         betterIndicator.setViewPager(viewPager);
     }
@@ -73,8 +69,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-//        LogUtil.d(viewPager.getRealCurrentItem());
+
+        if (viewAdapter != null) {
+            if (viewAdapter.getCount() == 4) {
+                viewAdapter.setList(Data.provideListLocalFive());
+            } else {
+                viewAdapter.setList(Data.provideListLocalFour());
+            }
+
+            //因为LoopingViewPager本身,直接重新设置adapter.
+            //使用viewPager.getAdapter().notifyDataSetChanged(),使用wrapperAdapter刷新会出现意想不到的问题
+            viewPager.setAdapter(viewAdapter);
+
+            //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
+            betterIndicator.notifyDataSetChanged();
+
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

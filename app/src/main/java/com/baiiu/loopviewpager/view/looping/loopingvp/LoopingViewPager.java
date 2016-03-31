@@ -90,6 +90,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
         mAdapter = new LoopingAdapterWrapper(adapter);
         mAdapter.setBoundaryCaching(mBoundaryCaching);
         super.setAdapter(mAdapter);
+//        setOffscreenPageLimit(mAdapter.getCount());//添加上会导致缓存(viewPager.items)不能清理,notifyDataSetChanged不能正确显示.
         setCurrentItem(0, false);
     }
 

@@ -24,17 +24,15 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager._interface.ILoopViewPage;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
+import com.baiiu.loopviewpager.util.LogUtil;
 
 /**
  * Draws a line for each page. The current page line is colored differently
@@ -46,13 +44,11 @@ public class LinePageIndicator extends View implements IPageIndicator {
     private final Paint mPaintUnselected = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mPaintSelected = new Paint(Paint.ANTI_ALIAS_FLAG);
     private ViewPager mViewPager;
-    private ViewPager.OnPageChangeListener mListener;
     private int mCurrentPage;
     private boolean mCentered;
     private float mLineWidth;
     private float mGapWidth;
 
-    private int mTouchSlop;
     private float mLastMotionX = -1;
     private int mActivePointerId = INVALID_POINTER;
     private boolean mIsDragging;
@@ -81,9 +77,9 @@ public class LinePageIndicator extends View implements IPageIndicator {
         //Load defaults from resources
         final int defaultSelectedColor = Color.parseColor("#FF33B5E5");
         final int defaultUnselectedColor = Color.parseColor("#FFBBBBBB");
-        final float defaultLineWidth = 12;
-        final float defaultGapWidth = 4;
-        final float defaultStrokeWidth = 1;
+        final float defaultLineWidth = 36;
+        final float defaultGapWidth = 12;
+        final float defaultStrokeWidth = 3;
         final boolean defaultCentered = true;
 
         //Retrieve styles attributes
@@ -104,249 +100,6 @@ public class LinePageIndicator extends View implements IPageIndicator {
         a.recycle();
 
         final ViewConfiguration configuration = ViewConfiguration.get(context);
-        mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
-    }
-
-    public void setCentered(boolean centered) {
-        mCentered = centered;
-        invalidate();
-    }
-
-    public boolean isCentered() {
-        return mCentered;
-    }
-
-    public void setUnselectedColor(int unselectedColor) {
-        mPaintUnselected.setColor(unselectedColor);
-        invalidate();
-    }
-
-    public int getUnselectedColor() {
-        return mPaintUnselected.getColor();
-    }
-
-    public void setSelectedColor(int selectedColor) {
-        mPaintSelected.setColor(selectedColor);
-        invalidate();
-    }
-
-    public int getSelectedColor() {
-        return mPaintSelected.getColor();
-    }
-
-    public void setLineWidth(float lineWidth) {
-        mLineWidth = lineWidth;
-        invalidate();
-    }
-
-    public float getLineWidth() {
-        return mLineWidth;
-    }
-
-    public void setStrokeWidth(float lineHeight) {
-        mPaintSelected.setStrokeWidth(lineHeight);
-        mPaintUnselected.setStrokeWidth(lineHeight);
-        invalidate();
-    }
-
-    public float getStrokeWidth() {
-        return mPaintSelected.getStrokeWidth();
-    }
-
-    public void setGapWidth(float gapWidth) {
-        mGapWidth = gapWidth;
-        invalidate();
-    }
-
-    public float getGapWidth() {
-        return mGapWidth;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        if (mViewPager == null) {
-            return;
-        }
-        final int count = mViewPager.getAdapter().getCount();
-        if (count == 0) {
-            return;
-        }
-
-        if (mCurrentPage >= count) {
-            setCurrentItem(count - 1);
-            return;
-        }
-
-        final float lineWidthAndGap = mLineWidth + mGapWidth;
-        final float indicatorWidth = (count * lineWidthAndGap) - mGapWidth;
-        final float paddingTop = getPaddingTop();
-        final float paddingLeft = getPaddingLeft();
-        final float paddingRight = getPaddingRight();
-
-        float verticalOffset = paddingTop + ((getHeight() - paddingTop - getPaddingBottom()) / 2.0f);
-        float horizontalOffset = paddingLeft;
-        if (mCentered) {
-            horizontalOffset += ((getWidth() - paddingLeft - paddingRight) / 2.0f) - (indicatorWidth / 2.0f);
-        }
-
-        //Draw stroked circles
-        for (int i = 0; i < count; i++) {
-            float dx1 = horizontalOffset + (i * lineWidthAndGap);
-            float dx2 = dx1 + mLineWidth;
-            canvas.drawLine(dx1, verticalOffset, dx2, verticalOffset, (i == mCurrentPage) ? mPaintSelected : mPaintUnselected);
-        }
-    }
-
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (super.onTouchEvent(ev)) {
-            return true;
-        }
-        if ((mViewPager == null) || (mViewPager.getAdapter().getCount() == 0)) {
-            return false;
-        }
-
-        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-                mLastMotionX = ev.getX();
-                break;
-
-            case MotionEvent.ACTION_MOVE: {
-                final int activePointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
-                final float x = MotionEventCompat.getX(ev, activePointerIndex);
-                final float deltaX = x - mLastMotionX;
-
-                if (!mIsDragging) {
-                    if (Math.abs(deltaX) > mTouchSlop) {
-                        mIsDragging = true;
-                    }
-                }
-
-                if (mIsDragging) {
-                    mLastMotionX = x;
-                    if (mViewPager.isFakeDragging() || mViewPager.beginFakeDrag()) {
-                        mViewPager.fakeDragBy(deltaX);
-                    }
-                }
-
-                break;
-            }
-
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                if (!mIsDragging) {
-                    final int count = mViewPager.getAdapter().getCount();
-                    final int width = getWidth();
-                    final float halfWidth = width / 2f;
-                    final float sixthWidth = width / 6f;
-
-                    if ((mCurrentPage > 0) && (ev.getX() < halfWidth - sixthWidth)) {
-                        if (action != MotionEvent.ACTION_CANCEL) {
-                            mViewPager.setCurrentItem(mCurrentPage - 1);
-                        }
-                        return true;
-                    } else if ((mCurrentPage < count - 1) && (ev.getX() > halfWidth + sixthWidth)) {
-                        if (action != MotionEvent.ACTION_CANCEL) {
-                            mViewPager.setCurrentItem(mCurrentPage + 1);
-                        }
-                        return true;
-                    }
-                }
-
-                mIsDragging = false;
-                mActivePointerId = INVALID_POINTER;
-                if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
-                break;
-
-            case MotionEventCompat.ACTION_POINTER_DOWN: {
-                final int index = MotionEventCompat.getActionIndex(ev);
-                mLastMotionX = MotionEventCompat.getX(ev, index);
-                mActivePointerId = MotionEventCompat.getPointerId(ev, index);
-                break;
-            }
-
-            case MotionEventCompat.ACTION_POINTER_UP:
-                final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-                final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
-                if (pointerId == mActivePointerId) {
-                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                    mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
-                }
-                mLastMotionX = MotionEventCompat.getX(ev, MotionEventCompat.findPointerIndex(ev, mActivePointerId));
-                break;
-        }
-
-        return true;
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager) {
-
-        if (viewPager == null || viewPager.getAdapter() == null) {
-            throw new IllegalStateException("you must initial the viewpager with adapter");
-        }
-
-
-        int initialPosition = 0;
-
-        if (viewPager instanceof ILoopViewPage) {
-            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
-            loopViewPage.addOnIndicatorPageChangeListener(this);
-            initialPosition = loopViewPage.getRealCurrentItem();
-        } else {
-            viewPager.removeOnPageChangeListener(this);
-            viewPager.addOnPageChangeListener(this);
-        }
-
-        setCurrentItem(initialPosition);
-
-        invalidate();
-    }
-
-    @Override
-    public void setCurrentItem(int item) {
-        if (mViewPager == null) {
-            throw new IllegalStateException("ViewPager has not been bound.");
-        }
-        mViewPager.setCurrentItem(item);
-        mCurrentPage = item;
-        invalidate();
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        invalidate();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        if (mListener != null) {
-            mListener.onPageScrollStateChanged(state);
-        }
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mListener != null) {
-            mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-        }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        mCurrentPage = position;
-        invalidate();
-
-        if (mListener != null) {
-            mListener.onPageSelected(position);
-        }
-    }
-
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mListener = listener;
     }
 
     @Override
@@ -405,6 +158,109 @@ public class LinePageIndicator extends View implements IPageIndicator {
         return (int) Math.ceil(result);
     }
 
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        if (mViewPager == null) {
+            return;
+        }
+        final int count = getRealCount();
+        if (count == 0) {
+            return;
+        }
+
+        if (mCurrentPage >= count) {
+            setCurrentItem(count - 1);
+            return;
+        }
+
+        final float lineWidthAndGap = mLineWidth + mGapWidth;
+        final float indicatorWidth = (count * lineWidthAndGap) - mGapWidth;
+        final float paddingTop = getPaddingTop();
+        final float paddingLeft = getPaddingLeft();
+        final float paddingRight = getPaddingRight();
+
+        float verticalOffset = paddingTop + ((getHeight() - paddingTop - getPaddingBottom()) / 2.0f);
+        float horizontalOffset = paddingLeft;
+        if (mCentered) {
+            horizontalOffset += ((getWidth() - paddingLeft - paddingRight) / 2.0f) - (indicatorWidth / 2.0f);
+        }
+
+        //Draw stroked circles
+        for (int i = 0; i < count; i++) {
+            float dx1 = horizontalOffset + (i * lineWidthAndGap);
+            float dx2 = dx1 + mLineWidth;
+            canvas.drawLine(dx1, verticalOffset, dx2, verticalOffset, (i == mCurrentPage) ? mPaintSelected : mPaintUnselected);
+        }
+    }
+
+    @Override
+    public void setViewPager(ViewPager viewPager) {
+        if (viewPager == null || viewPager.getAdapter() == null) {
+            throw new IllegalStateException("you must initial the viewpager with adapter");
+        }
+
+        int initialPosition = 0;
+
+        if (viewPager instanceof ILoopViewPage) {
+            ILoopViewPage loopViewPage = (ILoopViewPage) viewPager;
+            loopViewPage.addOnIndicatorPageChangeListener(this);
+            initialPosition = loopViewPage.getRealCurrentItem();
+        } else {
+            viewPager.removeOnPageChangeListener(this);
+            viewPager.addOnPageChangeListener(this);
+        }
+
+        this.mViewPager = viewPager;
+        setCurrentItem(initialPosition);
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        onPageSelected(item);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        requestLayout();
+        invalidate();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        mCurrentPage = position;
+        invalidate();
+    }
+
+
+    private int getRealCount() {
+        if (mViewPager == null) {
+            return 0;
+        }
+
+        try {
+            if (mViewPager instanceof ILoopViewPage) {
+                return ((ILoopViewPage) mViewPager).getRealCount();
+            } else {
+                return mViewPager.getAdapter().getCount();
+            }
+
+        } catch (Exception e) {
+            LogUtil.e(e.toString());
+            return 0;
+        }
+    }
+
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         SavedState savedState = (SavedState) state;
@@ -451,5 +307,60 @@ public class LinePageIndicator extends View implements IPageIndicator {
                 return new SavedState[size];
             }
         };
+    }
+
+    public void setCentered(boolean centered) {
+        mCentered = centered;
+        invalidate();
+    }
+
+    public boolean isCentered() {
+        return mCentered;
+    }
+
+    public void setUnselectedColor(int unselectedColor) {
+        mPaintUnselected.setColor(unselectedColor);
+        invalidate();
+    }
+
+    public int getUnselectedColor() {
+        return mPaintUnselected.getColor();
+    }
+
+    public void setSelectedColor(int selectedColor) {
+        mPaintSelected.setColor(selectedColor);
+        invalidate();
+    }
+
+    public int getSelectedColor() {
+        return mPaintSelected.getColor();
+    }
+
+    public void setLineWidth(float lineWidth) {
+        mLineWidth = lineWidth;
+        invalidate();
+    }
+
+    public float getLineWidth() {
+        return mLineWidth;
+    }
+
+    public void setStrokeWidth(float lineHeight) {
+        mPaintSelected.setStrokeWidth(lineHeight);
+        mPaintUnselected.setStrokeWidth(lineHeight);
+        invalidate();
+    }
+
+    public float getStrokeWidth() {
+        return mPaintSelected.getStrokeWidth();
+    }
+
+    public void setGapWidth(float gapWidth) {
+        mGapWidth = gapWidth;
+        invalidate();
+    }
+
+    public float getGapWidth() {
+        return mGapWidth;
     }
 }

@@ -10,9 +10,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.baiiu.loopviewpager.R;
+import com.baiiu.loopviewpager._interface.ILoopViewPage;
 import com.baiiu.loopviewpager._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopviewpager._interface.ILoopViewPage;
 
 /**
  * auther: baiiu
@@ -153,7 +153,6 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
             loopViewPage.addOnIndicatorPageChangeListener(this);
             initialPosition = loopViewPage.getRealCurrentItem();
         } else {
-            viewPager.getCurrentItem();
             viewPager.removeOnPageChangeListener(this);
             viewPager.addOnPageChangeListener(this);
         }
@@ -170,6 +169,7 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
 
     @Override
     public void notifyDataSetChanged() {
+        requestLayout();
         invalidate();
     }
 
@@ -186,7 +186,6 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
 
 
