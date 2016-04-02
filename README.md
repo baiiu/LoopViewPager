@@ -40,5 +40,5 @@
 [Trinea的android-auto-scroll-view-pager](https://github.com/Trinea/android-auto-scroll-view-pager)<br>
 [LoopingViewPager](https://github.com/imbryk/LoopingViewPager)<br>
 [FlycoBanner](https://github.com/H07000223/FlycoBanner_Master)<br>
-[AnimatorCircleIndicator](https://github.com/ongakuer/CircleIndicator)
+[AnimatorCircleIndicator](https://github.com/ongakuer/CircleIndicator)<br>
 [BetterCircleIndicator](https://github.com/THEONE10211024/CircleIndicator)
