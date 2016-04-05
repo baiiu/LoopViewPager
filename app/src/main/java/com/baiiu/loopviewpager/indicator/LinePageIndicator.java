@@ -30,8 +30,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager._interface.ILoopViewPager;
-import com.baiiu.loopviewpager._interface.IPageIndicator;
+import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
+import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
 import com.baiiu.loopviewpager.util.LogUtil;
 
 /**

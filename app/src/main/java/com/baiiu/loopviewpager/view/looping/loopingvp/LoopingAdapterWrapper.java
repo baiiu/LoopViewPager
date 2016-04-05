@@ -24,7 +24,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baiiu.loopviewpager._interface.ILoopWrapperAdapter;
+import com.baiiu.loopviewpager.view._interface.ILoopWrapperAdapter;
 
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to

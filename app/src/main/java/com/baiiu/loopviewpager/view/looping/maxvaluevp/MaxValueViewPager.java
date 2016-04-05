@@ -5,7 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 
 import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager._interface.ILoopViewPager;
+import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
