@@ -41,4 +41,5 @@
 [LoopingViewPager](https://github.com/imbryk/LoopingViewPager)<br>
 [FlycoBanner](https://github.com/H07000223/FlycoBanner_Master)<br>
 [AnimatorCircleIndicator](https://github.com/ongakuer/CircleIndicator)<br>
-[BetterCircleIndicator](https://github.com/THEONE10211024/CircleIndicator)
+[BetterCircleIndicator](https://github.com/THEONE10211024/CircleIndicator)<br>
+图片来自 <a href="http://gank.io/" target="_blank">gank.io</a> 
