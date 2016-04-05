@@ -28,11 +28,10 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewConfiguration;
-
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
-import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
 import com.baiiu.loopviewpager.util.LogUtil;
+import com.baiiu.loopvp._interface.ILoopViewPager;
 
 /**
  * Draws a line for each page. The current page line is colored differently

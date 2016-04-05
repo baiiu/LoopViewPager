@@ -1,12 +1,11 @@
-package com.baiiu.loopviewpager.view.looping.maxvaluevp;
+package com.baiiu.loopvp.maxvaluevp;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-
-import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
-
+import com.baiiu.loopvp._interface.ILoopViewPager;
+import com.baiiu.loopvp.autoscroll.AutoScrollViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,8 @@ import java.util.List;
 public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewPager {
 
     private MaxAdapterWrapper maxAdapterWrapper;
-    private List<OnPageChangeListener> mIndicatorPageChangeListeners;
-    private OnPageChangeListener mOnPageChangeListener;
+    private List<ViewPager.OnPageChangeListener> mIndicatorPageChangeListeners;
+    private ViewPager.OnPageChangeListener mOnPageChangeListener;
 
     public MaxValueViewPager(Context paramContext) {
         this(paramContext, null);
@@ -59,7 +58,7 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
     }
 
     @Override
-    public void addOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+    public void addOnIndicatorPageChangeListener(ViewPager.OnPageChangeListener listener) {
         if (listener == null) {
             return;
         }
@@ -76,12 +75,12 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
     }
 
 
-    private OnPageChangeListener createOnPageChangeListener() {
-        return new OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener createOnPageChangeListener() {
+        return new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (mIndicatorPageChangeListeners != null) {
-                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                         if (listener != null) {
                             listener.onPageScrolled(position % getRealCount(), positionOffset, positionOffsetPixels);
                         }
@@ -92,7 +91,7 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
             @Override
             public void onPageSelected(int position) {
                 if (mIndicatorPageChangeListeners != null) {
-                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                         if (listener != null) {
                             listener.onPageSelected(position % getRealCount());
                         }
@@ -103,7 +102,7 @@ public class MaxValueViewPager extends AutoScrollViewPager implements ILoopViewP
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (mIndicatorPageChangeListeners != null) {
-                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                         if (listener != null) {
                             listener.onPageScrollStateChanged(state);
                         }

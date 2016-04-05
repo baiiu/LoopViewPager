@@ -12,11 +12,9 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
-import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
-
+import com.baiiu.loopvp._interface.ILoopViewPager;
 import java.util.ArrayList;
 import java.util.List;
 

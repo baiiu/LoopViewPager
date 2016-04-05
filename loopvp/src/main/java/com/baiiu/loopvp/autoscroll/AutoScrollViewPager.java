@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.view.autoscroll;
+package com.baiiu.loopvp.autoscroll;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 

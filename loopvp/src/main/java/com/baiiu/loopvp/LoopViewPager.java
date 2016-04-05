@@ -1,11 +1,10 @@
-package com.baiiu.loopviewpager.view;
+package com.baiiu.loopvp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-
-import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.view.looping.loopingvp.LoopingViewPager;
+import android.view.View;
+import com.baiiu.loopvp.loopingvp.LoopingViewPager;
 
 /**
  * auther: baiiu
@@ -41,11 +40,11 @@ public class LoopViewPager extends LoopingViewPager {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int width_mode = MeasureSpec.getMode(widthMeasureSpec);
-        int width_size = MeasureSpec.getSize(widthMeasureSpec);
+        int width_mode = View.MeasureSpec.getMode(widthMeasureSpec);
+        int width_size = View.MeasureSpec.getSize(widthMeasureSpec);
 
-        int height_mode = MeasureSpec.getMode(heightMeasureSpec);
-        int height_size = MeasureSpec.getSize(heightMeasureSpec);
+        int height_mode = View.MeasureSpec.getMode(heightMeasureSpec);
+        int height_size = View.MeasureSpec.getSize(heightMeasureSpec);
 
 
         int width_result = width_size;
@@ -53,14 +52,16 @@ public class LoopViewPager extends LoopingViewPager {
 
         width_result = width_size;//宽度wrap_content时,size由父控件决定.总是等于parent_size,即屏幕宽度.
 
-        if (height_mode == MeasureSpec.EXACTLY) {
+        if (height_mode == View.MeasureSpec.EXACTLY) {
             height_result = height_size;
         } else {
             height_result = (int) (width_result * mScale + 0.5);
         }
 
-        int measureSpecWidth = MeasureSpec.makeMeasureSpec(width_result, MeasureSpec.EXACTLY);
-        int measureSpecHeight = MeasureSpec.makeMeasureSpec(height_result, MeasureSpec.EXACTLY);
+        int measureSpecWidth = View.MeasureSpec.makeMeasureSpec(width_result,
+            View.MeasureSpec.EXACTLY);
+        int measureSpecHeight = View.MeasureSpec.makeMeasureSpec(height_result,
+            View.MeasureSpec.EXACTLY);
 
         super.onMeasure(measureSpecWidth, measureSpecHeight);
     }

@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.view._interface;
+package com.baiiu.loopvp._interface;
 
 import android.support.v4.view.ViewPager;
 

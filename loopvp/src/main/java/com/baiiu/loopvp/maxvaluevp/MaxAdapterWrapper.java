@@ -1,10 +1,9 @@
-package com.baiiu.loopviewpager.view.looping.maxvaluevp;
+package com.baiiu.loopvp.maxvaluevp;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.baiiu.loopviewpager.view._interface.ILoopWrapperAdapter;
+import com.baiiu.loopvp._interface.ILoopWrapperAdapter;
 
 /**
  * author: baiiu

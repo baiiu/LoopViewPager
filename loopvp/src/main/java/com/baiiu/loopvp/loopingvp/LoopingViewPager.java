@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopviewpager.view.looping.loopingvp;
+package com.baiiu.loopvp.loopingvp;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-
-import com.baiiu.loopviewpager.view.autoscroll.AutoScrollViewPager;
-import com.baiiu.loopviewpager.view._interface.ILoopViewPager;
-
+import com.baiiu.loopvp._interface.ILoopViewPager;
+import com.baiiu.loopvp.autoscroll.AutoScrollViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +50,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
-    private List<OnPageChangeListener> mIndicatorPageChangeListeners;
+    private List<ViewPager.OnPageChangeListener> mIndicatorPageChangeListeners;
     private LoopingAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
@@ -119,7 +117,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
     }
 
     @Override
-    public void addOnIndicatorPageChangeListener(OnPageChangeListener listener) {
+    public void addOnIndicatorPageChangeListener(ViewPager.OnPageChangeListener listener) {
         if (listener == null) {
             return;
         }
@@ -131,7 +129,8 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
         mIndicatorPageChangeListeners.add(listener);
     }
 
-    private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener
+        onPageChangeListener = new ViewPager.OnPageChangeListener() {
         private float mPreviousOffset = -1;
         private float mPreviousPosition = -1;
 
@@ -142,7 +141,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
                 if (mIndicatorPageChangeListeners != null) {
-                    for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                    for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                         if (listener != null) {
                             listener.onPageSelected(realPosition);
                         }
@@ -168,7 +167,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
             mPreviousOffset = positionOffset;
 
             if (mIndicatorPageChangeListeners != null) {
-                for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                     if (listener != null) {
                         if (realPosition != mAdapter.getRealCount() - 1) {
                             listener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
@@ -195,7 +194,7 @@ public class LoopingViewPager extends AutoScrollViewPager implements ILoopViewPa
                 }
             }
             if (mIndicatorPageChangeListeners != null) {
-                for (OnPageChangeListener listener : mIndicatorPageChangeListeners) {
+                for (ViewPager.OnPageChangeListener listener : mIndicatorPageChangeListeners) {
                     if (listener != null) {
                         listener.onPageScrollStateChanged(state);
                     }
