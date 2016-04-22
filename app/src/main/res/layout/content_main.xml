@@ -8,47 +8,52 @@
     android:gravity="center"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.baiiu.myapplication.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    >
 
-    <com.baiiu.loopvp.LoopViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:scale="0.8" />
+  <com.baiiu.loopviewpager.vp.LoopViewPager
+      android:id="@+id/viewPager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      app:scale="0.8"
+      />
 
 
-    <com.baiiu.loopviewpager.indicator.LinePageIndicator
-        android:id="@+id/linePageIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
+  <com.baiiu.loopviewpager.indicator.LinePageIndicator
+      android:id="@+id/linePageIndicator"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      />
 
-    <com.baiiu.loopviewpager.indicator.SimpleCircleIndicator
-        android:id="@+id/indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        app:dot_interval="10dp"
-        app:dot_radius="3dp"
-        app:selected_color="@android:color/holo_red_light"
-        app:unselected_color="@android:color/white" />
+  <com.baiiu.loopviewpager.indicator.SimpleCircleIndicator
+      android:id="@+id/indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      app:dot_interval="10dp"
+      app:dot_radius="3dp"
+      app:selected_color="@android:color/holo_red_light"
+      app:unselected_color="@android:color/white"
+      />
 
-    <com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator
-        android:id="@+id/animatorCircleIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
+  <com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator
+      android:id="@+id/animatorCircleIndicator"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      />
 
-    <com.baiiu.loopviewpager.indicator.BetterCircleIndicator
-        android:id="@+id/betterIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:another_ci_background="@android:color/white"
-        app:another_ci_gravity="center"
-        app:another_ci_margin="10dp"
-        app:another_ci_mode="inside"
-        app:another_ci_radius="10dp"
-        app:another_ci_selected_background="0xffe6454a" />
+  <com.baiiu.loopviewpager.indicator.BetterCircleIndicator
+      android:id="@+id/betterIndicator"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      app:another_ci_background="@android:color/white"
+      app:another_ci_gravity="center"
+      app:another_ci_margin="10dp"
+      app:another_ci_mode="inside"
+      app:another_ci_radius="10dp"
+      app:another_ci_selected_background="0xffe6454a"
+      />
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.baiiu.loopvp.autoscroll;
+package com.baiiu.loopviewpager.vp.autoscroll;
 
 import android.content.Context;
 import android.os.Handler;

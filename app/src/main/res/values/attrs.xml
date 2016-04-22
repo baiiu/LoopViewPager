@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+  <declare-styleable name="LoopViewPager">
+    <attr format="float|reference" name="scale"/>
+  </declare-styleable>
 
-    <declare-styleable name="SimpleCircleIndicator">
-        <attr name="dot_interval" format="dimension|reference" />
-        <attr name="dot_radius" format="dimension|reference" />
-        <attr name="selected_color" format="color|reference" />
-        <attr name="unselected_color" format="color|reference" />
-    </declare-styleable>
+  <declare-styleable name="SimpleCircleIndicator">
+    <attr format="dimension|reference" name="dot_interval"/>
+    <attr format="dimension|reference" name="dot_radius"/>
+    <attr format="color|reference" name="selected_color"/>
+    <attr format="color|reference" name="unselected_color"/>
+  </declare-styleable>
 
-    <declare-styleable name="LinePageIndicator">
-        <!-- Whether or not the indicators should be centered. -->
-        <attr name="centered" format="boolean" />
-        <!-- Color of the unselected lines that represent the pages. -->
-        <attr name="unselectedColor" format="color|reference" />
-        <!-- Color of the selected line that represents the current page. -->
-        <attr name="selectedColor" format="color|reference" />
-        <!-- Width of each indicator line. -->
-        <attr name="lineWidth" format="dimension" />
-        <!-- Width of each indicator line's stroke. -->
-        <attr name="strokeWidth" format="dimension|reference" />
-        <!-- Width of the gap between each indicator line. -->
-        <attr name="gapWidth" format="dimension|reference" />
-        <!-- View background -->
-        <attr name="android:background" />
-    </declare-styleable>
-
-
-    <declare-styleable name="AnotherCircleIndicator">
-        <attr name="another_ci_radius" format="dimension" />
-        <attr name="another_ci_margin" format="dimension" />
-        <attr name="another_ci_background" format="color|integer" />
-        <attr name="another_ci_selected_background" format="color|integer" />
-        <attr name="another_ci_gravity">
-            <enum name="left" value="0" />
-            <enum name="center" value="1" />
-            <enum name="right" value="2" />
-        </attr>
-        <attr name="another_ci_mode">
-            <enum name="inside" value="0" />
-            <enum name="outside" value="1" />
-            <enum name="solo" value="2" />
-        </attr>
-    </declare-styleable>
+  <declare-styleable name="LinePageIndicator">
+    <!-- Whether or not the indicators should be centered. -->
+    <attr format="boolean" name="centered"/>
+    <!-- Color of the unselected lines that represent the pages. -->
+    <attr format="color|reference" name="unselectedColor"/>
+    <!-- Color of the selected line that represents the current page. -->
+    <attr format="color|reference" name="selectedColor"/>
+    <!-- Width of each indicator line. -->
+    <attr format="dimension" name="lineWidth"/>
+    <!-- Width of each indicator line's stroke. -->
+    <attr format="dimension|reference" name="strokeWidth"/>
+    <!-- Width of the gap between each indicator line. -->
+    <attr format="dimension|reference" name="gapWidth"/>
+    <!-- View background -->
+    <attr name="android:background"/>
+  </declare-styleable>
 
 
-    <declare-styleable name="CircleIndicator">
-        <attr name="ci_width" format="dimension" />
-        <attr name="ci_height" format="dimension" />
-        <attr name="ci_margin" format="dimension" />
-        <attr name="ci_animator" format="reference" />
-        <attr name="ci_animator_reverse" format="reference" />
-        <attr name="ci_drawable" format="reference" />
-        <attr name="ci_drawable_unselected" format="reference" />
-    </declare-styleable>
+  <declare-styleable name="AnotherCircleIndicator">
+    <attr format="dimension" name="another_ci_radius"/>
+    <attr format="dimension" name="another_ci_margin"/>
+    <attr format="color|integer" name="another_ci_background"/>
+    <attr format="color|integer" name="another_ci_selected_background"/>
+    <attr name="another_ci_gravity">
+      <enum name="left" value="0"/>
+      <enum name="center" value="1"/>
+      <enum name="right" value="2"/>
+    </attr>
+    <attr name="another_ci_mode">
+      <enum name="inside" value="0"/>
+      <enum name="outside" value="1"/>
+      <enum name="solo" value="2"/>
+    </attr>
+  </declare-styleable>
+
+
+  <declare-styleable name="CircleIndicator">
+    <attr format="dimension" name="ci_width"/>
+    <attr format="dimension" name="ci_height"/>
+    <attr format="dimension" name="ci_margin"/>
+    <attr format="reference" name="ci_animator"/>
+    <attr format="reference" name="ci_animator_reverse"/>
+    <attr format="reference" name="ci_drawable"/>
+    <attr format="reference" name="ci_drawable_unselected"/>
+  </declare-styleable>
 
 
 </resources>

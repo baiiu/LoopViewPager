@@ -11,7 +11,7 @@ import android.view.View;
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopvp._interface.ILoopViewPager;
+import com.baiiu.loopviewpager.vp._interface.ILoopViewPager;
 
 /**
  * auther: baiiu

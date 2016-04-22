@@ -14,7 +14,7 @@ import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
 import com.baiiu.loopviewpager.indicator.BetterCircleIndicator;
 import com.baiiu.loopviewpager.indicator.LinePageIndicator;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
-import com.baiiu.loopvp.LoopViewPager;
+import com.baiiu.loopviewpager.vp.LoopViewPager;
 
 public class MainActivity extends AppCompatActivity {
 

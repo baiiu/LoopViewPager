@@ -1,10 +1,11 @@
-package com.baiiu.loopvp;
+package com.baiiu.loopviewpager.vp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import com.baiiu.loopvp.loopingvp.LoopingViewPager;
+import com.baiiu.loopviewpager.R;
+import com.baiiu.loopviewpager.vp.loopingvp.LoopingViewPager;
 
 /**
  * auther: baiiu

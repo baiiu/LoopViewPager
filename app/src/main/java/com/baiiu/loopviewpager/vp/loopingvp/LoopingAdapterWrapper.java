@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopvp.loopingvp;
+package com.baiiu.loopviewpager.vp.loopingvp;
 
 import android.os.Parcelable;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,7 +23,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import com.baiiu.loopvp._interface.ILoopWrapperAdapter;
+import com.baiiu.loopviewpager.vp._interface.ILoopWrapperAdapter;
 
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to

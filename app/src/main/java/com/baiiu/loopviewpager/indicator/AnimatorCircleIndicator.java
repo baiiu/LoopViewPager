@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopvp._interface.ILoopViewPager;
+import com.baiiu.loopviewpager.vp._interface.ILoopViewPager;
 
 import static android.support.v4.view.ViewPager.OnPageChangeListener;
 

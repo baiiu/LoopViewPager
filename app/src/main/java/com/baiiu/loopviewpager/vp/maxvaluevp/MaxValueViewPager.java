@@ -1,11 +1,11 @@
-package com.baiiu.loopvp.maxvaluevp;
+package com.baiiu.loopviewpager.vp.maxvaluevp;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import com.baiiu.loopvp._interface.ILoopViewPager;
-import com.baiiu.loopvp.autoscroll.AutoScrollViewPager;
+import com.baiiu.loopviewpager.vp._interface.ILoopViewPager;
+import com.baiiu.loopviewpager.vp.autoscroll.AutoScrollViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
