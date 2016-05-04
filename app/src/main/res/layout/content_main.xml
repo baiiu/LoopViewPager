@@ -32,9 +32,10 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       app:dot_interval="10dp"
-      app:dot_radius="3dp"
       app:selected_color="@android:color/holo_red_light"
+      app:selected_radius="3dp"
       app:unselected_color="@android:color/white"
+      app:unselected_radius="3dp"
       />
 
   <com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator

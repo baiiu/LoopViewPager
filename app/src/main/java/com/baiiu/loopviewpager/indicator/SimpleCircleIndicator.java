@@ -28,7 +28,24 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
     /**
      * 点的半径
      */
-    private int mDotRadius = 10;
+    private int mSelectedRadius;
+    private int mUnSelectedRadius;
+    private int mMaxRadius;
+
+    /**
+     * 是否是空心圆
+     */
+    private boolean selectedIsStroke;
+    private boolean unselectedIsStroke;
+
+
+    /**
+     * 画笔线条宽度
+     */
+    private int mSelectedStrokeWidth;
+    private int mUnSelectedStrokeWidth;
+    private int mMaxStrokeWidth;
+
 
     private int mSelectedColor;
     private Paint mSelectedPaint;
@@ -38,6 +55,7 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
 
     private int mSelectedPosition;
     private ViewPager mViewPager;
+
 
     public SimpleCircleIndicator(Context context) {
         this(context, null);
@@ -60,19 +78,33 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
 
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SimpleCircleIndicator);
-            mDotInterval = (int) typedArray.getDimension(R.styleable.SimpleCircleIndicator_dot_interval, 40);
-            mDotRadius = (int) typedArray.getDimension(R.styleable.SimpleCircleIndicator_dot_radius, 10);
+            mDotInterval = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_dot_interval, 40);
+            mSelectedRadius = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_radius, 10);
+            mUnSelectedRadius = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_unselected_radius, 10);
             mSelectedColor = typedArray.getColor(R.styleable.SimpleCircleIndicator_selected_color, Color.RED);
             mUnSelectedColor = typedArray.getColor(R.styleable.SimpleCircleIndicator_unselected_color, Color.WHITE);
+
+            mSelectedStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_strokeWidth, 1);
+            mUnSelectedStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_unselected_strokeWidth, 1);
+
+            selectedIsStroke = typedArray.getBoolean(R.styleable.SimpleCircleIndicator_selectedStroke, false);
+            unselectedIsStroke = typedArray.getBoolean(R.styleable.SimpleCircleIndicator_unselectedStroke, false);
+
             typedArray.recycle();
         }
 
+        mMaxRadius = Math.max(mSelectedRadius, mUnSelectedRadius);
+        mMaxStrokeWidth = Math.max(mSelectedStrokeWidth, mUnSelectedStrokeWidth);
+
         mSelectedPaint = new Paint();
-        mSelectedPaint.setStyle(Paint.Style.FILL);
+        mSelectedPaint.setStyle(selectedIsStroke ? Paint.Style.STROKE : Paint.Style.FILL);
+        mSelectedPaint.setStrokeWidth(mSelectedStrokeWidth);
         mSelectedPaint.setAntiAlias(true);
         mSelectedPaint.setColor(mSelectedColor);
 
         mUnSelectedPaint = new Paint();
+        mUnSelectedPaint.setStyle(unselectedIsStroke ? Paint.Style.STROKE : Paint.Style.FILL);
+        mUnSelectedPaint.setStrokeWidth(mUnSelectedStrokeWidth);
         mUnSelectedPaint.setStyle(Paint.Style.FILL);
         mUnSelectedPaint.setAntiAlias(true);
         mUnSelectedPaint.setColor(mUnSelectedColor);
@@ -98,16 +130,18 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
             if (height_mode == MeasureSpec.EXACTLY) {
                 height_result = height_size;
             } else {
-                height_result = mDotRadius * 2;
+                height_result = mMaxRadius * 2 + mMaxStrokeWidth;
             }
         } else {
             int mCount = getRealCount();
-            width_result = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
+
+            width_result = mSelectedStrokeWidth + (mCount - 1) * (mUnSelectedStrokeWidth + mDotInterval + mUnSelectedRadius * 2)
+                    + mSelectedRadius * 2;
 
             if (height_mode == MeasureSpec.EXACTLY) {
                 height_result = height_size;
             } else {
-                height_result = mDotRadius * 2;
+                height_result = mMaxRadius * 2 + mMaxStrokeWidth;
             }
 
         }
@@ -120,22 +154,47 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
         int measuredWidth = getWidth();
 
         int mCount = getRealCount();
-        int mDotTotalWidth = (mCount - 1) * mDotInterval + mCount * mDotRadius * 2;
-        int mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + 0.5) + mDotRadius;
+
+        int mDotTotalWidth = mSelectedStrokeWidth + (mCount - 1) * (mUnSelectedStrokeWidth + mDotInterval + mUnSelectedRadius * 2)
+                + mSelectedRadius * 2;
+
+        //不支持padding,所以总是从居中开始画
+        int mFirstDotXCoordinate;
+        if (mSelectedPosition == 0) {
+            mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + mSelectedRadius + mSelectedStrokeWidth / 2 + 0.5);
+        } else {
+            mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F + mUnSelectedRadius + mUnSelectedStrokeWidth / 2 + 0.5);
+        }
 
         int measuredHeight = getHeight();
-        int mDotYCoordinate = (int) ((measuredHeight - mDotRadius * 2) / 2F + 0.5) + mDotRadius;
+        int mDotYCoordinate = (int) (measuredHeight / 2F + 0.5);
 
 
         int x = mFirstDotXCoordinate;
 
-        for (int i = 0; i < mCount; ++i) {
+        for (int i = 0; i < mCount; ) {
             if (i == mSelectedPosition) {
-                canvas.drawCircle(x, mDotYCoordinate, mDotRadius, mSelectedPaint);
+                //画选中点
+                canvas.drawCircle(x, mDotYCoordinate, mSelectedRadius, mSelectedPaint);
+
+                //下一个未选中点的圆心
+                x += mDotInterval + mUnSelectedRadius + mSelectedRadius + (mUnSelectedStrokeWidth + mSelectedStrokeWidth) / 2;
+
+                ++i;
             } else {
-                canvas.drawCircle(x, mDotYCoordinate, mDotRadius, mUnSelectedPaint);
+                //画 未选重点
+                canvas.drawCircle(x, mDotYCoordinate, mUnSelectedRadius, mUnSelectedPaint);
+
+//                int j = i;
+                //下一个点
+                if (++i == mSelectedPosition) {
+                    //可能选中
+                    x += mDotInterval + mUnSelectedRadius + mSelectedRadius + (mUnSelectedStrokeWidth + mSelectedStrokeWidth) / 2;
+                } else {
+                    //也可能未选中
+                    x += mDotInterval + mUnSelectedRadius * 2 + mUnSelectedStrokeWidth;
+                }
             }
-            x += mDotInterval + mDotRadius * 2;
         }
     }
 
