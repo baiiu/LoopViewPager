@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.baiiu.loopviewpager.R;
 
 /**
@@ -41,6 +40,13 @@ public class ImageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //TextView textView = new TextView(container.getContext());
+        //textView.setText(""+anInt);
+        //textView.setTextSize(22);
+        //textView.setTextColor(Color.WHITE);
+        //textView.setGravity(Gravity.CENTER);
+        //return textView;
         ImageView imageView = new ImageView(container.getContext());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(anInt);

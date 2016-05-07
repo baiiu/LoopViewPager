@@ -3,7 +3,6 @@ package com.baiiu.loopviewpager.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import com.baiiu.loopviewpager.vp.loopingvp.LoopingViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,29 +21,34 @@ import java.util.List;
  */
 public class FragmentAdapter extends FragmentStatePagerAdapter {
 
-    private List<Integer> list;
+  private List<Integer> list;
 
-    public FragmentAdapter(FragmentManager fm, List<Integer> list) {
-        super(fm);
-        setList(list);
+  public FragmentAdapter(FragmentManager fm, List<Integer> list) {
+    super(fm);
+    setList(list);
+  }
+
+  public void setList(List<Integer> list) {
+    if (list == null) {
+      list = new ArrayList<Integer>();
     }
 
-    public void setList(List<Integer> list) {
-        if (list == null) {
-            list = new ArrayList<Integer>();
-        }
+    this.list = list;
+    notifyDataSetChanged();
+  }
 
-        this.list = list;
-        notifyDataSetChanged();
-    }
+  @Override public Fragment getItem(int position) {
+    return ImageFragment.instance(list.get(position));
+  }
 
-    @Override
-    public Fragment getItem(int position) {
-        return ImageFragment.instance(list.get(LoopingViewPager.toRealPosition(position, getCount())));
-    }
+  @Override public int getCount() {
+    return list.size();
+  }
 
-    @Override
-    public int getCount() {
-        return list.size();
-    }
+  /**
+   * 必须复写getItemPosition方法
+   */
+  public int getItemPosition(Object object) {
+    return POSITION_NONE;
+  }
 }

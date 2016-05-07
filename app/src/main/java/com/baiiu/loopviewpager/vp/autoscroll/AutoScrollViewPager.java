@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
+import com.baiiu.loopviewpager.vp.loopvp.LoopViewPager;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
@@ -31,7 +32,7 @@ import java.lang.reflect.Field;
  *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-12-30
  */
-public class AutoScrollViewPager extends ViewPager {
+public class AutoScrollViewPager extends LoopViewPager {
 
     public static final int DEFAULT_INTERVAL = 1500;
 

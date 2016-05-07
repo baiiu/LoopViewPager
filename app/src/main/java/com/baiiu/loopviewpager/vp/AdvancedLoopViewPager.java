@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.vp.loopingvp.LoopingViewPager;
+import com.baiiu.loopviewpager.vp.autoscroll.AutoScrollViewPager;
 
 /**
  * auther: baiiu
@@ -15,7 +15,7 @@ import com.baiiu.loopviewpager.vp.loopingvp.LoopingViewPager;
  * 1. 添加自定义属性,可以控制宽高
  * 2. to be continued
  */
-public class LoopViewPager extends LoopingViewPager {
+public class AdvancedLoopViewPager extends AutoScrollViewPager {
 
     /**
      * 默认的宽高比,用于宽高都是wrap_content时
@@ -24,11 +24,11 @@ public class LoopViewPager extends LoopingViewPager {
 
     private float mScale = DEFAULT_SCALE;
 
-    public LoopViewPager(Context context) {
+    public AdvancedLoopViewPager(Context context) {
         this(context, null);
     }
 
-    public LoopViewPager(Context context, AttributeSet attrs) {
+    public AdvancedLoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoopViewPager);

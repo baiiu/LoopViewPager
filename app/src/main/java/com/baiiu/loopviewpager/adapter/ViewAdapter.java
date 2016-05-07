@@ -27,4 +27,11 @@ public class ViewAdapter extends BasePagerAdapter<Integer> {
         return imageView;
     }
 
+  /**
+   * 必须要复写
+   */
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
 }

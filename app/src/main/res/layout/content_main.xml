@@ -11,7 +11,7 @@
     tools:showIn="@layout/activity_main"
     >
 
-  <com.baiiu.loopviewpager.vp.LoopViewPager
+  <com.baiiu.loopviewpager.vp.AdvancedLoopViewPager
       android:id="@+id/viewPager"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -43,18 +43,5 @@
       android:layout_width="match_parent"
       android:layout_height="48dp"
       />
-
-  <com.baiiu.loopviewpager.indicator.BetterCircleIndicator
-      android:id="@+id/betterIndicator"
-      android:layout_width="match_parent"
-      android:layout_height="48dp"
-      app:another_ci_background="@android:color/white"
-      app:another_ci_gravity="center"
-      app:another_ci_margin="10dp"
-      app:another_ci_mode="inside"
-      app:another_ci_radius="10dp"
-      app:another_ci_selected_background="0xffe6454a"
-      />
-
 
 </LinearLayout>

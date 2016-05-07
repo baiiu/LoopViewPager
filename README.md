@@ -1,24 +1,32 @@
 # LoopViewPager
-无限循环轮播banner. [blog链接](http://blog.csdn.net/u014099894/article/details/50987819)
+a infinite auto-loop banner with [LoopViewPager](https://github.com/yanzm/LoopViewPager.git)
 
-## 特点:
-1. **使用三层继承关系,分工明确.**
-    - 顶层使用Trina的AutoScrollViewPager,作为启动器.
-    - 第二层用于添加无限Loop功能.
-    - 第三次LoopViewPager,用于功能增强,现在提供了自定义属性scale,用于设置宽高比
+[中文文档](README-cn.md)
+
+
+## HighLights:
+1. **three layers, each layer has its unique func**
+    - the first is LoopViewPager,which provides the infinite func
+    - the second is AutoScrollViewPager, which provides auto-start func
+    - the third is AdvancedLoopViewPager,which enhances current widget,now supporting `wrap_content` attribute while use `scale` to definate the width/height ratio. 
     
-2. **LoopViewPager和IPageIndicator都支持notifyDateSetChanged()方法.**
-   可以通过该方法改变数据源.
+2. **ViewPager.adapter and IPageIndicator all can be notifyDataSetChanged*
+    you can use `adapter.notifyDataSetChanged` and `IPageIndicator.notifyDataSetChanged()` to change the data source.
+    you should override the `getItemPosition()`,and if you use fragment,you must use `FragmentStatePagerAdapter`. 
+    ```
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+    ```
+    
 
-3. **支持setCurrentItem()方法.**
-   通过viewPager.setFakeCurrentItem(2)设置.
-   并且在viewPager中设置后,indicator中不用设置,直接跟着变化.
+3. **support setCurrentItem() method** 
+    you can use setCurrentItem() method to specified the start position, the indicator changing as well.
 
-4. 提供了ILoopViewPager接口,可以实现自己的Loop方式.
-   提供了IPageIndicator接口,可以实现自己的Indicator. 写法都很固定,无论是继承View还是ViewGroup.
+4. **implement IPageIndicator,you can have your own indicator**
 
 
-## 使用:
+## Usage:
 ```java
     viewPager.setAdapter(new ViewAdapter(this, Data.provideListLocal()));
     viewPager.setPageTransformer(true, new DepthPageTransformer());
@@ -29,7 +37,6 @@
     linePageIndicator.setViewPager(viewPager);
     simpleCircleIndicator.setViewPager(viewPager);
     animatorCircleIndicator.setViewPager(viewPager);
-    betterIndicator.setViewPager(viewPager);
 ```
 
 ## ScreenShots
@@ -38,8 +45,6 @@
 
 ## Thanks To
 [Trinea的android-auto-scroll-view-pager](https://github.com/Trinea/android-auto-scroll-view-pager)<br>
-[LoopingViewPager](https://github.com/imbryk/LoopingViewPager)<br>
-[FlycoBanner](https://github.com/H07000223/FlycoBanner_Master)<br>
+[LoopViewPager](https://github.com/yanzm/LoopViewPager.git)<br />
 [AnimatorCircleIndicator](https://github.com/ongakuer/CircleIndicator)<br>
-[BetterCircleIndicator](https://github.com/THEONE10211024/CircleIndicator)<br>
 图片来自 <a href="http://gank.io/" target="_blank">gank.io</a> 
