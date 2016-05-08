@@ -8,20 +8,23 @@
     - 第三层AdvancedLoopViewPager,用于功能增强,现在提供了自定义属性scale,用于设置宽高比
     
 2. **ViewPager的Adapter 和 IPageIndicator 都支持notifyDateSetChanged()方法.**
-   可以通过该方法改变数据源.
-   注意,在adapter中必须要复写`getItemPosition`方法,使用Fragment的话必须使用FragmentStatePagerAdapter
-   ```
-     public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-   ```
+可以通过该方法改变数据源.
+注意,在adapter中必须要复写`getItemPosition`方法,使用Fragment的话必须使用FragmentStatePagerAdapter
+ ```
+  public int getItemPosition(Object object) {
+      return POSITION_NONE;
+  }
+ ```
 
 3. **支持setCurrentItem()方法.**
-   通过viewPager.setCurrentItem(2)设置.
-   并且在viewPager中设置后,indicator中不用设置,直接跟着变化.
+通过viewPager.setCurrentItem(2)设置.
+并且在viewPager中设置后,indicator中不用设置,直接跟着变化.
 
 4. 提供了IPageIndicator接口,可以实现自己的Indicator. 写法都很固定,无论是继承View还是ViewGroup.
 
+
+## ScreenShots
+![LoopViewPager](images/loopvp.gif "loopvp Example")
 
 ## 使用:
 ```java
@@ -36,8 +39,6 @@
     animatorCircleIndicator.setViewPager(viewPager);
 ```
 
-## ScreenShots
-![LoopViewPager](images/loopvp.gif "loopvp Example")
 
 
 ## Thanks To
