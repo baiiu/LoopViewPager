@@ -9,6 +9,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
+import com.baiiu.loopviewpager.adapter.ViewListAdapter;
 import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
 import com.baiiu.loopviewpager.indicator.LinePageIndicator;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
   @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
   private ViewAdapter viewAdapter;
+  private ViewListAdapter viewListAdapter;
   private FragmentAdapter fragmentAdapter;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     useView();
+    //useFixedList();
     //useFragement();
 
     //viewPager.setCurrentItem(2);
@@ -52,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
   private void useView() {
     viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
     viewPager.setAdapter(viewAdapter);
+  }
+
+  /**
+   * 传入List<ImageView>
+   */
+  private void useFixedList() {
+    viewListAdapter =
+        new ViewListAdapter(this, Data.generateImageViews(this, Data.provideListLocalFour()));
+    viewPager.setAdapter(viewListAdapter);
   }
 
   /**
@@ -82,7 +94,20 @@ public class MainActivity extends AppCompatActivity {
       animatorCircleIndicator.notifyDataSetChanged();
     }
 
-    // TODO: 16/5/8 fragment notify不起作用
+
+    if(viewListAdapter != null){
+      if (viewListAdapter.getCount() == 4) {
+        viewListAdapter.setList(Data.generateImageViews(this,Data.provideListLocalFive()));
+      } else {
+        viewListAdapter.setList(Data.generateImageViews(this,Data.provideListLocalFour()));
+      }
+
+      //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
+      linePageIndicator.notifyDataSetChanged();
+      simpleCircleIndicator.notifyDataSetChanged();
+      animatorCircleIndicator.notifyDataSetChanged();
+    }
+
     if (fragmentAdapter != null) {
       if (fragmentAdapter.getCount() == 4) {
         fragmentAdapter.setList(Data.provideListLocalFive());
