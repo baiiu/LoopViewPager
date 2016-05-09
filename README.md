@@ -8,7 +8,7 @@ a infinite auto-loop banner with [LoopViewPager](https://github.com/yanzm/LoopVi
 1. **three layers, each layer has its unique func**
     - the first is LoopViewPager,which provides the infinite func
     - the second is AutoScrollViewPager, which provides auto-start func
-    - the third is AdvancedLoopViewPager,which enhances current widget,now supporting `wrap_content` attribute while use `scale` to definate the width/height ratio. 
+    - the third is AutoLoopViewPager,which enhances current widget,now supporting `wrap_content` attribute while use `scale` to definate the width/height ratio. 
     
 2. **ViewPager.adapter and IPageIndicator all can be notifyDataSetChanged**
 you can use `adapter.notifyDataSetChanged` and `IPageIndicator.notifyDataSetChanged()` to change the data source.

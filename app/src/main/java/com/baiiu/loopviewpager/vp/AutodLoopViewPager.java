@@ -15,7 +15,7 @@ import com.baiiu.loopviewpager.vp.autoscroll.AutoScrollViewPager;
  * 1. 添加自定义属性,可以控制宽高
  * 2. to be continued
  */
-public class AdvancedLoopViewPager extends AutoScrollViewPager {
+public class AutodLoopViewPager extends AutoScrollViewPager {
 
     /**
      * 默认的宽高比,用于宽高都是wrap_content时
@@ -24,11 +24,11 @@ public class AdvancedLoopViewPager extends AutoScrollViewPager {
 
     private float mScale = DEFAULT_SCALE;
 
-    public AdvancedLoopViewPager(Context context) {
+    public AutodLoopViewPager(Context context) {
         this(context, null);
     }
 
-    public AdvancedLoopViewPager(Context context, AttributeSet attrs) {
+    public AutodLoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoopViewPager);

@@ -14,11 +14,11 @@ import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
 import com.baiiu.loopviewpager.indicator.LinePageIndicator;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
-import com.baiiu.loopviewpager.vp.AdvancedLoopViewPager;
+import com.baiiu.loopviewpager.vp.AutodLoopViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-  @Bind(R.id.viewPager) AdvancedLoopViewPager viewPager;
+  @Bind(R.id.viewPager) AutodLoopViewPager viewPager;
   @Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
   @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
   @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;

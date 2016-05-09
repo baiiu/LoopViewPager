@@ -5,7 +5,7 @@
 1. **使用三层继承关系,分工明确.**
     - 顶层使用LoopView,该控件继承ViewGroup,是一个可以无限轮播的ViewPager
     - 第二层使用Trina的AutoScrollViewPager,作为启动器.
-    - 第三层AdvancedLoopViewPager,用于功能增强,现在提供了自定义属性scale,用于设置宽高比
+    - 第三层AutoLoopViewPager,用于功能增强,现在提供了自定义属性scale,用于设置宽高比
     
 2. **ViewPager的Adapter 和 IPageIndicator 都支持notifyDateSetChanged()方法.**
 可以通过该方法改变数据源.
