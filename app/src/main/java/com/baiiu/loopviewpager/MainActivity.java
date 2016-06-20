@@ -18,108 +18,108 @@ import com.baiiu.loopviewpager.vp.AutodLoopViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-  @Bind(R.id.viewPager) AutodLoopViewPager viewPager;
-  @Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
-  @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
-  @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
+    @Bind(R.id.viewPager) AutodLoopViewPager viewPager;
+    @Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
+    @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
+    @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
-  private ViewAdapter viewAdapter;
-  private ViewListAdapter viewListAdapter;
-  private FragmentAdapter fragmentAdapter;
+    private ViewAdapter viewAdapter;
+    private ViewListAdapter viewListAdapter;
+    private FragmentAdapter fragmentAdapter;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-    ButterKnife.bind(this);
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-    useView();
-    //useFixedList();
-    //useFragement();
+        //useView();
+        useFixedList();
+        //useFragement();
 
-    //viewPager.setCurrentItem(2);
-    //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-    //viewPager.setAutoScrollDurationFactor(5.0);
-    viewPager.setInterval(1000);
-    viewPager.startAutoScroll();
+        //viewPager.setCurrentItem(2);
+        //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        //viewPager.setAutoScrollDurationFactor(5.0);
+        viewPager.setInterval(1000);
+        viewPager.startAutoScroll();
 
-    linePageIndicator.setViewPager(viewPager);
-    simpleCircleIndicator.setViewPager(viewPager);
-    animatorCircleIndicator.setViewPager(viewPager);
-  }
-
-  /**
-   * 使用View作为Item.
-   */
-  private void useView() {
-    viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
-    viewPager.setAdapter(viewAdapter);
-  }
-
-  /**
-   * 传入List<ImageView>
-   */
-  private void useFixedList() {
-    viewListAdapter =
-        new ViewListAdapter(this, Data.generateImageViews(this, Data.provideListLocalFour()));
-    viewPager.setAdapter(viewListAdapter);
-  }
-
-  /**
-   * 使用Fragment作为Item,adapter必须要继承自FragmentStatePagerAdapter,并且复写getItemPosition方法
-   */
-  private void useFragement() {
-    fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), Data.provideListLocalFour());
-    viewPager.setAdapter(fragmentAdapter);
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-
-    if (viewAdapter != null) {
-      if (viewAdapter.getCount() == 4) {
-        viewAdapter.setList(Data.provideListLocalFive());
-      } else {
-        viewAdapter.setList(Data.provideListLocalFour());
-      }
-
-      //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
-      linePageIndicator.notifyDataSetChanged();
-      simpleCircleIndicator.notifyDataSetChanged();
-      animatorCircleIndicator.notifyDataSetChanged();
+        linePageIndicator.setViewPager(viewPager);
+        simpleCircleIndicator.setViewPager(viewPager);
+        animatorCircleIndicator.setViewPager(viewPager);
     }
 
-
-    if(viewListAdapter != null){
-      if (viewListAdapter.getCount() == 4) {
-        viewListAdapter.setList(Data.generateImageViews(this,Data.provideListLocalFive()));
-      } else {
-        viewListAdapter.setList(Data.generateImageViews(this,Data.provideListLocalFour()));
-      }
-
-      //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
-      linePageIndicator.notifyDataSetChanged();
-      simpleCircleIndicator.notifyDataSetChanged();
-      animatorCircleIndicator.notifyDataSetChanged();
+    /**
+     * 使用View作为Item.
+     */
+    private void useView() {
+        viewAdapter = new ViewAdapter(this, Data.provideListLocalFour());
+        viewPager.setAdapter(viewAdapter);
     }
 
-    if (fragmentAdapter != null) {
-      if (fragmentAdapter.getCount() == 4) {
-        fragmentAdapter.setList(Data.provideListLocalFive());
-      } else {
-        fragmentAdapter.setList(Data.provideListLocalFour());
-      }
-
-      linePageIndicator.notifyDataSetChanged();
-      simpleCircleIndicator.notifyDataSetChanged();
-      animatorCircleIndicator.notifyDataSetChanged();
+    /**
+     * 传入List<ImageView>
+     */
+    private void useFixedList() {
+        viewListAdapter =
+                new ViewListAdapter(this, Data.generateImageViews(this, Data.provideListLocalFour()));
+        viewPager.setAdapter(viewListAdapter);
     }
 
-    return super.onOptionsItemSelected(item);
-  }
+    /**
+     * 使用Fragment作为Item,adapter必须要继承自FragmentStatePagerAdapter,并且复写getItemPosition方法
+     */
+    private void useFragement() {
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), Data.provideListLocalFour());
+        viewPager.setAdapter(fragmentAdapter);
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (viewAdapter != null) {
+            if (viewAdapter.getCount() == 4) {
+                viewAdapter.setList(Data.provideListLocalFive());
+            } else {
+                viewAdapter.setList(Data.provideListLocalFour());
+            }
+
+            //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
+        }
+
+
+        if (viewListAdapter != null) {
+            if (viewListAdapter.getCount() == 4) {
+                viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFive()));
+            } else {
+                viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFour()));
+            }
+
+            //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
+        }
+
+        if (fragmentAdapter != null) {
+            if (fragmentAdapter.getCount() == 4) {
+                fragmentAdapter.setList(Data.provideListLocalFive());
+            } else {
+                fragmentAdapter.setList(Data.provideListLocalFour());
+            }
+
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
