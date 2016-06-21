@@ -272,6 +272,7 @@ public class AutoScrollViewPager extends LoopViewPager {
                         pager.scroller.setScrollDurationFactor(pager.swipeScrollFactor);
                         pager.sendScrollMessage(pager.interval + pager.scroller.getDuration());
                     }
+                    break;
                 default:
                     break;
             }

@@ -14,11 +14,11 @@ import com.baiiu.loopviewpager.data.Data;
 import com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator;
 import com.baiiu.loopviewpager.indicator.LinePageIndicator;
 import com.baiiu.loopviewpager.indicator.SimpleCircleIndicator;
-import com.baiiu.loopviewpager.vp.AutodLoopViewPager;
+import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.viewPager) AutodLoopViewPager viewPager;
+    @Bind(R.id.viewPager) AutoLoopViewPager viewPager;
     @Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
     @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
     @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //useView();
-        useFixedList();
-        //useFragement();
+        //useFixedList();
+        useFragement();
 
         //viewPager.setCurrentItem(2);
         //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
@@ -82,11 +82,13 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
 
         if (viewAdapter != null) {
-            if (viewAdapter.getCount() == 4) {
+            if (viewAdapter.getCount() == Data.provideListLocalFour().size()) {
                 viewAdapter.setList(Data.provideListLocalFive());
             } else {
                 viewAdapter.setList(Data.provideListLocalFour());
             }
+
+            viewPager.setAdapter(viewAdapter);
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
             linePageIndicator.notifyDataSetChanged();
@@ -96,11 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (viewListAdapter != null) {
-            if (viewListAdapter.getCount() == 4) {
+            if (viewListAdapter.getCount() == Data.provideListLocalFour().size()) {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFive()));
             } else {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFour()));
             }
+
+            viewPager.setAdapter(viewListAdapter);
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
             linePageIndicator.notifyDataSetChanged();
@@ -109,11 +113,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (fragmentAdapter != null) {
-            if (fragmentAdapter.getCount() == 4) {
+            if (fragmentAdapter.getCount() == Data.provideListLocalFour().size()) {
                 fragmentAdapter.setList(Data.provideListLocalFive());
             } else {
                 fragmentAdapter.setList(Data.provideListLocalFour());
             }
+
+            viewPager.setAdapter(fragmentAdapter);
 
             linePageIndicator.notifyDataSetChanged();
             simpleCircleIndicator.notifyDataSetChanged();

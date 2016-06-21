@@ -1,5 +1,6 @@
 package com.baiiu.loopviewpager.indicator._interface;
 
+import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
 import com.baiiu.loopviewpager.vp.loopvp.LoopViewPager;
 
 /**
@@ -9,7 +10,7 @@ import com.baiiu.loopviewpager.vp.loopvp.LoopViewPager;
  */
 public interface IPageIndicator extends LoopViewPager.OnPageChangeListener {
 
-    void setViewPager(LoopViewPager viewPager);
+    void setViewPager(AutoLoopViewPager viewPager);
 
     void setCurrentItem(int item);
 

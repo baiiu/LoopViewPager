@@ -3,9 +3,7 @@ package com.baiiu.loopviewpager.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.baiiu.loopviewpager.base.BasePagerAdapter;
-
 import java.util.List;
 
 /**

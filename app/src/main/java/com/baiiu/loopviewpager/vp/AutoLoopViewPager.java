@@ -2,6 +2,7 @@ package com.baiiu.loopviewpager.vp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import com.baiiu.loopviewpager.R;
@@ -15,7 +16,7 @@ import com.baiiu.loopviewpager.vp.autoscroll.AutoScrollViewPager;
  * 1. 添加自定义属性,可以控制宽高
  * 2. to be continued
  */
-public class AutodLoopViewPager extends AutoScrollViewPager {
+public class AutoLoopViewPager extends AutoScrollViewPager {
 
     /**
      * 默认的宽高比,用于宽高都是wrap_content时
@@ -24,11 +25,11 @@ public class AutodLoopViewPager extends AutoScrollViewPager {
 
     private float mScale = DEFAULT_SCALE;
 
-    public AutodLoopViewPager(Context context) {
+    public AutoLoopViewPager(Context context) {
         this(context, null);
     }
 
-    public AutodLoopViewPager(Context context, AttributeSet attrs) {
+    public AutoLoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoopViewPager);
@@ -37,8 +38,7 @@ public class AutodLoopViewPager extends AutoScrollViewPager {
     }
 
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int width_mode = View.MeasureSpec.getMode(widthMeasureSpec);
@@ -59,12 +59,34 @@ public class AutodLoopViewPager extends AutoScrollViewPager {
             height_result = (int) (width_result * mScale + 0.5);
         }
 
-        int measureSpecWidth = View.MeasureSpec.makeMeasureSpec(width_result,
-            View.MeasureSpec.EXACTLY);
-        int measureSpecHeight = View.MeasureSpec.makeMeasureSpec(height_result,
-            View.MeasureSpec.EXACTLY);
+        int measureSpecWidth = View.MeasureSpec.makeMeasureSpec(width_result, View.MeasureSpec.EXACTLY);
+        int measureSpecHeight = View.MeasureSpec.makeMeasureSpec(height_result, View.MeasureSpec.EXACTLY);
 
         super.onMeasure(measureSpecWidth, measureSpecHeight);
     }
+
+    @Override public void setAdapter(PagerAdapter adapter) {
+        if (adapter.getCount() == 2) {
+            adapter = new AdapterWrapper(adapter);
+        }
+        super.setAdapter(adapter);
+    }
+
+    public int toRealCurrentItem(int position) {
+        if (getAdapter() instanceof AdapterWrapper) {
+            return position % 2;
+        }
+        return position;
+    }
+
+    public int getRealCount() {
+        PagerAdapter adapter = super.getAdapter();
+        if (adapter instanceof AdapterWrapper) {
+            return 2;
+        }
+
+        return adapter.getCount();
+    }
+
 
 }
