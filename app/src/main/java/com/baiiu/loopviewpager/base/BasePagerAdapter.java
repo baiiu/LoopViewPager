@@ -29,10 +29,12 @@ public abstract class BasePagerAdapter<T> extends PagerAdapter implements IRealA
 
         if (list.size() == 2) {
             mCopyTwo = true;
-            list.addAll(new ArrayList<T>(list));
+            this.list.addAll(new ArrayList<T>(list));
+            this.list.addAll(new ArrayList<T>(list));
+        } else {
+            this.list = list;
         }
 
-        this.list = list;
         notifyDataSetChanged();
     }
 

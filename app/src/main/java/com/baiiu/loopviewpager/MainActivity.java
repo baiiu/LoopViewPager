@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        //useView();
-        useFixedList();
+        useView();
+        //useFixedList();
         //useFragement();
 
         //viewPager.setCurrentItem(2);

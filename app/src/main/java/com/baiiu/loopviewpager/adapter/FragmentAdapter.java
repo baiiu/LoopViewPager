@@ -38,11 +38,11 @@ public class FragmentAdapter extends FragmentStatePagerAdapter implements IRealA
 
         if (list.size() == 2) {
             mCopyTwo = true;
-            list.addAll(new ArrayList<>(list));
+            this.list.addAll(new ArrayList<>(list));
+            this.list.addAll(new ArrayList<>(list));
         }
 
 
-        this.list = list;
         notifyDataSetChanged();
     }
 
