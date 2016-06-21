@@ -24,6 +24,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -31,6 +32,7 @@ import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
+import com.baiiu.loopviewpager.vp.IRealAdapter;
 
 /**
  * Draws a line for each page. The current page line is colored differently
@@ -226,7 +228,7 @@ public class LinePageIndicator extends View implements IPageIndicator {
     }
 
     @Override public void onPageSelected(int position) {
-        mCurrentPage = mViewPager.toRealCurrentItem(position);
+        mCurrentPage = position % getRealCount();
         invalidate();
     }
 
@@ -236,11 +238,17 @@ public class LinePageIndicator extends View implements IPageIndicator {
         }
 
         try {
-            return mViewPager.getRealCount();
+            PagerAdapter adapter = mViewPager.getAdapter();
+            if (adapter instanceof IRealAdapter) {
+                return ((IRealAdapter) adapter).getRealCount();
+            }
+
+            return adapter.getCount();
         } catch (Exception e) {
             LogUtil.e(e.toString());
             return 0;
         }
+
     }
 
     @Override public void onRestoreInstanceState(Parcelable state) {

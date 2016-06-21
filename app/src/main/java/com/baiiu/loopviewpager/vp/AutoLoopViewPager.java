@@ -2,7 +2,6 @@ package com.baiiu.loopviewpager.vp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import com.baiiu.loopviewpager.R;
@@ -64,29 +63,5 @@ public class AutoLoopViewPager extends AutoScrollViewPager {
 
         super.onMeasure(measureSpecWidth, measureSpecHeight);
     }
-
-    @Override public void setAdapter(PagerAdapter adapter) {
-        if (adapter.getCount() == 2) {
-            adapter = new AdapterWrapper(adapter);
-        }
-        super.setAdapter(adapter);
-    }
-
-    public int toRealCurrentItem(int position) {
-        if (getAdapter() instanceof AdapterWrapper) {
-            return position % 2;
-        }
-        return position;
-    }
-
-    public int getRealCount() {
-        PagerAdapter adapter = super.getAdapter();
-        if (adapter instanceof AdapterWrapper) {
-            return 2;
-        }
-
-        return adapter.getCount();
-    }
-
 
 }

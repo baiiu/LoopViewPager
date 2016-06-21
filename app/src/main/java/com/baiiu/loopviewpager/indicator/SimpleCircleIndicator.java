@@ -5,12 +5,14 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
+import com.baiiu.loopviewpager.vp.IRealAdapter;
 
 /**
  * auther: baiiu
@@ -244,7 +246,7 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
     }
 
     @Override public void onPageSelected(int position) {
-        this.mSelectedPosition = mViewPager.toRealCurrentItem(position);
+        this.mSelectedPosition = position % getRealCount();
         invalidate();
     }
 
@@ -257,7 +259,12 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
         }
 
         try {
-            return mViewPager.getRealCount();
+            PagerAdapter adapter = mViewPager.getAdapter();
+            if (adapter instanceof IRealAdapter) {
+                return ((IRealAdapter) adapter).getRealCount();
+            }
+
+            return adapter.getCount();
         } catch (Exception e) {
             LogUtil.e(e.toString());
             return 0;

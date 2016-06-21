@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.DrawableRes;
+import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.baiiu.loopviewpager.R;
 import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
 import com.baiiu.loopviewpager.util.LogUtil;
 import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
+import com.baiiu.loopviewpager.vp.IRealAdapter;
 
 /**
  * linked
@@ -170,7 +172,7 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
             return;
         }
 
-        position = mViewPager.toRealCurrentItem(position);
+        position = position % getRealCount();
 
         if (mAnimatorIn.isRunning()) {
             mAnimatorIn.end();
@@ -184,15 +186,19 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
 
         if (mLastPosition >= 0) {
             View currentIndicator = getChildAt(mLastPosition);
-            currentIndicator.setBackgroundResource(mIndicatorUnselectedBackgroundResId);
-            mAnimatorIn.setTarget(currentIndicator);
-            mAnimatorIn.start();
+            if (currentIndicator != null) {
+                currentIndicator.setBackgroundResource(mIndicatorUnselectedBackgroundResId);
+                mAnimatorIn.setTarget(currentIndicator);
+                mAnimatorIn.start();
+            }
         }
 
         View selectedIndicator = getChildAt(position);
-        selectedIndicator.setBackgroundResource(mIndicatorBackgroundResId);
-        mAnimatorOut.setTarget(selectedIndicator);
-        mAnimatorOut.start();
+        if (selectedIndicator != null) {
+            selectedIndicator.setBackgroundResource(mIndicatorBackgroundResId);
+            mAnimatorOut.setTarget(selectedIndicator);
+            mAnimatorOut.start();
+        }
 
         mLastPosition = position;
     }
@@ -249,7 +255,12 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
         }
 
         try {
-            return mViewPager.getRealCount();
+            PagerAdapter adapter = mViewPager.getAdapter();
+            if (adapter instanceof IRealAdapter) {
+                return ((IRealAdapter) adapter).getRealCount();
+            }
+
+            return adapter.getCount();
         } catch (Exception e) {
             LogUtil.e(e.toString());
             return 0;

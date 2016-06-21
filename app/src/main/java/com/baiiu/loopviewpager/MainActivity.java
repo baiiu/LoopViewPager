@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //useView();
-        //useFixedList();
-        useFragement();
+        useFixedList();
+        //useFragement();
 
         //viewPager.setCurrentItem(2);
         //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
@@ -82,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
 
         if (viewAdapter != null) {
-            if (viewAdapter.getCount() == Data.provideListLocalFour().size()) {
+            if (viewAdapter.getRealCount() == Data.provideListLocalFour().size()) {
                 viewAdapter.setList(Data.provideListLocalFive());
             } else {
                 viewAdapter.setList(Data.provideListLocalFour());
             }
-
-            viewPager.setAdapter(viewAdapter);
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
             linePageIndicator.notifyDataSetChanged();
@@ -98,13 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (viewListAdapter != null) {
-            if (viewListAdapter.getCount() == Data.provideListLocalFour().size()) {
+            if (viewListAdapter.getRealCount() == Data.provideListLocalFour().size()) {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFive()));
             } else {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFour()));
             }
-
-            viewPager.setAdapter(viewListAdapter);
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
             linePageIndicator.notifyDataSetChanged();
@@ -113,13 +109,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (fragmentAdapter != null) {
-            if (fragmentAdapter.getCount() == Data.provideListLocalFour().size()) {
+            if (fragmentAdapter.getRealCount() == Data.provideListLocalFour().size()) {
                 fragmentAdapter.setList(Data.provideListLocalFive());
             } else {
                 fragmentAdapter.setList(Data.provideListLocalFour());
             }
-
-            viewPager.setAdapter(fragmentAdapter);
 
             linePageIndicator.notifyDataSetChanged();
             simpleCircleIndicator.notifyDataSetChanged();

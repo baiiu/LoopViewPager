@@ -2,9 +2,9 @@ package com.baiiu.loopviewpager.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.baiiu.loopviewpager.base.BasePagerAdapter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,14 +18,34 @@ public class ViewListAdapter extends BasePagerAdapter<ImageView> {
         super(context, list);
     }
 
-    @Override public Object instantiateItem(ViewGroup container, int position) {
-        View view = onCreateView(position);
-        if (view.getParent() != null) {
-            ((ViewGroup) view.getParent()).removeView(view);
+    @Override public void setList(List<ImageView> list) {
+        if (list == null) {
+            list = new ArrayList<ImageView>();
         }
 
-        container.addView(view);
-        return view;
+        mCopyTwo = false;
+
+        if (list.size() == 2) {
+            mCopyTwo = true;
+
+            ImageView imageView1 = list.get(0);
+            ImageView imageView3 = new ImageView(mContext);
+            copyImageView(imageView1,imageView3);
+
+            ImageView imageView2 = list.get(1);
+            ImageView imageView4 = new ImageView(mContext);
+            copyImageView(imageView2,imageView4);
+
+            list.add(imageView3);
+            list.add(imageView4);
+        }
+
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
+    private void copyImageView(ImageView source,ImageView target){
+        target.setImageDrawable(source.getDrawable());
     }
 
     @Override public View onCreateView(int position) {

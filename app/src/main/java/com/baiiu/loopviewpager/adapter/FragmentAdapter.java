@@ -3,6 +3,7 @@ package com.baiiu.loopviewpager.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import com.baiiu.loopviewpager.vp.IRealAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,36 +20,48 @@ import java.util.List;
  * 具体请看:
  * <a href="http://www.trinea.cn/android/android-source-code-analysis/multi-viewpager-to-fragment-not-init/">Trina的文章</>
  */
-public class FragmentAdapter extends FragmentStatePagerAdapter {
+public class FragmentAdapter extends FragmentStatePagerAdapter implements IRealAdapter {
 
-  private List<Integer> list;
+    private List<Integer> list;
+    private boolean mCopyTwo = false;
 
-  public FragmentAdapter(FragmentManager fm, List<Integer> list) {
-    super(fm);
-    setList(list);
-  }
-
-  public void setList(List<Integer> list) {
-    if (list == null) {
-      list = new ArrayList<Integer>();
+    public FragmentAdapter(FragmentManager fm, List<Integer> list) {
+        super(fm);
+        setList(list);
     }
 
-    this.list = list;
-    notifyDataSetChanged();
-  }
+    public void setList(List<Integer> list) {
+        if (list == null) {
+            list = new ArrayList<Integer>();
+        }
+        mCopyTwo = false;
 
-  @Override public Fragment getItem(int position) {
-    return ImageFragment.instance(list.get(position));
-  }
+        if (list.size() == 2) {
+            mCopyTwo = true;
+            list.addAll(new ArrayList<>(list));
+        }
 
-  @Override public int getCount() {
-    return list.size();
-  }
 
-  /**
-   * 必须复写getItemPosition方法
-   */
-  public int getItemPosition(Object object) {
-    return POSITION_NONE;
-  }
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
+    @Override public Fragment getItem(int position) {
+        return ImageFragment.instance(list.get(position));
+    }
+
+    @Override public int getCount() {
+        return list.size();
+    }
+
+    /**
+     * 必须复写getItemPosition方法
+     */
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override public int getRealCount() {
+        return mCopyTwo ? 2 : getCount();
+    }
 }
