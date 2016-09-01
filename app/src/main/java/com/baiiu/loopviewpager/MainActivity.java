@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.baiiu.autoloopviewpager.AutoLoopViewPager;
+import com.baiiu.autoloopviewpager.indicator.AnimatorCircleIndicator;
+import com.baiiu.autoloopviewpager.indicator.LinePageIndicator;
+import com.baiiu.autoloopviewpager.indicator.SimpleCircleIndicator;
 import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.adapter.ViewListAdapter;
@@ -16,9 +19,9 @@ import com.baiiu.loopviewpager.data.Data;
 public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.viewPager) AutoLoopViewPager viewPager;
-    //@Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
-    //@Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
-    //@Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
+    @Bind(R.id.linePageIndicator) LinePageIndicator linePageIndicator;
+    @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
+    @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
     private ViewAdapter viewAdapter;
     private ViewListAdapter viewListAdapter;
@@ -41,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setInterval(1000);
         viewPager.startAutoScroll();
 
-        //linePageIndicator.setViewPager(viewPager);
-        //simpleCircleIndicator.setViewPager(viewPager);
-        //animatorCircleIndicator.setViewPager(viewPager);
+        linePageIndicator.setViewPager(viewPager);
+        simpleCircleIndicator.setViewPager(viewPager);
+        animatorCircleIndicator.setViewPager(viewPager);
     }
 
     /**
@@ -86,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
-            //linePageIndicator.notifyDataSetChanged();
-            //simpleCircleIndicator.notifyDataSetChanged();
-            //animatorCircleIndicator.notifyDataSetChanged();
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
         }
 
 
@@ -100,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //刷新indicator.使用mViewPager.getAdapter().registerDataSetObserver()在某些indicator中不调用...
-            //linePageIndicator.notifyDataSetChanged();
-            //simpleCircleIndicator.notifyDataSetChanged();
-            //animatorCircleIndicator.notifyDataSetChanged();
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
         }
 
         if (fragmentAdapter != null) {
@@ -112,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentAdapter.setList(Data.provideListLocalFour());
             }
 
-            //linePageIndicator.notifyDataSetChanged();
-            //simpleCircleIndicator.notifyDataSetChanged();
-            //animatorCircleIndicator.notifyDataSetChanged();
+            linePageIndicator.notifyDataSetChanged();
+            simpleCircleIndicator.notifyDataSetChanged();
+            animatorCircleIndicator.notifyDataSetChanged();
         }
 
         return super.onOptionsItemSelected(item);

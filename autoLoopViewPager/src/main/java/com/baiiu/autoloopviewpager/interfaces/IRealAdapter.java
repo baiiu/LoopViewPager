@@ -1,4 +1,4 @@
-package com.baiiu.autoloopviewpager;
+package com.baiiu.autoloopviewpager.interfaces;
 
 /**
  * author: baiiu

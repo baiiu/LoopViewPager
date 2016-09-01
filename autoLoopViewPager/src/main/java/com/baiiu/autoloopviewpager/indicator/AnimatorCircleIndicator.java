@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import com.baiiu.autoloopviewpager.AutoLoopViewPager;
-import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.interfaces.IRealAdapter;
 import com.baiiu.autoloopviewpager.R;
-import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
+import com.baiiu.autoloopviewpager.interfaces.IPageIndicator;
 
 /**
  * linked

@@ -9,9 +9,9 @@ import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import com.baiiu.autoloopviewpager.AutoLoopViewPager;
-import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.interfaces.IRealAdapter;
 import com.baiiu.autoloopviewpager.R;
-import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
+import com.baiiu.autoloopviewpager.interfaces.IPageIndicator;
 
 /**
  * auther: baiiu

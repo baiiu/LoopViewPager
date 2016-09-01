@@ -31,9 +31,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import com.baiiu.autoloopviewpager.AutoLoopViewPager;
-import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.interfaces.IRealAdapter;
 import com.baiiu.autoloopviewpager.R;
-import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
+import com.baiiu.autoloopviewpager.interfaces.IPageIndicator;
 
 /**
  * Draws a line for each page. The current page line is colored differently

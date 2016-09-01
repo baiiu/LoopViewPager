@@ -1,4 +1,4 @@
-package com.baiiu.autoloopviewpager.indicator._interface;
+package com.baiiu.autoloopviewpager.interfaces;
 
 
 import com.baiiu.autoloopviewpager.AutoLoopViewPager;

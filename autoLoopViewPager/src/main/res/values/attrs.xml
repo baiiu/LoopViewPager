@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="RatioFrameLayout">
+        <attr format="float|reference" name="scale"/>
+    </declare-styleable>
+
+
     <declare-styleable name="SimpleCircleIndicator">
         <attr format="dimension|reference" name="dot_interval"/>
         <attr format="dimension|reference" name="selected_radius"/>
@@ -38,7 +44,6 @@
         <attr format="reference" name="ci_drawable"/>
         <attr format="reference" name="ci_drawable_unselected"/>
     </declare-styleable>
-
 
 
 </resources>
