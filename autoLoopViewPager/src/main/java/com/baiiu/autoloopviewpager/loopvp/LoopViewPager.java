@@ -30,7 +30,7 @@
  * limitations under the License.
  */
 
-package com.baiiu.loopviewpager.vp.loopvp;
+package com.baiiu.autoloopviewpager.loopvp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -71,6 +71,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.Scroller;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -80,15 +81,15 @@ import java.util.List;
  * Layout manager that allows the user to flip left and right through pages of
  * data. You supply an implementation of a {@link PagerAdapter} to generate the
  * pages that the view shows.
- * 
+ * <p/>
  * <p>
  * Note this class is currently under early design and development. The API will
  * likely change in later updates of the compatibility library, requiring
  * changes to the source code of apps when they are compiled against the newer
  * version.
  * </p>
- * 
- * <p>
+ * <p/>
+ * <p/>
  * ViewPager is most often used in conjunction with {@link android.app.Fragment}
  * , which is a convenient way to supply and manage the lifecycle of each page.
  * There are standard adapters implemented for using fragments with the
@@ -99,17 +100,17 @@ import java.util.List;
  * {@link android.support.v4.app.FragmentStatePagerAdapter}; each of these
  * classes have simple code showing how to build a full user interface with
  * them.
- * 
- * <p>
+ * <p/>
+ * <p/>
  * Here is a more complicated example of ViewPager, using it in conjuction with
  * {@link android.app.ActionBar} tabs. You can find other examples of using
  * ViewPager in the API 4+ Support Demos and API 13+ Support Demos sample code.
- * 
+ * <p/>
  * {@sample
  * development/samples/Support13Demos/src/com/example/android/supportv13/app/
  * ActionBarTabsPager.java complete}
- *
- *
+ * <p/>
+ * <p/>
  * github:
  * https://github.com/yanzm/LoopViewPager.git
  */
@@ -127,6 +128,7 @@ public class LoopViewPager extends ViewGroup {
 
     private static final int[] LAYOUT_ATTRS = new int[] { android.R.attr.layout_gravity };
 
+
     static class ItemInfo {
         Object object;
         int position;
@@ -136,8 +138,7 @@ public class LoopViewPager extends ViewGroup {
     }
 
     private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>() {
-        @Override
-        public int compare(ItemInfo lhs, ItemInfo rhs) {
+        @Override public int compare(ItemInfo lhs, ItemInfo rhs) {
             return lhs.position - rhs.position;
         }
     };
@@ -256,6 +257,8 @@ public class LoopViewPager extends ViewGroup {
 
     private int mScrollState = SCROLL_STATE_IDLE;
 
+    public boolean canScroll = true;
+
     /**
      * Callback interface for responding to changing state of the selected page.
      */
@@ -265,25 +268,21 @@ public class LoopViewPager extends ViewGroup {
          * This method will be invoked when the current page is scrolled, either
          * as part of a programmatically initiated smooth scroll or a user
          * initiated touch scroll.
-         * 
-         * @param position
-         *            Position index of the first page currently being
-         *            displayed. Page position+1 will be visible if
-         *            positionOffset is nonzero.
-         * @param positionOffset
-         *            Value from [0, 1) indicating the offset from the page at
-         *            position.
-         * @param positionOffsetPixels
-         *            Value in pixels indicating the offset from position.
+         *
+         * @param position Position index of the first page currently being
+         * displayed. Page position+1 will be visible if
+         * positionOffset is nonzero.
+         * @param positionOffset Value from [0, 1) indicating the offset from the page at
+         * position.
+         * @param positionOffsetPixels Value in pixels indicating the offset from position.
          */
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
 
         /**
          * This method will be invoked when a new page becomes selected.
          * Animation is not necessarily complete.
-         * 
-         * @param position
-         *            Position index of the new selected page.
+         *
+         * @param position Position index of the new selected page.
          */
         public void onPageSelected(int position);
 
@@ -291,9 +290,8 @@ public class LoopViewPager extends ViewGroup {
          * Called when the scroll state changes. Useful for discovering when the
          * user begins dragging, when the pager is automatically settling to the
          * current page, or when it is fully stopped/idle.
-         * 
-         * @param state
-         *            The new scroll state.
+         *
+         * @param state The new scroll state.
          * @see LoopViewPager#SCROLL_STATE_IDLE
          * @see LoopViewPager#SCROLL_STATE_DRAGGING
          * @see LoopViewPager#SCROLL_STATE_SETTLING
@@ -307,18 +305,15 @@ public class LoopViewPager extends ViewGroup {
      * override every method of {@link OnPageChangeListener}.
      */
     public static class SimpleOnPageChangeListener implements OnPageChangeListener {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             // This space for rent
         }
 
-        @Override
-        public void onPageSelected(int position) {
+        @Override public void onPageSelected(int position) {
             // This space for rent
         }
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
+        @Override public void onPageScrollStateChanged(int state) {
             // This space for rent
         }
     }
@@ -334,8 +329,7 @@ public class LoopViewPager extends ViewGroup {
      * Used internally to tag special types of child views that should be added
      * as pager decorations by default.
      */
-    interface Decor {
-    }
+    interface Decor {}
 
     public LoopViewPager(Context context) {
         super(context);
@@ -360,7 +354,8 @@ public class LoopViewPager extends ViewGroup {
         mLeftEdge = new EdgeEffectCompat(context);
         mRightEdge = new EdgeEffectCompat(context);
 
-        final float density = context.getResources().getDisplayMetrics().density;
+        final float density = context.getResources()
+                .getDisplayMetrics().density;
         mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
         mCloseEnough = (int) (CLOSE_ENOUGH * density);
         mDefaultGutterSize = (int) (DEFAULT_GUTTER_SIZE * density);
@@ -394,9 +389,8 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Set a PagerAdapter that will supply views for this pager as needed.
-     * 
-     * @param adapter
-     *            Adapter to use
+     *
+     * @param adapter Adapter to use
      */
     public void setAdapter(PagerAdapter adapter) {
         if (mAdapter != null) {
@@ -466,7 +460,7 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Retrieve the current adapter supplying pages.
-     * 
+     *
      * @return The currently registered PagerAdapter
      */
     public PagerAdapter getAdapter() {
@@ -481,9 +475,8 @@ public class LoopViewPager extends ViewGroup {
      * Set the currently selected page. If the ViewPager has already been
      * through its first layout with its current adapter there will be a smooth
      * animated transition between the current item and the specified item.
-     * 
-     * @param item
-     *            Item index to select
+     *
+     * @param item Item index to select
      */
     public void setCurrentItem(int item) {
         mPopulatePending = false;
@@ -492,12 +485,10 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Set the currently selected page.
-     * 
-     * @param item
-     *            Item index to select
-     * @param smoothScroll
-     *            True to smoothly scroll to the new item, false to transition
-     *            immediately
+     *
+     * @param item Item index to select
+     * @param smoothScroll True to smoothly scroll to the new item, false to transition
+     * immediately
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
         mPopulatePending = false;
@@ -624,19 +615,17 @@ public class LoopViewPager extends ViewGroup {
      * scrolled. See {@link OnPageChangeListener}.
      *
      * @param listener Listener to set
-     *
      * @deprecated Use {@link #addOnPageChangeListener(OnPageChangeListener)}
      * and {@link #removeOnPageChangeListener(OnPageChangeListener)} instead.
      */
-    @Deprecated
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
+    @Deprecated public void setOnPageChangeListener(OnPageChangeListener listener) {
         mOnPageChangeListener = listener;
     }
 
     /**
      * Add a listener that will be invoked whenever the page changes or is incrementally
      * scrolled. See {@link OnPageChangeListener}.
-     *
+     * <p/>
      * <p>Components that add a listener should take care to remove it when finished.
      * Other components that take ownership of a view may call {@link #clearOnPageChangeListeners()}
      * to remove all attached listeners.</p>
@@ -674,9 +663,8 @@ public class LoopViewPager extends ViewGroup {
     /**
      * Set a separate OnPageChangeListener for internal use by the support
      * library.
-     * 
-     * @param listener
-     *            Listener to set
+     *
+     * @param listener Listener to set
      * @return The old listener that was set, if any.
      */
     OnPageChangeListener setInternalPageChangeListener(OnPageChangeListener listener) {
@@ -688,7 +676,7 @@ public class LoopViewPager extends ViewGroup {
     /**
      * Returns the number of pages that will be retained to either side of the
      * current page in the view hierarchy in an idle state. Defaults to 1.
-     * 
+     *
      * @return How many pages will be kept offscreen on either side
      * @see #setOffscreenPageLimit(int)
      */
@@ -700,7 +688,7 @@ public class LoopViewPager extends ViewGroup {
      * Set the number of pages that should be retained to either side of the
      * current page in the view hierarchy in an idle state. Pages beyond this
      * limit will be recreated from the adapter when needed.
-     * 
+     * <p/>
      * <p>
      * This is offered as an optimization. If you know in advance the number of
      * pages you will need to support or have lazy-loading mechanisms in place
@@ -710,19 +698,23 @@ public class LoopViewPager extends ViewGroup {
      * will be spent in layout for newly created view subtrees as the user pages
      * back and forth.
      * </p>
-     * 
+     * <p/>
      * <p>
      * You should keep this limit low, especially if your pages have complex
      * layouts. This setting defaults to 1.
      * </p>
-     * 
-     * @param limit
-     *            How many pages will be kept offscreen in an idle state.
+     *
+     * @param limit How many pages will be kept offscreen in an idle state.
      */
     public void setOffscreenPageLimit(int limit) {
         if (limit < DEFAULT_OFFSCREEN_PAGES) {
-            Log.w(TAG, "Requested offscreen page limit " + limit + " too small; defaulting to "
-                    + DEFAULT_OFFSCREEN_PAGES);
+            if (DEBUG) {
+                Log.w(TAG, "Requested offscreen page limit "
+                        + limit
+                        + " too small; defaulting to "
+                        + DEFAULT_OFFSCREEN_PAGES);
+            }
+
             limit = DEFAULT_OFFSCREEN_PAGES;
         }
         if (limit != mOffscreenPageLimit) {
@@ -733,9 +725,8 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Set the margin between pages.
-     * 
-     * @param marginPixels
-     *            Distance between adjacent pages in pixels
+     *
+     * @param marginPixels Distance between adjacent pages in pixels
      * @see #getPageMargin()
      * @see #setPageMarginDrawable(Drawable)
      * @see #setPageMarginDrawable(int)
@@ -752,7 +743,7 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Return the margin between pages.
-     * 
+     *
      * @return The size of the margin in pixels
      */
     public int getPageMargin() {
@@ -761,35 +752,31 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Set a drawable that will be used to fill the margin between pages.
-     * 
-     * @param d
-     *            Drawable to display between pages
+     *
+     * @param d Drawable to display between pages
      */
     public void setPageMarginDrawable(Drawable d) {
         mMarginDrawable = d;
-        if (d != null)
-            refreshDrawableState();
+        if (d != null) refreshDrawableState();
         setWillNotDraw(d == null);
         invalidate();
     }
 
     /**
      * Set a drawable that will be used to fill the margin between pages.
-     * 
-     * @param resId
-     *            Resource ID of a drawable to display between pages
+     *
+     * @param resId Resource ID of a drawable to display between pages
      */
     public void setPageMarginDrawable(int resId) {
-        setPageMarginDrawable(getContext().getResources().getDrawable(resId));
+        setPageMarginDrawable(getContext().getResources()
+                                      .getDrawable(resId));
     }
 
-    @Override
-    protected boolean verifyDrawable(Drawable who) {
+    @Override protected boolean verifyDrawable(Drawable who) {
         return super.verifyDrawable(who) || who == mMarginDrawable;
     }
 
-    @Override
-    protected void drawableStateChanged() {
+    @Override protected void drawableStateChanged() {
         super.drawableStateChanged();
         final Drawable d = mMarginDrawable;
         if (d != null && d.isStateful()) {
@@ -812,11 +799,9 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
-     * 
-     * @param x
-     *            the number of pixels to scroll by on the X axis
-     * @param y
-     *            the number of pixels to scroll by on the Y axis
+     *
+     * @param x the number of pixels to scroll by on the X axis
+     * @param y the number of pixels to scroll by on the Y axis
      */
     void smoothScrollTo(int x, int y) {
         smoothScrollTo(x, y, 0);
@@ -824,14 +809,11 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
-     * 
-     * @param x
-     *            the number of pixels to scroll by on the X axis
-     * @param y
-     *            the number of pixels to scroll by on the Y axis
-     * @param velocity
-     *            the velocity associated with a fling, if applicable. (0
-     *            otherwise)
+     *
+     * @param x the number of pixels to scroll by on the X axis
+     * @param y the number of pixels to scroll by on the Y axis
+     * @param velocity the velocity associated with a fling, if applicable. (0
+     * otherwise)
      */
     void smoothScrollTo(int x, int y, int velocity) {
         if (getChildCount() == 0) {
@@ -1000,8 +982,7 @@ public class LoopViewPager extends ViewGroup {
         // fling to a new position until we have finished the scroll to
         // that position, avoiding glitches from happening at that point.
         if (mPopulatePending) {
-            if (DEBUG)
-                Log.i(TAG, "populate is pending, skipping for now...");
+            if (DEBUG) Log.i(TAG, "populate is pending, skipping for now...");
             return;
         }
 
@@ -1182,7 +1163,16 @@ public class LoopViewPager extends ViewGroup {
             calculatePageOffsets(curItem, curIndex, oldCurInfo);
 
             if (N > 3) {
-                Log.d("ここ", "N = " + N + ", oldItemsSize = " + oldItemsSize + ", mItems.size = " + mItems.size() + ", mRequestLayoutNeed = " + mRequestLayoutNeed);
+                if (DEBUG) {
+                    Log.d("ここ", "N = "
+                            + N
+                            + ", oldItemsSize = "
+                            + oldItemsSize
+                            + ", mItems.size = "
+                            + mItems.size()
+                            + ", mRequestLayoutNeed = "
+                            + mRequestLayoutNeed);
+                }
                 if (oldItemsSize > 3) {
                     if (mItems.size() > 3) {
                         if (mRequestLayoutNeed) {
@@ -1314,8 +1304,7 @@ public class LoopViewPager extends ViewGroup {
             }
             offset -= ii.widthFactor + marginOffset;
             ii.offset = offset;
-            if (ii.position == 0)
-                mFirstOffset = offset;
+            if (ii.position == 0) mFirstOffset = offset;
         }
 
         offset = curItem.offset + curItem.widthFactor + marginOffset;
@@ -1356,28 +1345,27 @@ public class LoopViewPager extends ViewGroup {
             super(superState);
         }
 
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
+        @Override public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeInt(position);
             out.writeParcelable(adapterState, flags);
         }
 
-        @Override
-        public String toString() {
-            return "FragmentPager.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " position="
-                    + position + "}";
+        @Override public String toString() {
+            return "FragmentPager.SavedState{"
+                    + Integer.toHexString(System.identityHashCode(this))
+                    + " position="
+                    + position
+                    + "}";
         }
 
-        public static final Creator<SavedState> CREATOR = ParcelableCompat
-                .newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(Parcel in, ClassLoader loader) {
+        public static final Creator<SavedState> CREATOR =
+                ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
+                    @Override public SavedState createFromParcel(Parcel in, ClassLoader loader) {
                         return new SavedState(in, loader);
                     }
 
-                    @Override
-                    public SavedState[] newArray(int size) {
+                    @Override public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }
                 });
@@ -1393,8 +1381,7 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
-    @Override
-    public Parcelable onSaveInstanceState() {
+    @Override public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
         ss.position = mCurItem;
@@ -1404,8 +1391,7 @@ public class LoopViewPager extends ViewGroup {
         return ss;
     }
 
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
+    @Override public void onRestoreInstanceState(Parcelable state) {
         if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
@@ -1424,8 +1410,7 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
-    @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    @Override public void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (!checkLayoutParams(params)) {
             params = generateLayoutParams(params);
         }
@@ -1508,14 +1493,12 @@ public class LoopViewPager extends ViewGroup {
         return null;
     }
 
-    @Override
-    protected void onAttachedToWindow() {
+    @Override protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mFirstLayout = true;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // For simple implementation, or internal size is always 0.
         // We depend on the container to specify the layout size of
         // our view. We can't really know what it is since we will be
@@ -1595,21 +1578,19 @@ public class LoopViewPager extends ViewGroup {
         for (int i = 0; i < size; ++i) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
-                if (DEBUG)
-                    Log.v(TAG, "Measuring #" + i + " " + child + ": " + mChildWidthMeasureSpec);
+                if (DEBUG) Log.v(TAG, "Measuring #" + i + " " + child + ": " + mChildWidthMeasureSpec);
 
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 if (lp == null || !lp.isDecor) {
-                    final int widthSpec = MeasureSpec.makeMeasureSpec((int) (childWidthSize * lp.widthFactor),
-                            MeasureSpec.EXACTLY);
+                    final int widthSpec =
+                            MeasureSpec.makeMeasureSpec((int) (childWidthSize * lp.widthFactor), MeasureSpec.EXACTLY);
                     child.measure(widthSpec, mChildHeightMeasureSpec);
                 }
             }
         }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
         // Make sure scroll position is set correctly.
@@ -1645,8 +1626,7 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    @Override protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mInLayout = true;
         populate();
         mInLayout = false;
@@ -1707,7 +1687,7 @@ public class LoopViewPager extends ViewGroup {
                     }
                     childLeft += scrollX;
                     child.layout(childLeft, childTop, childLeft + child.getMeasuredWidth(),
-                            childTop + child.getMeasuredHeight());
+                                 childTop + child.getMeasuredHeight());
                     decorCount++;
                 }
             }
@@ -1734,14 +1714,27 @@ public class LoopViewPager extends ViewGroup {
                         final int widthSpec = MeasureSpec.makeMeasureSpec(
                                 (int) ((width - paddingLeft - paddingRight) * lp.widthFactor), MeasureSpec.EXACTLY);
                         final int heightSpec = MeasureSpec.makeMeasureSpec((int) (height - paddingTop - paddingBottom),
-                                MeasureSpec.EXACTLY);
+                                                                           MeasureSpec.EXACTLY);
                         child.measure(widthSpec, heightSpec);
                     }
-                    if (DEBUG)
-                        Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.object + ":" + childLeft + ","
-                                + childTop + " " + child.getMeasuredWidth() + "x" + child.getMeasuredHeight());
+                    if (DEBUG) {
+                        Log.v(TAG, "Positioning #"
+                                + i
+                                + " "
+                                + child
+                                + " f="
+                                + ii.object
+                                + ":"
+                                + childLeft
+                                + ","
+                                + childTop
+                                + " "
+                                + child.getMeasuredWidth()
+                                + "x"
+                                + child.getMeasuredHeight());
+                    }
                     child.layout(childLeft, childTop, childLeft + child.getMeasuredWidth(),
-                            childTop + child.getMeasuredHeight());
+                                 childTop + child.getMeasuredHeight());
                 }
             }
         }
@@ -1755,8 +1748,7 @@ public class LoopViewPager extends ViewGroup {
         mFirstLayout = false;
     }
 
-    @Override
-    public void computeScroll() {
+    @Override public void computeScroll() {
         if (!mScroller.isFinished() && mScroller.computeScrollOffset()) {
             int oldX = getScrollX();
             int oldY = getScrollY();
@@ -1811,15 +1803,12 @@ public class LoopViewPager extends ViewGroup {
      * touch scroll. If you override this method you must call through to the
      * superclass implementation (e.g. super.onPageScrolled(position, offset,
      * offsetPixels)) before onPageScrolled returns.
-     * 
-     * @param position
-     *            Position index of the first page currently being displayed.
-     *            Page position+1 will be visible if positionOffset is nonzero.
-     * @param offset
-     *            Value from [0, 1) indicating the offset from the page at
-     *            position.
-     * @param offsetPixels
-     *            Value in pixels indicating the offset from position.
+     *
+     * @param position Position index of the first page currently being displayed.
+     * Page position+1 will be visible if positionOffset is nonzero.
+     * @param offset Value from [0, 1) indicating the offset from the page at
+     * position.
+     * @param offsetPixels Value in pixels indicating the offset from position.
      */
     protected void onPageScrolled(int position, float offset, int offsetPixels) {
         // Offset any decor views if needed - keep them on-screen at all times.
@@ -1832,8 +1821,7 @@ public class LoopViewPager extends ViewGroup {
             for (int i = 0; i < childCount; i++) {
                 final View child = getChildAt(i);
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-                if (!lp.isDecor)
-                    continue;
+                if (!lp.isDecor) continue;
 
                 final int hgrav = lp.gravity & Gravity.HORIZONTAL_GRAVITY_MASK;
                 int childLeft = 0;
@@ -1913,8 +1901,7 @@ public class LoopViewPager extends ViewGroup {
         return (x < mGutterSize && dx > 0) || (x > getWidth() - mGutterSize && dx < 0);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
         /*
          * This method JUST determines whether we want to intercept the motion.
          * If we return true, onMotionEvent will be called and we do the actual
@@ -1926,8 +1913,7 @@ public class LoopViewPager extends ViewGroup {
         // Always take care of the touch gesture being complete.
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             // Release the drag.
-            if (DEBUG)
-                Log.v(TAG, "Intercept done!");
+            if (DEBUG) Log.v(TAG, "Intercept done!");
             mIsBeingDragged = false;
             mIsUnableToDrag = false;
             mActivePointerId = INVALID_POINTER;
@@ -1942,13 +1928,11 @@ public class LoopViewPager extends ViewGroup {
         // are dragging.
         if (action != MotionEvent.ACTION_DOWN) {
             if (mIsBeingDragged) {
-                if (DEBUG)
-                    Log.v(TAG, "Intercept returning true!");
+                if (DEBUG) Log.v(TAG, "Intercept returning true!");
                 return true;
             }
             if (mIsUnableToDrag) {
-                if (DEBUG)
-                    Log.v(TAG, "Intercept returning false!");
+                if (DEBUG) Log.v(TAG, "Intercept returning false!");
                 return false;
             }
         }
@@ -1978,8 +1962,7 @@ public class LoopViewPager extends ViewGroup {
                 final float xDiff = Math.abs(dx);
                 final float y = MotionEventCompat.getY(ev, pointerIndex);
                 final float yDiff = Math.abs(y - mLastMotionY);
-                if (DEBUG)
-                    Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
+                if (DEBUG) Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
 
                 if (dx != 0 && !isGutterDrag(mLastMotionX, dx) && canScroll(this, false, (int) dx, (int) x, (int) y)) {
                     // Nested view has scrollable area under this point. Let it
@@ -1990,8 +1973,7 @@ public class LoopViewPager extends ViewGroup {
                     return false;
                 }
                 if (xDiff > mTouchSlop && xDiff > yDiff) {
-                    if (DEBUG)
-                        Log.v(TAG, "Starting drag!");
+                    if (DEBUG) Log.v(TAG, "Starting drag!");
                     mIsBeingDragged = true;
                     setScrollState(SCROLL_STATE_DRAGGING);
 
@@ -2008,8 +1990,7 @@ public class LoopViewPager extends ViewGroup {
                         // direction to be counted as a drag... abort
                         // any attempt to drag horizontally, to work correctly
                         // with children that have scrolling containers.
-                        if (DEBUG)
-                            Log.v(TAG, "Starting unable to drag!");
+                        if (DEBUG) Log.v(TAG, "Starting unable to drag!");
                         mIsUnableToDrag = true;
                     }
                 }
@@ -2046,9 +2027,16 @@ public class LoopViewPager extends ViewGroup {
                     mIsBeingDragged = false;
                 }
 
-                if (DEBUG)
-                    Log.v(TAG, "Down at " + mLastMotionX + "," + mLastMotionY + " mIsBeingDragged=" + mIsBeingDragged
-                            + "mIsUnableToDrag=" + mIsUnableToDrag);
+                if (DEBUG) {
+                    Log.v(TAG, "Down at "
+                            + mLastMotionX
+                            + ","
+                            + mLastMotionY
+                            + " mIsBeingDragged="
+                            + mIsBeingDragged
+                            + "mIsUnableToDrag="
+                            + mIsUnableToDrag);
+                }
                 break;
             }
 
@@ -2098,8 +2086,7 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    @Override public boolean onTouchEvent(MotionEvent ev) {
         if (mFakeDragging) {
             // A fake drag is in progress already, ignore this real one
             // but still eat the touch events.
@@ -2152,14 +2139,12 @@ public class LoopViewPager extends ViewGroup {
                     final float xDiff = Math.abs(x - mLastMotionX);
                     final float y = MotionEventCompat.getY(ev, pointerIndex);
                     final float yDiff = Math.abs(y - mLastMotionY);
-                    if (DEBUG)
-                        Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
+                    if (DEBUG) Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
                     if (xDiff > mTouchSlop && xDiff > yDiff) {
-                        if (DEBUG)
-                            Log.v(TAG, "Starting drag!");
+                        if (DEBUG) Log.v(TAG, "Starting drag!");
                         mIsBeingDragged = true;
-                        mLastMotionX = x - mInitialMotionX > 0 ? mInitialMotionX + mTouchSlop : mInitialMotionX
-                                - mTouchSlop;
+                        mLastMotionX =
+                                x - mInitialMotionX > 0 ? mInitialMotionX + mTouchSlop : mInitialMotionX - mTouchSlop;
                         setScrollState(SCROLL_STATE_DRAGGING);
                         setScrollingCacheEnabled(true);
                     }
@@ -2269,8 +2254,8 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * @return Info about the page at the current scroll position. This can be
-     *         synthetic for a missing middle page; the 'object' field can be
-     *         null.
+     * synthetic for a missing middle page; the 'object' field can be
+     * null.
      */
     private ItemInfo infoForCurrentScrollPosition() {
         final int width = getWidth();
@@ -2327,7 +2312,7 @@ public class LoopViewPager extends ViewGroup {
             }
         }
 
-        Log.d("ここ", "currentPage = " + currentPage + ", taretPage = " + targetPage);
+        if (DEBUG) Log.d("ここ", "currentPage = " + currentPage + ", taretPage = " + targetPage);
 
         final int N = mAdapter.getCount();
 
@@ -2360,15 +2345,13 @@ public class LoopViewPager extends ViewGroup {
         return targetPage;
     }
 
-    @Override
-    public void draw(Canvas canvas) {
+    @Override public void draw(Canvas canvas) {
         super.draw(canvas);
         boolean needsInvalidate = false;
 
         final int overScrollMode = ViewCompat.getOverScrollMode(this);
-        if (overScrollMode == ViewCompat.OVER_SCROLL_ALWAYS
-                || (overScrollMode == ViewCompat.OVER_SCROLL_IF_CONTENT_SCROLLS && mAdapter != null && mAdapter
-                        .getCount() > 1)) {
+        if (overScrollMode == ViewCompat.OVER_SCROLL_ALWAYS || (overScrollMode
+                == ViewCompat.OVER_SCROLL_IF_CONTENT_SCROLLS && mAdapter != null && mAdapter.getCount() > 1)) {
             if (!mLeftEdge.isFinished()) {
                 final int restoreCount = canvas.save();
                 final int height = getHeight() - getPaddingTop() - getPaddingBottom();
@@ -2402,8 +2385,7 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         // Draw the margin drawable between pages if needed.
@@ -2435,7 +2417,7 @@ public class LoopViewPager extends ViewGroup {
 
                 if (drawAt + mPageMargin > scrollX) {
                     mMarginDrawable.setBounds((int) drawAt, mTopPageBounds, (int) (drawAt + mPageMargin + 0.5f),
-                            mBottomPageBounds);
+                                              mBottomPageBounds);
                     mMarginDrawable.draw(canvas);
                 }
 
@@ -2472,7 +2454,7 @@ public class LoopViewPager extends ViewGroup {
         // キャッシュ用の Bitmap を取得
         Bitmap cacheBitmap = v.getDrawingCache();
         if (cacheBitmap == null) {
-            Log.e(TAG, "failed getViewBitmap(" + v + ")", new RuntimeException());
+            if (DEBUG) Log.e(TAG, "failed getViewBitmap(" + v + ")", new RuntimeException());
             return null;
         }
 
@@ -2489,22 +2471,21 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Start a fake drag of the pager.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * A fake drag can be useful if you want to synchronize the motion of the
      * ViewPager with the touch scrolling of another view, while still letting
      * the ViewPager control the snapping motion and fling behavior. (e.g.
      * parallax-scrolling tabs.) Call {@link #fakeDragBy(float)} to simulate the
      * actual drag motion. Call {@link #endFakeDrag()} to complete the fake drag
      * and fling as necessary.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * During a fake drag the ViewPager will ignore all touch events. If a real
      * drag is already in progress, this method will return false.
-     * 
+     *
      * @return true if the fake drag began successfully, false if it could not
-     *         be started.
-     * 
+     * be started.
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
      */
@@ -2530,7 +2511,7 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * End a fake drag of the pager.
-     * 
+     *
      * @see #beginFakeDrag()
      * @see #fakeDragBy(float)
      */
@@ -2559,9 +2540,8 @@ public class LoopViewPager extends ViewGroup {
     /**
      * Fake drag by an offset in pixels. You must have called
      * {@link #beginFakeDrag()} first.
-     * 
-     * @param xOffset
-     *            Offset in pixels to drag by.
+     *
+     * @param xOffset Offset in pixels to drag by.
      * @see #beginFakeDrag()
      * @see #endFakeDrag()
      */
@@ -2600,17 +2580,16 @@ public class LoopViewPager extends ViewGroup {
 
         // Synthesize an event for the VelocityTracker.
         final long time = SystemClock.uptimeMillis();
-        final MotionEvent ev = MotionEvent
-                .obtain(mFakeDragBeginTime, time, MotionEvent.ACTION_MOVE, mLastMotionX, 0, 0);
+        final MotionEvent ev =
+                MotionEvent.obtain(mFakeDragBeginTime, time, MotionEvent.ACTION_MOVE, mLastMotionX, 0, 0);
         mVelocityTracker.addMovement(ev);
         ev.recycle();
     }
 
     /**
      * Returns true if a fake drag is in progress.
-     * 
+     *
      * @return true if currently in a fake drag, false otherwise.
-     * 
      * @see #beginFakeDrag()
      * @see #fakeDragBy(float)
      * @see #endFakeDrag()
@@ -2661,21 +2640,18 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Tests scrollability within child views of v given a delta of dx.
-     * 
-     * @param v
-     *            View to test for horizontal scrollability
-     * @param checkV
-     *            Whether the view v passed should itself be checked for
-     *            scrollability (true), or just its children (false).
-     * @param dx
-     *            Delta scrolled in pixels
-     * @param x
-     *            X coordinate of the active touch point
-     * @param y
-     *            Y coordinate of the active touch point
+     *
+     * @param v View to test for horizontal scrollability
+     * @param checkV Whether the view v passed should itself be checked for
+     * scrollability (true), or just its children (false).
+     * @param dx Delta scrolled in pixels
+     * @param x X coordinate of the active touch point
+     * @param y Y coordinate of the active touch point
      * @return true if child views of v can be scrolled by delta of dx.
      */
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
+        if (!canScroll) return true;
+
         if (v instanceof ViewGroup) {
             final ViewGroup group = (ViewGroup) v;
             final int scrollX = v.getScrollX();
@@ -2687,7 +2663,9 @@ public class LoopViewPager extends ViewGroup {
                 // TODO: Add versioned support here for transformed views.
                 // This will not work for transformed views in Honeycomb+
                 final View child = group.getChildAt(i);
-                if (x + scrollX >= child.getLeft() && x + scrollX < child.getRight() && y + scrollY >= child.getTop()
+                if (x + scrollX >= child.getLeft()
+                        && x + scrollX < child.getRight()
+                        && y + scrollY >= child.getTop()
                         && y + scrollY < child.getBottom()
                         && canScroll(child, true, dx, x + scrollX - child.getLeft(), y + scrollY - child.getTop())) {
                     return true;
@@ -2698,8 +2676,7 @@ public class LoopViewPager extends ViewGroup {
         return checkV && ViewCompat.canScrollHorizontally(v, -dx);
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         // Let the focused view and/or our descendants get the key first
         return super.dispatchKeyEvent(event) || executeKeyEvent(event);
     }
@@ -2708,9 +2685,8 @@ public class LoopViewPager extends ViewGroup {
      * You can call this function yourself to have the scroll view perform
      * scrolling from a key event, just as if the event had been dispatched to
      * it by the view hierarchy.
-     * 
-     * @param event
-     *            The key event to execute.
+     *
+     * @param event The key event to execute.
      * @return Return true if the event was handled, else false.
      */
     public boolean executeKeyEvent(KeyEvent event) {
@@ -2743,12 +2719,12 @@ public class LoopViewPager extends ViewGroup {
 
     public boolean arrowScroll(int direction) {
         View currentFocused = findFocus();
-        if (currentFocused == this)
-            currentFocused = null;
+        if (currentFocused == this) currentFocused = null;
 
         boolean handled = false;
 
-        View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused, direction);
+        View nextFocused = FocusFinder.getInstance()
+                .findNextFocus(this, currentFocused, direction);
         if (nextFocused != null && nextFocused != currentFocused) {
             if (direction == View.FOCUS_LEFT) {
                 // If there is nothing to the left, or this is causing us to
@@ -2831,8 +2807,7 @@ public class LoopViewPager extends ViewGroup {
     /**
      * We only want the current page that is being shown to be focusable.
      */
-    @Override
-    public void addFocusables(ArrayList<View> views, int direction, int focusableMode) {
+    @Override public void addFocusables(ArrayList<View> views, int direction, int focusableMode) {
         final int focusableCount = views.size();
 
         final int descendantFocusability = getDescendantFocusability();
@@ -2855,14 +2830,15 @@ public class LoopViewPager extends ViewGroup {
         // to avoid the focus search finding layouts when a more precise search
         // among the focusable children would be more interesting.
         if (descendantFocusability != FOCUS_AFTER_DESCENDANTS ||
-        // No focusable descendants
+                // No focusable descendants
                 (focusableCount == views.size())) {
             // Note that we can't call the superclass here, because it will
             // add all views in. So we need to do the same thing View does.
             if (!isFocusable()) {
                 return;
             }
-            if ((focusableMode & FOCUSABLES_TOUCH_MODE) == FOCUSABLES_TOUCH_MODE && isInTouchMode()
+            if ((focusableMode & FOCUSABLES_TOUCH_MODE) == FOCUSABLES_TOUCH_MODE
+                    && isInTouchMode()
                     && !isFocusableInTouchMode()) {
                 return;
             }
@@ -2875,8 +2851,7 @@ public class LoopViewPager extends ViewGroup {
     /**
      * We only want the current page that is being shown to be touchable.
      */
-    @Override
-    public void addTouchables(ArrayList<View> views) {
+    @Override public void addTouchables(ArrayList<View> views) {
         // Note that we don't call super.addTouchables(), which means that
         // we don't call View.addTouchables(). This is okay because a ViewPager
         // is itself not touchable.
@@ -2894,8 +2869,7 @@ public class LoopViewPager extends ViewGroup {
     /**
      * We only want the current page that is being shown to be focusable.
      */
-    @Override
-    protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+    @Override protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
         int index;
         int increment;
         int end;
@@ -2923,8 +2897,7 @@ public class LoopViewPager extends ViewGroup {
         return false;
     }
 
-    @Override
-    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+    @Override public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         // ViewPagers should only report accessibility info for the current
         // page,
         // otherwise things get very confusing.
@@ -2945,36 +2918,30 @@ public class LoopViewPager extends ViewGroup {
         return false;
     }
 
-    @Override
-    protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
+    @Override protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams();
     }
 
-    @Override
-    protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+    @Override protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
         return generateDefaultLayoutParams();
     }
 
-    @Override
-    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+    @Override protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
         return p instanceof LayoutParams && super.checkLayoutParams(p);
     }
 
-    @Override
-    public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+    @Override public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
     }
 
     class MyAccessibilityDelegate extends AccessibilityDelegateCompat {
 
-        @Override
-        public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
+        @Override public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
             super.onInitializeAccessibilityEvent(host, event);
             event.setClassName(LoopViewPager.class.getName());
         }
 
-        @Override
-        public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+        @Override public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
             super.onInitializeAccessibilityNodeInfo(host, info);
             info.setClassName(LoopViewPager.class.getName());
             info.setScrollable(mAdapter != null && mAdapter.getCount() > 1);
@@ -2986,8 +2953,7 @@ public class LoopViewPager extends ViewGroup {
             }
         }
 
-        @Override
-        public boolean performAccessibilityAction(View host, int action, Bundle args) {
+        @Override public boolean performAccessibilityAction(View host, int action, Bundle args) {
             if (super.performAccessibilityAction(host, action, args)) {
                 return true;
             }
@@ -2998,27 +2964,25 @@ public class LoopViewPager extends ViewGroup {
                         return true;
                     }
                 }
-                    return false;
+                return false;
                 case AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD: {
                     if (mAdapter != null && mCurItem > 0 && mCurItem < mAdapter.getCount()) {
                         setCurrentItem(mCurItem - 1);
                         return true;
                     }
                 }
-                    return false;
+                return false;
             }
             return false;
         }
     }
 
     private class PagerObserver extends DataSetObserver {
-        @Override
-        public void onChanged() {
+        @Override public void onChanged() {
             dataSetChanged();
         }
 
-        @Override
-        public void onInvalidated() {
+        @Override public void onInvalidated() {
             dataSetChanged();
         }
     }

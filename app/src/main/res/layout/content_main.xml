@@ -11,37 +11,36 @@
     tools:showIn="@layout/activity_main"
     >
 
-  <com.baiiu.loopviewpager.vp.AutoLoopViewPager
-      android:id="@+id/viewPager"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      app:scale="0.8"
-      />
+    <com.baiiu.autoloopviewpager.AutoLoopViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        />
 
 
-  <com.baiiu.loopviewpager.indicator.LinePageIndicator
-      android:id="@+id/linePageIndicator"
-      android:layout_width="match_parent"
-      android:layout_height="48dp"
-      />
+    <!--<com.baiiu.autoloopviewpager.indicator.LinePageIndicator-->
+    <!--android:id="@+id/linePageIndicator"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--/>-->
 
-  <com.baiiu.loopviewpager.indicator.SimpleCircleIndicator
-      android:id="@+id/indicator"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      app:dot_interval="10dp"
-      app:selected_color="@android:color/holo_red_light"
-      app:selected_radius="3dp"
-      app:unselected_color="@android:color/white"
-      app:unselected_radius="3dp"
-      />
+    <com.baiiu.autoloopviewpager.indicator.SimpleCircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:dot_interval="10dp"
+        app:selected_color="@android:color/holo_red_light"
+        app:selected_radius="3dp"
+        app:unselected_color="@android:color/white"
+        app:unselected_radius="3dp"
+        />
 
-  <com.baiiu.loopviewpager.indicator.AnimatorCircleIndicator
-      android:id="@+id/animatorCircleIndicator"
-      android:layout_width="match_parent"
-      android:layout_height="48dp"
-      />
+    <!--<com.baiiu.autoloopviewpager.indicator.AnimatorCircleIndicator-->
+    <!--android:id="@+id/animatorCircleIndicator"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--/>-->
 
 </LinearLayout>

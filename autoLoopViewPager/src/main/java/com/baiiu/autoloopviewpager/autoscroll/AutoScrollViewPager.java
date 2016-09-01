@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.vp.autoscroll;
+package com.baiiu.autoloopviewpager.autoscroll;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
-import com.baiiu.loopviewpager.vp.loopvp.LoopViewPager;
+import com.baiiu.autoloopviewpager.loopvp.LoopViewPager;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
@@ -94,6 +94,7 @@ public class AutoScrollViewPager extends LoopViewPager {
 
     public static final int SCROLL_WHAT = 0;
 
+
     public AutoScrollViewPager(Context paramContext) {
         super(paramContext);
         init();
@@ -170,7 +171,7 @@ public class AutoScrollViewPager extends LoopViewPager {
             scroller = new CustomDurationScroller(getContext(), (Interpolator) interpolatorField.get(null));
             scrollerField.set(this, scroller);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -206,8 +207,7 @@ public class AutoScrollViewPager extends LoopViewPager {
      * <li>if event is up, start auto scroll again.</li>
      * </ul>
      */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    @Override public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = MotionEventCompat.getActionMasked(ev);
 
         if (stopScrollWhenTouch) {
@@ -220,30 +220,32 @@ public class AutoScrollViewPager extends LoopViewPager {
             }
         }
 
-        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
-            touchX = ev.getX();
-            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                downX = touchX;
-            }
-            int currentItem = getCurrentItem();
-            PagerAdapter adapter = getAdapter();
-            int pageCount = adapter == null ? 0 : adapter.getCount();
-            /**
-             * current index is first one and slide to right or current index is last one and slide to left.<br/>
-             * if slide border mode is to parent, then requestDisallowInterceptTouchEvent false.<br/>
-             * else scroll to last one when current item is first one, scroll to first one when current item is last
-             * one.
-             */
-            if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
-                if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
-                    getParent().requestDisallowInterceptTouchEvent(false);
-                } else {
-                    if (pageCount > 1) {
-                        setCurrentItem(pageCount - currentItem - 1, isBorderAnimation);
-                    }
-                    getParent().requestDisallowInterceptTouchEvent(true);
+        if (canScroll) {
+            if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
+                touchX = ev.getX();
+                if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+                    downX = touchX;
                 }
-                return super.dispatchTouchEvent(ev);
+                int currentItem = getCurrentItem();
+                PagerAdapter adapter = getAdapter();
+                int pageCount = adapter == null ? 0 : adapter.getCount();
+                /**
+                 * current index is first one and slide to right or current index is last one and slide to left.<br/>
+                 * if slide border mode is to parent, then requestDisallowInterceptTouchEvent false.<br/>
+                 * else scroll to last one when current item is first one, scroll to first one when current item is last
+                 * one.
+                 */
+                if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
+                    if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    } else {
+                        if (pageCount > 1) {
+                            setCurrentItem(pageCount - currentItem - 1, isBorderAnimation);
+                        }
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                    return super.dispatchTouchEvent(ev);
+                }
             }
         }
         getParent().requestDisallowInterceptTouchEvent(true);
@@ -259,8 +261,7 @@ public class AutoScrollViewPager extends LoopViewPager {
             this.autoScrollViewPager = new WeakReference<AutoScrollViewPager>(autoScrollViewPager);
         }
 
-        @Override
-        public void handleMessage(Message msg) {
+        @Override public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
             switch (msg.what) {
@@ -346,8 +347,6 @@ public class AutoScrollViewPager extends LoopViewPager {
 
     /**
      * set whether stop auto scroll when touching, default is true
-     *
-     * @param stopScrollWhenTouch
      */
     public void setStopScrollWhenTouch(boolean stopScrollWhenTouch) {
         this.stopScrollWhenTouch = stopScrollWhenTouch;
@@ -367,7 +366,7 @@ public class AutoScrollViewPager extends LoopViewPager {
      * set how to process when sliding at the last or first item
      *
      * @param slideBorderMode {@link #SLIDE_BORDER_MODE_NONE}, {@link #SLIDE_BORDER_MODE_TO_PARENT},
-     *                        {@link #SLIDE_BORDER_MODE_CYCLE}, default is {@link #SLIDE_BORDER_MODE_NONE}
+     * {@link #SLIDE_BORDER_MODE_CYCLE}, default is {@link #SLIDE_BORDER_MODE_NONE}
      */
     public void setSlideBorderMode(int slideBorderMode) {
         this.slideBorderMode = slideBorderMode;
@@ -375,8 +374,6 @@ public class AutoScrollViewPager extends LoopViewPager {
 
     /**
      * whether animating when auto scroll at the last or first item, default is true
-     *
-     * @return
      */
     public boolean isBorderAnimation() {
         return isBorderAnimation;
@@ -390,8 +387,7 @@ public class AutoScrollViewPager extends LoopViewPager {
         this.isBorderAnimation = isBorderAnimation;
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
+    @Override protected void onDetachedFromWindow() {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }

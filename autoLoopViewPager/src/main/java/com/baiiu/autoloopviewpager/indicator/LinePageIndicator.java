@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.baiiu.loopviewpager.indicator;
+package com.baiiu.autoloopviewpager.indicator;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -22,17 +23,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewConfiguration;
-import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
-import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
-import com.baiiu.loopviewpager.vp.IRealAdapter;
+import com.baiiu.autoloopviewpager.AutoLoopViewPager;
+import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.R;
+import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
 
 /**
  * Draws a line for each page. The current page line is colored differently
@@ -67,6 +68,12 @@ public class LinePageIndicator extends View implements IPageIndicator {
         init(context, attrs);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public LinePageIndicator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context,attrs);
+    }
+
     private void init(Context context, AttributeSet attrs) {
 
         if (isInEditMode()) return;
@@ -88,10 +95,8 @@ public class LinePageIndicator extends View implements IPageIndicator {
         mLineWidth = a.getDimension(R.styleable.LinePageIndicator_lineWidth, defaultLineWidth);
         mGapWidth = a.getDimension(R.styleable.LinePageIndicator_gapWidth, defaultGapWidth);
         setStrokeWidth(a.getDimension(R.styleable.LinePageIndicator_strokeWidth, defaultStrokeWidth));
-        mPaintUnselected.setColor(
-                a.getColor(R.styleable.LinePageIndicator_unselectedColor, defaultUnselectedColor));
-        mPaintSelected.setColor(
-                a.getColor(R.styleable.LinePageIndicator_selectedColor, defaultSelectedColor));
+        mPaintUnselected.setColor(a.getColor(R.styleable.LinePageIndicator_unselectedColor, defaultUnselectedColor));
+        mPaintSelected.setColor(a.getColor(R.styleable.LinePageIndicator_selectedColor, defaultSelectedColor));
 
         Drawable background = a.getDrawable(R.styleable.LinePageIndicator_android_background);
         if (background != null) {
@@ -99,8 +104,6 @@ public class LinePageIndicator extends View implements IPageIndicator {
         }
 
         a.recycle();
-
-        final ViewConfiguration configuration = ViewConfiguration.get(context);
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -125,8 +128,7 @@ public class LinePageIndicator extends View implements IPageIndicator {
             //Calculate the width according the views count
             final int count = mViewPager.getAdapter()
                     .getCount();
-            result =
-                    getPaddingLeft() + getPaddingRight() + (count * mLineWidth) + ((count - 1) * mGapWidth);
+            result = getPaddingLeft() + getPaddingRight() + (count * mLineWidth) + ((count - 1) * mGapWidth);
             //Respect AT_MOST value if that was what is called for by measureSpec
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
@@ -185,8 +187,7 @@ public class LinePageIndicator extends View implements IPageIndicator {
         float verticalOffset = paddingTop + ((getHeight() - paddingTop - getPaddingBottom()) / 2.0f);
         float horizontalOffset = paddingLeft;
         if (mCentered) {
-            horizontalOffset +=
-                    ((getWidth() - paddingLeft - paddingRight) / 2.0f) - (indicatorWidth / 2.0f);
+            horizontalOffset += ((getWidth() - paddingLeft - paddingRight) / 2.0f) - (indicatorWidth / 2.0f);
         }
 
         //Draw stroked circles
@@ -245,7 +246,7 @@ public class LinePageIndicator extends View implements IPageIndicator {
 
             return adapter.getCount();
         } catch (Exception e) {
-            LogUtil.e(e.toString());
+            Log.e(getClass().getSimpleName(), e.toString());
             return 0;
         }
 

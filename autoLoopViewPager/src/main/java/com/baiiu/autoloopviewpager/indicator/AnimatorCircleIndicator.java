@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.indicator;
+package com.baiiu.autoloopviewpager.indicator;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -8,15 +8,15 @@ import android.support.annotation.AnimatorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
-import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
-import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
-import com.baiiu.loopviewpager.vp.IRealAdapter;
+import com.baiiu.autoloopviewpager.AutoLoopViewPager;
+import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.R;
+import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
 
 /**
  * linked
@@ -67,15 +67,12 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
         mIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_ci_height, -1);
         mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_ci_margin, -1);
 
-        mAnimatorResId = typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator,
-                                                  R.animator.scale_with_alpha);
-        mAnimatorReverseResId =
-                typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator_reverse, 0);
+        mAnimatorResId = typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator, R.animator.scale_with_alpha);
+        mAnimatorReverseResId = typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator_reverse, 0);
         mIndicatorBackgroundResId =
                 typedArray.getResourceId(R.styleable.CircleIndicator_ci_drawable, R.drawable.white_radius);
         mIndicatorUnselectedBackgroundResId =
-                typedArray.getResourceId(R.styleable.CircleIndicator_ci_drawable_unselected,
-                                         mIndicatorBackgroundResId);
+                typedArray.getResourceId(R.styleable.CircleIndicator_ci_drawable_unselected, mIndicatorBackgroundResId);
         typedArray.recycle();
     }
 
@@ -88,8 +85,8 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
     }
 
     public void configureIndicator(int indicatorWidth, int indicatorHeight, int indicatorMargin,
-            @AnimatorRes int animatorId, @AnimatorRes int animatorReverseId,
-            @DrawableRes int indicatorBackgroundId, @DrawableRes int indicatorUnselectedBackgroundId) {
+            @AnimatorRes int animatorId, @AnimatorRes int animatorReverseId, @DrawableRes int indicatorBackgroundId,
+            @DrawableRes int indicatorUnselectedBackgroundId) {
 
         mIndicatorWidth = indicatorWidth;
         mIndicatorHeight = indicatorHeight;
@@ -120,9 +117,8 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
 
         mIndicatorBackgroundResId =
                 (mIndicatorBackgroundResId == 0) ? R.drawable.white_radius : mIndicatorBackgroundResId;
-        mIndicatorUnselectedBackgroundResId =
-                (mIndicatorUnselectedBackgroundResId == 0) ? mIndicatorBackgroundResId
-                        : mIndicatorUnselectedBackgroundResId;
+        mIndicatorUnselectedBackgroundResId = (mIndicatorUnselectedBackgroundResId == 0) ? mIndicatorBackgroundResId
+                : mIndicatorUnselectedBackgroundResId;
     }
 
     private Animator createAnimatorOut(Context context) {
@@ -262,7 +258,7 @@ public class AnimatorCircleIndicator extends LinearLayout implements IPageIndica
 
             return adapter.getCount();
         } catch (Exception e) {
-            LogUtil.e(e.toString());
+            Log.e(getClass().getSimpleName(), e.toString());
             return 0;
         }
     }

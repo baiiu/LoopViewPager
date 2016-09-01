@@ -3,7 +3,7 @@ package com.baiiu.loopviewpager.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import com.baiiu.loopviewpager.vp.IRealAdapter;
+import com.baiiu.autoloopviewpager.IRealAdapter;
 import java.util.ArrayList;
 import java.util.List;
 

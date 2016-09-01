@@ -1,7 +1,8 @@
-package com.baiiu.loopviewpager.indicator._interface;
+package com.baiiu.autoloopviewpager.indicator._interface;
 
-import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
-import com.baiiu.loopviewpager.vp.loopvp.LoopViewPager;
+
+import com.baiiu.autoloopviewpager.AutoLoopViewPager;
+import com.baiiu.autoloopviewpager.loopvp.LoopViewPager;
 
 /**
  * auther: baiiu

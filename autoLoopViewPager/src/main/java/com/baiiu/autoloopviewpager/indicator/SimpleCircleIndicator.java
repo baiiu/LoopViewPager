@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.indicator;
+package com.baiiu.autoloopviewpager.indicator;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,11 +8,10 @@ import android.graphics.Paint;
 import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
-import com.baiiu.loopviewpager.R;
-import com.baiiu.loopviewpager.indicator._interface.IPageIndicator;
-import com.baiiu.loopviewpager.util.LogUtil;
-import com.baiiu.loopviewpager.vp.AutoLoopViewPager;
-import com.baiiu.loopviewpager.vp.IRealAdapter;
+import com.baiiu.autoloopviewpager.AutoLoopViewPager;
+import com.baiiu.autoloopviewpager.IRealAdapter;
+import com.baiiu.autoloopviewpager.R;
+import com.baiiu.autoloopviewpager.indicator._interface.IPageIndicator;
 
 /**
  * auther: baiiu
@@ -75,30 +74,21 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
         }
 
         if (attrs != null) {
-            TypedArray typedArray =
-                    context.obtainStyledAttributes(attrs, R.styleable.SimpleCircleIndicator);
-            mDotInterval =
-                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_dot_interval, 40);
-            mSelectedRadius =
-                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_radius, 10);
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SimpleCircleIndicator);
+            mDotInterval = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_dot_interval, 40);
+            mSelectedRadius = typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_radius, 10);
             mUnSelectedRadius =
-                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_unselected_radius,
-                                                     10);
-            mSelectedColor =
-                    typedArray.getColor(R.styleable.SimpleCircleIndicator_selected_color, Color.RED);
-            mUnSelectedColor =
-                    typedArray.getColor(R.styleable.SimpleCircleIndicator_unselected_color, Color.WHITE);
+                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_unselected_radius, 10);
+            mSelectedColor = typedArray.getColor(R.styleable.SimpleCircleIndicator_selected_color, Color.RED);
+            mUnSelectedColor = typedArray.getColor(R.styleable.SimpleCircleIndicator_unselected_color, Color.WHITE);
 
             mSelectedStrokeWidth =
-                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_strokeWidth,
-                                                     1);
-            mUnSelectedStrokeWidth = typedArray.getDimensionPixelSize(
-                    R.styleable.SimpleCircleIndicator_unselected_strokeWidth, 1);
+                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_selected_strokeWidth, 1);
+            mUnSelectedStrokeWidth =
+                    typedArray.getDimensionPixelSize(R.styleable.SimpleCircleIndicator_unselected_strokeWidth, 1);
 
-            selectedIsStroke =
-                    typedArray.getBoolean(R.styleable.SimpleCircleIndicator_selectedStroke, false);
-            unselectedIsStroke =
-                    typedArray.getBoolean(R.styleable.SimpleCircleIndicator_unselectedStroke, false);
+            selectedIsStroke = typedArray.getBoolean(R.styleable.SimpleCircleIndicator_selectedStroke, false);
+            unselectedIsStroke = typedArray.getBoolean(R.styleable.SimpleCircleIndicator_unselectedStroke, false);
 
             typedArray.recycle();
         }
@@ -161,18 +151,20 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
         int measuredWidth = getWidth();
 
         int mCount = getRealCount();
+        if (mCount <= 1) {
+            return;
+        }
 
-        int mDotTotalWidth = mSelectedStrokeWidth + (mCount - 1) * (mUnSelectedStrokeWidth
-                + mDotInterval
-                + mUnSelectedRadius * 2) + mSelectedRadius * 2;
+
+        int mDotTotalWidth = mSelectedStrokeWidth
+                + (mCount - 1) * (mUnSelectedStrokeWidth + mDotInterval + mUnSelectedRadius * 2)
+                + mSelectedRadius * 2;
 
         //不支持padding,所以总是从居中开始画
         int mFirstDotXCoordinate;
         if (mSelectedPosition == 0) {
-            mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F
-                    + mSelectedRadius
-                    + mSelectedStrokeWidth / 2
-                    + 0.5);
+            mFirstDotXCoordinate =
+                    (int) ((measuredWidth - mDotTotalWidth) / 2F + mSelectedRadius + mSelectedStrokeWidth / 2 + 0.5);
         } else {
             mFirstDotXCoordinate = (int) ((measuredWidth - mDotTotalWidth) / 2F
                     + mUnSelectedRadius
@@ -254,20 +246,22 @@ public class SimpleCircleIndicator extends View implements IPageIndicator {
     }
 
     private int getRealCount() {
-        if (mViewPager == null) {
-            return 0;
-        }
+        int count;
 
         try {
+            if (mViewPager == null) return 0;
             PagerAdapter adapter = mViewPager.getAdapter();
             if (adapter instanceof IRealAdapter) {
-                return ((IRealAdapter) adapter).getRealCount();
+                count = ((IRealAdapter) adapter).getRealCount();
+            } else {
+                count = adapter.getCount();
             }
 
-            return adapter.getCount();
         } catch (Exception e) {
-            LogUtil.e(e.toString());
-            return 0;
+            //LogUtil.e(e.toString());
+            count = 0;
         }
+
+        return count;
     }
 }

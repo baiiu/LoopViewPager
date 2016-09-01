@@ -1,4 +1,4 @@
-package com.baiiu.loopviewpager.vp.autoscroll;
+package com.baiiu.autoloopviewpager.autoscroll;
 
 import android.content.Context;
 import android.view.animation.Interpolator;

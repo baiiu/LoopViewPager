@@ -1,38 +1,38 @@
-package com.baiiu.loopviewpager.base;
+package com.baiiu.autoloopviewpager;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import com.baiiu.autoloopviewpager.IRealAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BasePagerAdapter<T> extends PagerAdapter implements IRealAdapter {
+public abstract class BaseLoopPagerAdapter<T> extends PagerAdapter implements IRealAdapter {
 
     protected boolean mCopyTwo = false;
-    public List<T> list;
+    public List<T> mList = new ArrayList<>();
     public int size;
     public Context mContext;
 
-    public BasePagerAdapter(Context context, List<T> list) {
+    public BaseLoopPagerAdapter(Context context, List<T> list) {
         super();
         this.mContext = context;
         setList(list);
     }
 
     public void setList(List<T> list) {
-        if (list == null) {
-            list = new ArrayList<T>();
+        if (list == null || list.isEmpty()) {
+            return;
         }
+
         mCopyTwo = false;
 
         if (list.size() == 2) {
             mCopyTwo = true;
-            this.list.addAll(new ArrayList<T>(list));
-            this.list.addAll(new ArrayList<T>(list));
+            mList.addAll(list);
+            mList.addAll(list);
         } else {
-            this.list = list;
+            this.mList = list;
         }
 
         notifyDataSetChanged();
@@ -43,7 +43,7 @@ public abstract class BasePagerAdapter<T> extends PagerAdapter implements IRealA
     }
 
     @Override public int getCount() {
-        return size = list.size();
+        return size = mList.size();
     }
 
 
