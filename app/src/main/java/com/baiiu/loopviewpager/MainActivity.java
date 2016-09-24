@@ -16,7 +16,6 @@ import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.adapter.ViewListAdapter;
 import com.baiiu.loopviewpager.data.Data;
-import com.baiiu.loopviewpager.transformer.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //useFragement();
 
         viewPager.setCurrentItem(2);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         viewPager.setAutoScrollDurationFactor(5.0);
         viewPager.setInterval(1000);
         viewPager.startAutoScroll();
