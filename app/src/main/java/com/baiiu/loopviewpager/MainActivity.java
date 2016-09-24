@@ -1,7 +1,6 @@
 package com.baiiu.loopviewpager;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +15,8 @@ import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.adapter.ViewListAdapter;
 import com.baiiu.loopviewpager.data.Data;
-import com.baiiu.loopviewpager.transformer.ZoomOutPageTransformer;
+import com.baiiu.loopviewpager.transformer.DepthPageTransformer;
+import com.baiiu.loopviewpager.view.ViewPagerM;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
     @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
-    private ViewPager vkkiewPager;
+    private ViewPagerM vkkiewPager;
     private ViewAdapter viewAdapter;
     private ViewListAdapter viewListAdapter;
     private FragmentAdapter fragmentAdapter;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         //useFragement();
 
         viewPager.setCurrentItem(2);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setPageTransformer(true, new DepthPageTransformer());
         viewPager.setAutoScrollDurationFactor(5.0);
         viewPager.setInterval(1000);
         viewPager.startAutoScroll();
@@ -64,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
      * 传入List<ImageView>
      */
     private void useFixedList() {
-        viewListAdapter =
-                new ViewListAdapter(this, Data.generateImageViews(this, Data.provideListLocalFour()));
+        viewListAdapter = new ViewListAdapter(this, Data.generateImageViews(this, Data.provideListLocalFour()));
         viewPager.setAdapter(viewListAdapter);
     }
 
@@ -85,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
 
         if (viewAdapter != null) {
-            if (viewAdapter.getRealCount() == Data.provideListLocalFour().size()) {
+            if (viewAdapter.getRealCount() == Data.provideListLocalFour()
+                    .size()) {
                 viewAdapter.setList(Data.provideListLocalFive());
             } else {
                 viewAdapter.setList(Data.provideListLocalFour());
@@ -99,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (viewListAdapter != null) {
-            if (viewListAdapter.getRealCount() == Data.provideListLocalFour().size()) {
+            if (viewListAdapter.getRealCount() == Data.provideListLocalFour()
+                    .size()) {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFive()));
             } else {
                 viewListAdapter.setList(Data.generateImageViews(this, Data.provideListLocalFour()));
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (fragmentAdapter != null) {
-            if (fragmentAdapter.getRealCount() == Data.provideListLocalFour().size()) {
+            if (fragmentAdapter.getRealCount() == Data.provideListLocalFour()
+                    .size()) {
                 fragmentAdapter.setList(Data.provideListLocalFive());
             } else {
                 fragmentAdapter.setList(Data.provideListLocalFour());
