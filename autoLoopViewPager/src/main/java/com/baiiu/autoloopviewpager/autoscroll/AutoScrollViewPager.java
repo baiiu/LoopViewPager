@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
-import com.baiiu.autoloopviewpager.loopvp.LoopViewPager;
+import com.baiiu.autoloopviewpager.loopvp.CycleViewPager;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
@@ -32,7 +32,7 @@ import java.lang.reflect.Field;
  *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-12-30
  */
-public class AutoScrollViewPager extends LoopViewPager {
+public class AutoScrollViewPager extends CycleViewPager {
 
     public static final int DEFAULT_INTERVAL = 1500;
 
@@ -76,7 +76,7 @@ public class AutoScrollViewPager extends LoopViewPager {
     /**
      * whether animating when auto scroll at the last or first item
      **/
-    private boolean isBorderAnimation = true;
+    private boolean isBorderAnimation = false;
     /**
      * scroll factor for auto scroll animation, default is 1.0
      **/
@@ -220,32 +220,30 @@ public class AutoScrollViewPager extends LoopViewPager {
             }
         }
 
-        if (canScroll) {
-            if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
-                touchX = ev.getX();
-                if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                    downX = touchX;
-                }
-                int currentItem = getCurrentItem();
-                PagerAdapter adapter = getAdapter();
-                int pageCount = adapter == null ? 0 : adapter.getCount();
-                /**
-                 * current index is first one and slide to right or current index is last one and slide to left.<br/>
-                 * if slide border mode is to parent, then requestDisallowInterceptTouchEvent false.<br/>
-                 * else scroll to last one when current item is first one, scroll to first one when current item is last
-                 * one.
-                 */
-                if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
-                    if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
-                        getParent().requestDisallowInterceptTouchEvent(false);
-                    } else {
-                        if (pageCount > 1) {
-                            setCurrentItem(pageCount - currentItem - 1, isBorderAnimation);
-                        }
-                        getParent().requestDisallowInterceptTouchEvent(true);
+        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
+            touchX = ev.getX();
+            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+                downX = touchX;
+            }
+            int currentItem = getCurrentItem();
+            PagerAdapter adapter = getAdapter();
+            int pageCount = adapter == null ? 0 : adapter.getCount();
+            /**
+             * current index is first one and slide to right or current index is last one and slide to left.<br/>
+             * if slide border mode is to parent, then requestDisallowInterceptTouchEvent false.<br/>
+             * else scroll to last one when current item is first one, scroll to first one when current item is last
+             * one.
+             */
+            if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
+                if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } else {
+                    if (pageCount > 1) {
+                        setCurrentItem(pageCount - currentItem - 1, isBorderAnimation);
                     }
-                    return super.dispatchTouchEvent(ev);
+                    getParent().requestDisallowInterceptTouchEvent(true);
                 }
+                return super.dispatchTouchEvent(ev);
             }
         }
         getParent().requestDisallowInterceptTouchEvent(true);

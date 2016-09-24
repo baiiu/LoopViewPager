@@ -1,7 +1,6 @@
 package com.baiiu.loopviewpager;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,6 +15,7 @@ import com.baiiu.loopviewpager.adapter.FragmentAdapter;
 import com.baiiu.loopviewpager.adapter.ViewAdapter;
 import com.baiiu.loopviewpager.adapter.ViewListAdapter;
 import com.baiiu.loopviewpager.data.Data;
+import com.baiiu.loopviewpager.transformer.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
     @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
-    private ViewPager vkkiewPager;
     private ViewAdapter viewAdapter;
     private ViewListAdapter viewListAdapter;
     private FragmentAdapter fragmentAdapter;
@@ -41,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         //useFragement();
 
         viewPager.setCurrentItem(2);
-        //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        viewPager.setAutoScrollDurationFactor(5.0);
-        viewPager.setInterval(1000);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setAutoScrollDurationFactor(1.0);
+        viewPager.setInterval(2000);
         viewPager.startAutoScroll();
 
         linePageIndicator.setViewPager(viewPager);
