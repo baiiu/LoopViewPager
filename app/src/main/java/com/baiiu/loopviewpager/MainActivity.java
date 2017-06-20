@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.indicator) SimpleCircleIndicator simpleCircleIndicator;
     @Bind(R.id.animatorCircleIndicator) AnimatorCircleIndicator animatorCircleIndicator;
 
-    private ViewPager vkkiewPager;
     private ViewAdapter viewAdapter;
     private ViewListAdapter viewListAdapter;
     private FragmentAdapter fragmentAdapter;
@@ -49,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         linePageIndicator.setViewPager(viewPager);
         simpleCircleIndicator.setViewPager(viewPager);
         animatorCircleIndicator.setViewPager(viewPager);
+
+
     }
 
     /**
