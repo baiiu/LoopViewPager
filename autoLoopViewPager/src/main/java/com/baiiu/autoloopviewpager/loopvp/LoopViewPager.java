@@ -53,6 +53,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewConfigurationCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
@@ -71,7 +72,6 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.Scroller;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -233,9 +233,9 @@ public class LoopViewPager extends ViewGroup {
     private boolean mCalledSuper;
     private int mDecorChildCount;
 
-    private List<OnPageChangeListener> mOnPageChangeListeners;
-    private OnPageChangeListener mOnPageChangeListener;
-    private OnPageChangeListener mInternalPageChangeListener;
+    private List<ViewPager.OnPageChangeListener> mOnPageChangeListeners;
+    private ViewPager.OnPageChangeListener mOnPageChangeListener;
+    private ViewPager.OnPageChangeListener mInternalPageChangeListener;
     private OnAdapterChangeListener mAdapterChangeListener;
 
     /**
@@ -258,65 +258,6 @@ public class LoopViewPager extends ViewGroup {
     private int mScrollState = SCROLL_STATE_IDLE;
 
     public boolean canScroll = true;
-
-    /**
-     * Callback interface for responding to changing state of the selected page.
-     */
-    public interface OnPageChangeListener {
-
-        /**
-         * This method will be invoked when the current page is scrolled, either
-         * as part of a programmatically initiated smooth scroll or a user
-         * initiated touch scroll.
-         *
-         * @param position Position index of the first page currently being
-         * displayed. Page position+1 will be visible if
-         * positionOffset is nonzero.
-         * @param positionOffset Value from [0, 1) indicating the offset from the page at
-         * position.
-         * @param positionOffsetPixels Value in pixels indicating the offset from position.
-         */
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
-
-        /**
-         * This method will be invoked when a new page becomes selected.
-         * Animation is not necessarily complete.
-         *
-         * @param position Position index of the new selected page.
-         */
-        public void onPageSelected(int position);
-
-        /**
-         * Called when the scroll state changes. Useful for discovering when the
-         * user begins dragging, when the pager is automatically settling to the
-         * current page, or when it is fully stopped/idle.
-         *
-         * @param state The new scroll state.
-         * @see LoopViewPager#SCROLL_STATE_IDLE
-         * @see LoopViewPager#SCROLL_STATE_DRAGGING
-         * @see LoopViewPager#SCROLL_STATE_SETTLING
-         */
-        public void onPageScrollStateChanged(int state);
-    }
-
-    /**
-     * Simple implementation of the {@link OnPageChangeListener} interface with
-     * stub implementations of each method. Extend this if you do not intend to
-     * override every method of {@link OnPageChangeListener}.
-     */
-    public static class SimpleOnPageChangeListener implements OnPageChangeListener {
-        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // This space for rent
-        }
-
-        @Override public void onPageSelected(int position) {
-            // This space for rent
-        }
-
-        @Override public void onPageScrollStateChanged(int state) {
-            // This space for rent
-        }
-    }
 
     /**
      * Used internally to monitor when adapters are switched.
@@ -379,7 +320,7 @@ public class LoopViewPager extends ViewGroup {
 
         if (mOnPageChangeListeners != null) {
             for (int i = 0, z = mOnPageChangeListeners.size(); i < z; i++) {
-                OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                ViewPager.OnPageChangeListener listener = mOnPageChangeListeners.get(i);
                 if (listener != null) {
                     listener.onPageScrollStateChanged(newState);
                 }
@@ -577,7 +518,7 @@ public class LoopViewPager extends ViewGroup {
 
             if (mOnPageChangeListeners != null) {
                 for (int i = 0, z = mOnPageChangeListeners.size(); i < z; i++) {
-                    OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                    ViewPager.OnPageChangeListener listener = mOnPageChangeListeners.get(i);
                     if (listener != null) {
                         listener.onPageSelected(item);
                     }
@@ -594,7 +535,7 @@ public class LoopViewPager extends ViewGroup {
 
             if (mOnPageChangeListeners != null) {
                 for (int i = 0, z = mOnPageChangeListeners.size(); i < z; i++) {
-                    OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                    ViewPager.OnPageChangeListener listener = mOnPageChangeListeners.get(i);
                     if (listener != null) {
                         listener.onPageSelected(item);
                     }
@@ -612,19 +553,17 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Set a listener that will be invoked whenever the page changes or is incrementally
-     * scrolled. See {@link OnPageChangeListener}.
+     * scrolled. .
      *
      * @param listener Listener to set
-     * @deprecated Use {@link #addOnPageChangeListener(OnPageChangeListener)}
-     * and {@link #removeOnPageChangeListener(OnPageChangeListener)} instead.
      */
-    @Deprecated public void setOnPageChangeListener(OnPageChangeListener listener) {
+    @Deprecated public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mOnPageChangeListener = listener;
     }
 
     /**
      * Add a listener that will be invoked whenever the page changes or is incrementally
-     * scrolled. See {@link OnPageChangeListener}.
+     * scrolled. See
      * <p/>
      * <p>Components that add a listener should take care to remove it when finished.
      * Other components that take ownership of a view may call {@link #clearOnPageChangeListeners()}
@@ -632,7 +571,7 @@ public class LoopViewPager extends ViewGroup {
      *
      * @param listener listener to add
      */
-    public void addOnPageChangeListener(OnPageChangeListener listener) {
+    public void addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         if (mOnPageChangeListeners == null) {
             mOnPageChangeListeners = new ArrayList<>();
         }
@@ -641,11 +580,9 @@ public class LoopViewPager extends ViewGroup {
 
     /**
      * Remove a listener that was previously added via
-     * {@link #addOnPageChangeListener(OnPageChangeListener)}.
-     *
      * @param listener listener to remove
      */
-    public void removeOnPageChangeListener(OnPageChangeListener listener) {
+    public void removeOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         if (mOnPageChangeListeners != null) {
             mOnPageChangeListeners.remove(listener);
         }
@@ -660,6 +597,8 @@ public class LoopViewPager extends ViewGroup {
         }
     }
 
+
+
     /**
      * Set a separate OnPageChangeListener for internal use by the support
      * library.
@@ -667,8 +606,8 @@ public class LoopViewPager extends ViewGroup {
      * @param listener Listener to set
      * @return The old listener that was set, if any.
      */
-    OnPageChangeListener setInternalPageChangeListener(OnPageChangeListener listener) {
-        OnPageChangeListener oldListener = mInternalPageChangeListener;
+    ViewPager.OnPageChangeListener setInternalPageChangeListener(ViewPager.OnPageChangeListener listener) {
+        ViewPager.OnPageChangeListener oldListener = mInternalPageChangeListener;
         mInternalPageChangeListener = listener;
         return oldListener;
     }
@@ -1856,7 +1795,7 @@ public class LoopViewPager extends ViewGroup {
 
         if (mOnPageChangeListeners != null) {
             for (int i = 0, z = mOnPageChangeListeners.size(); i < z; i++) {
-                OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                ViewPager.OnPageChangeListener listener = mOnPageChangeListeners.get(i);
                 if (listener != null) {
                     listener.onPageScrolled(position, offset, offsetPixels);
                 }
