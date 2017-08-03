@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#123456"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main"
+    >
+
+    <com.baiiu.autoloopviewpager.RatioFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:scale="0.8"
+        >
+
+        <com.baiiu.autoloopviewpager.AutoLoopViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            />
+    </com.baiiu.autoloopviewpager.RatioFrameLayout>
+
+
+    <com.baiiu.autoloopviewpager.indicator.LinePageIndicator
+        android:id="@+id/linePageIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        />
+
+    <com.baiiu.autoloopviewpager.indicator.SimpleCircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:dot_interval="10dp"
+        app:selected_color="@android:color/holo_red_light"
+        app:selected_radius="3dp"
+        app:unselected_color="@android:color/white"
+        app:unselected_radius="3dp"
+        />
+
+    <com.baiiu.autoloopviewpager.indicator.AnimatorCircleIndicator
+        android:id="@+id/animatorCircleIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        />
+
+</LinearLayout>
